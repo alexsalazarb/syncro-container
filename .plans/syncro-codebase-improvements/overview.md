@@ -40,7 +40,7 @@ Tasks are independent and can be executed in any order or in parallel.
 
 | Task | Slug | Priority | Status |
 |------|------|----------|--------|
-| 01 | implement-token-refresh | 🔴 Critical | not-started |
-| 02 | fix-di-double-registration | 🟠 Major | not-started |
+| 01 | implement-token-refresh | 🔴 Critical | complete |
+| 02 | fix-di-double-registration | 🟠 Major | adapted (pre-empted by SE-11671) |
 | 03 | fix-worksheet-repository-type | 🟠 Major | not-started |
 | 04 | rename-edit-custom-fields-dir | 🟡 Minor | not-started |

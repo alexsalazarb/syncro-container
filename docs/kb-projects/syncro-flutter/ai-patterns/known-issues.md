@@ -37,29 +37,13 @@ Future<bool> _refreshToken() async {
 
 ### Double Repository Registration (DI Inconsistency)
 
-Several repositories are registered in both `GetIt` (singletons) and the widget tree (`AppRepositories`), creating two separate instances:
-
-| Repository | GetIt (service_locator.dart) | Widget Tree (app_repositories.dart) |
-|-----------|------------------------------|--------------------------------------|
-| `AssetsRepository` | ✅ | ✅ (creates new instance) |
-| `TimeClockRepository` | ✅ | ✅ registered twice in `AppProviders` |
-| `WorksheetRepository` | ✅ | ✅ (wrong type key — see below) |
-
-**Impact**: Feature code using `context.read<AssetsRepository>()` gets a different instance than code using `getIt<AssetsRepository>()`. Mutations in one instance won't be reflected in the other.
+> ✅ **Resolved** by SE-11671 (`9df940f2`) — "Complete DI migration — remove remaining repository registrations from GetIt". All repositories now have a single canonical source; GetIt singletons are delegated to by `RepositoryProvider` where needed.
 
 ---
 
 ### WorksheetRepository Registered Under Wrong Type
 
-**File**: `lib/app/dependency/app_repositories.dart`
-
-```dart
-RepositoryProvider<WorksheetRepositoryImpl>( // ← registered as concrete, not interface
-  create: (_) => WorksheetRepositoryImpl(networkService: getIt<NetworkService>()),
-)
-```
-
-`context.read<WorksheetRepository>()` will throw — the abstract type is not in the widget tree. Any code that uses the interface type will fail to find it.
+> ✅ **Resolved** by SE-11671 (`9df940f2`). `app_repositories.dart` now registers `RepositoryProvider<WorksheetRepository>` (the interface), so `context.read<WorksheetRepository>()` works correctly.
 
 ---
 
