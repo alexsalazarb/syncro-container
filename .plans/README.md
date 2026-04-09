@@ -6,7 +6,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-<!-- Active plans are listed here by create-plan skill -->
+| [syncro-codebase-improvements](.plans/syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4 | not-started | — |
 
 ## Backlog
 

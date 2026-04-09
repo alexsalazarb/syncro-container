@@ -39,16 +39,18 @@ Without this step, you will work with generic container-level guidance only and 
 
 ## Project Context
 
-<!-- CUSTOMIZE: Fill in your project details -->
-**[Project Name]**: Brief description of what this project does.
+**Syncro MSP**: Mobile field-service platform for IT technicians — tickets, assets, real-time chat, appointments, and time tracking.
 
 | Aspect | Value |
 |--------|-------|
-| Language/Framework | [e.g., Python, Node.js, Go] |
-| Main branch | `main` or `develop` |
-| Deployment | [e.g., AWS, Heroku, Kubernetes] |
-| Testing | [e.g., pytest, jest, go test] |
-<!-- Optional: | Work Plans Path | /path/to/work-plans | Hub for master plans (also configurable via WORK_PLANS_PATH in .ai-framework.config) | -->
+| Product | Syncro MSP mobile app |
+| Projects | `syncro-flutter` (iOS + Android) |
+| Language/Framework | Flutter / Dart 3.x |
+| Main branch | `main` |
+| Deployment | App Store + Google Play |
+| Testing | `flutter_test` + `mockito` + `bloc_test` |
+| AI Context Root | `docs/kb-projects/` |
+| Container KB | `docs/kb-container/` |
 
 **Key commands**:
 ```bash

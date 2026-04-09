@@ -20,34 +20,41 @@ Cursor, Codex, Windsurf, and Copilot read this file directly. Claude Code uses `
 
 ## Project Context
 
-<!-- CUSTOMIZE: Fill in your project details -->
-**[Project Name]**: Brief description of what this project does.
+**Syncro Flutter**: MSP field-service mobile app for technicians — manage tickets, assets, real-time chat, appointments and time tracking on iOS and Android.
 
 | Aspect | Value |
 |--------|-------|
-| Platform | Flutter (iOS + Android <!-- + Web, Desktop if applicable -->) |
-| Language | Dart 3.x |
-| Flutter SDK | 3.x <!-- adjust as needed --> |
-| State Management | <!-- Riverpod, BLoC, Provider, GetX --> |
-| Navigation | <!-- GoRouter, Navigator 2.0, AutoRoute --> |
-| DI / Service Locator | <!-- get_it, Riverpod, Injectable --> |
+| Platform | Flutter (iOS + Android) |
+| Language | Dart 3.x (`sdk: ">=3.8.0 <4.0.0"`) |
+| Flutter SDK | 3.x |
+| App Version | 1.4.0+412 |
+| State Management | `flutter_bloc` 9.x — Cubit-first |
+| Navigation | `go_router` 14.x — `StatefulShellRoute.indexedStack` (5 bottom tabs) |
+| DI / Service Locator | `get_it` 8.x (singletons) + `BlocProvider`/`RepositoryProvider` (widget-tree scoped) |
+| HTTP | `dio` 5.x via `NetworkService` abstraction |
+| Local DB | `hive` 2.x (via `LocalDBService`) + `shared_preferences` |
+| Real-time | `phoenix_socket` — `ChatWebSocketService` singleton |
+| Auth | OAuth2 via `oauth_webauth` + `flutter_secure_storage` |
+| Error Handling | `dartz` `Either<Failure, T>` throughout all layers |
 | Main branch | `main` |
-<!-- Optional: | Work Plans Path | /path/to/work-plans | Hub for master plans (also configurable via WORK_PLANS_PATH in .ai-framework.config) | -->
+| Testing | `flutter_test` + `mockito` + `bloc_test` |
 
 **Key commands**:
 ```bash
 # Run app
 flutter run
-flutter run --flavor production  # if flavors configured
+flutter run --dart-define=FLAVOR=qa  # QA environment
 
 # Build
-flutter build apk                 # Android
-flutter build ipa                 # iOS
-flutter build web                 # Web
+flutter build apk                     # Android
+flutter build ipa                     # iOS
 
 # Tests
-flutter test                      # unit + widget tests
-flutter test integration_test/    # integration tests
+flutter test                          # unit + widget tests
+flutter test --coverage               # with coverage (see generate_coverage.sh)
+
+# Code generation (mocks)
+flutter pub run build_runner build --delete-conflicting-outputs
 
 # Lint & Format
 flutter analyze
@@ -55,7 +62,6 @@ dart format .
 
 # Dependencies
 flutter pub get
-flutter pub upgrade
 ```
 
 ---
@@ -65,8 +71,8 @@ flutter pub upgrade
 ### 3-Layer Loading (follow this order)
 
 1. **Layer 1 — Framework KB**: Read `.ai-framework/knowledge-base/flutter/_index.md`. Match task keywords against Triggers. Load `.compact.md` first; escalate to full doc only if compact is insufficient.
-2. **Layer 2 — Container KB**: Read `docs/kb-container/README.md` at repo root for cross-project domain docs (in single layout, same as Layer 3).
-3. **Layer 3 — Project KB**: Read `docs/kb-container/README.md` for project-specific docs.
+2. **Layer 2 — Container KB**: Read `docs/kb-container/README.md` at repo root — product domain concepts (ticket, asset, customer, interaction).
+3. **Layer 3 — Project KB**: Read `docs/kb-projects/syncro-flutter/README.md` — architecture patterns, integrations, features, known issues.
 
 Load ONLY relevant docs. Do not load entire KB.
 
@@ -100,83 +106,81 @@ See `.ai-framework/docs/KB_TOPIC_STANDARDS.md` for the supported shapes (per-top
 
 ## Critical Constraints
 
-<!-- CUSTOMIZE: Adjust based on your project -->
 1. **No `BuildContext` across async gaps** - Never use `context` after `await` without checking `mounted`
-2. **Widget immutability** - Keep widgets immutable; move mutable state to `State` or state management layer
-3. **`const` constructors** - Use `const` wherever possible to avoid unnecessary rebuilds
-4. **Dispose resources** - Always dispose `AnimationController`, `TextEditingController`, `StreamSubscription`, etc. in `dispose()`
-5. **Error handling** - Handle `Future` errors; don't let unhandled exceptions silently fail
-6. **No hardcoded strings** - Use localization (`AppLocalizations` / `intl`) and constants
-7. **Tests required** - Include unit tests, widget tests, and integration tests for all changes
-8. **Platform-specific code** - Isolate in platform channels or conditional imports; don't scatter `Platform.isIOS` checks
+2. **Use `safeEmit()` not `emit()`** - Always use `safeEmit()` from `core/utils/cubit_extension.dart` in cubits
+3. **Use `logger()` not `print`/`debugPrint`** - Always import from `core/utils/logger.dart`
+4. **`Either<Failure, T>` for all repo calls** - Never throw from repositories; always return `Either`
+5. **Never use `NetworkService` from feature widgets** - Always go through repository → use case → cubit
+6. **Don't create new DI registrations in GetIt for feature repos** - Use widget-tree `RepositoryProvider` instead
+7. **Const constructors** - Use `const` wherever possible to avoid unnecessary rebuilds
+8. **Dispose resources** - Always dispose `AnimationController`, `StreamSubscription`, etc. in `dispose()`
+9. **Token refresh is not implemented** - Do not rely on automatic token refresh (known critical issue — see `ai-patterns/known-issues.md`)
 
 ---
 
 ## Flutter-Specific Patterns
 
-<!-- CUSTOMIZE: Add your project's patterns -->
-
-### Project Structure
+### Actual Project Structure
 ```
 lib/
-  main.dart
-  app/                  # App entry, router, theme
-  features/             # Feature-first organization
-    [feature]/
-      data/             # Repositories, data sources, DTOs
-      domain/           # Entities, use cases, interfaces
-      presentation/     # Widgets, pages, state (BLoC/Riverpod)
-  core/                 # Shared utilities, extensions, constants
-    widgets/            # Reusable UI components
-    theme/              # Colors, typography, spacing
-    network/            # HTTP client setup
-    storage/            # Local storage abstractions
-  l10n/                 # Localization ARB files
+  main.dart                 # App init pipeline (Firebase → Hive → GetIt → Notifications)
+  app/
+    dependency/
+      service_locator.dart  # GetIt singleton registrations
+      app_repositories.dart # RepositoryProvider registrations
+      app_providers.dart    # BlocProvider registrations
+    view/
+      app.dart              # MaterialApp.router
+  core/
+    configs/                # Environment (multi-env via .env files)
+    design_system/themes/   # ThemeCubit
+    global_widgets/         # atoms/, molecules/, custom fields
+    networking/             # NetworkService → Dio (rest_network_service.dart)
+    routing/                # RouteCubit + GoRouter (app_router.dart)
+    services/               # Analytics, Notifications, RemoteConfig, Hive, WebSocket, Storage
+    usecases/               # Abstract UseCase base classes
+    utils/                  # logger, SharedPreferences, extensions
+  features/                 # 17 features (alerts, appointments, asset_detail, assets,
+                            # authentication, chat, chat_detail, customers, dashboard,
+                            # end_user, home, settings, splash, technicians, ticket,
+                            # time_clock, unlock_app)
 test/
-  unit/
-  widget/
-integration_test/
+  core/
+  features/
+```
+
+### Feature Layer Convention
+```
+features/[feature]/
+  domain/         # Entities, params, repository interfaces, response types
+  infrastructure/ # RepositoryImpl, UseCases (⚠️ use cases here, not domain/)
+  application/    # Cubits (state management)
+  presentation/   # Pages, widgets
 ```
 
 ### Naming Conventions
-- Classes/widgets: PascalCase (`UserProfilePage`, `AvatarWidget`)
-- Functions/variables: camelCase (`fetchUser()`, `isLoggedIn`)
-- Constants: lowerCamelCase or SCREAMING_SNAKE_CASE (`kPrimaryColor`, `MAX_RETRIES`)
-- Files: snake_case (`user_profile_page.dart`)
-- Test files: mirror source path with `_test.dart` suffix
+- Classes/widgets: PascalCase (`TicketDetailsPage`, `TicketCardWidget`)
+- Cubits: `PascalCase` + `Cubit` (`TicketCubit`)
+- Repository interfaces: `PascalCase` + `Repository` (`TicketsRepository`)
+- Repository impls: `PascalCase` + `RepositoryImpl` (`TicketsRepositoryImpl`)
+- Use cases: `PascalCase` + `UseCase` (`GetTicketsUseCase`)
+- Params: `PascalCase` + `Params` (`GetTicketsParams`)
+- Files: snake_case (`ticket_details_page.dart`)
 
-### Widget Structure
-```dart
-class FeaturePage extends StatelessWidget {
-  const FeaturePage({super.key});
+### Key Patterns to Follow
+- `safeEmit()` instead of `emit()` in all cubits
+- `Either<Failure, T>` for all async results from repositories
+- `logger()` from `core/utils/logger.dart` — never `print()`/`debugPrint()`
+- `_createTypedRoute<T>()` for type-safe GoRouter parameters
+- Feature flags via `FeatureFlagManagerImpl()` — never access RemoteConfig directly
+- `unawaited()` for fire-and-forget service calls (Pendo, chat socket init)
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Feature')),
-      body: const _FeatureBody(),
-    );
-  }
-}
-
-class _FeatureBody extends StatelessWidget {
-  const _FeatureBody();
-
-  @override
-  Widget build(BuildContext context) {
-    // stateless inner widget
-  }
-}
-```
-
-### Async Context Safety
-```dart
-Future<void> _doSomething(BuildContext context) async {
-  final result = await someAsyncCall();
-  if (!context.mounted) return;  // Always check after await
-  Navigator.of(context).pop(result);
-}
-```
+### Patterns to Avoid
+- Double DI registration (GetIt AND RepositoryProvider for same repo)
+- Creating new GetIt registrations for feature-level repositories
+- Passing `BuildContext` across `await` without checking `mounted`
+- Using `emit()` directly in cubits (use `safeEmit()`)
+- Directory names with spaces (e.g., `edit custom fields/` — use `edit_custom_fields/`)
 
 ---
 
@@ -184,14 +188,15 @@ Future<void> _doSomething(BuildContext context) async {
 
 1. **Over-engineering** - Only make directly requested changes
 2. **`BuildContext` after `await`** - Always check `mounted` first
-3. **Stateful widgets for everything** - Prefer stateless + state management
-4. **`setState` in deep widget trees** - Lift state up or use state management
-5. **Missing `const`** - Add `const` to constructor calls where possible
-6. **Forgetting `dispose()`** - Always clean up controllers and subscriptions
-7. **Fat widgets** - Extract reusable components; keep `build()` readable
-8. **Ignoring existing patterns** - Match the codebase's conventions
-
-<!-- CUSTOMIZE: Add project-specific anti-patterns -->
+3. **`emit()` directly** - Use `safeEmit()` instead
+4. **`print()` / `debugPrint()`** - Use `logger()` from `core/utils/logger.dart`
+5. **Stateful widgets for everything** - Prefer stateless + Cubit state management
+6. **Missing `const`** - Add `const` to constructor calls where possible
+7. **Forgetting `dispose()`** - Always clean up controllers and subscriptions
+8. **Fat widgets** - Extract reusable components; keep `build()` readable
+9. **Registering repos in GetIt** - Use widget-tree `RepositoryProvider` for feature repos
+10. **Throwing from repositories** - Return `Left(Failure(...))` instead
+11. **Spaces in directory names** - Always use underscores
 
 ---
 
@@ -283,16 +288,16 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 
 ## Quick Reference
 
-<!-- CUSTOMIZE: Update with your project commands -->
 | Task | Command |
 |------|---------|
 | Run app | `flutter run` |
 | Unit/widget tests | `flutter test` |
-| Integration tests | `flutter test integration_test/` |
+| Generate mocks | `flutter pub run build_runner build --delete-conflicting-outputs` |
 | Analyze | `flutter analyze` |
 | Format | `dart format .` |
 | Build Android | `flutter build apk` |
 | Build iOS | `flutter build ipa` |
+| Coverage report | `bash generate_coverage.sh` |
 
 ---
 

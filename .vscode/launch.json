@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "syncro-flutter (QA)",
+            "request": "launch",
+            "type": "dart",
+            "program": "syncro-flutter/lib/main.dart",
+            "cwd": "${workspaceFolder}/syncro-flutter",
+            "args": ["--flavor", "qa", "--dart-define=ENV=qa"]
+        },
+        {
+            "name": "syncro-flutter (Production)",
+            "request": "launch",
+            "type": "dart",
+            "program": "syncro-flutter/lib/main.dart",
+            "cwd": "${workspaceFolder}/syncro-flutter",
+            "args": ["--flavor", "production", "--dart-define=ENV=prod"]
+        }
+    ]
+}

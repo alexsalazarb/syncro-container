@@ -45,6 +45,16 @@ and technology-generic. Layers 2-3 are project-specific and typically smaller.
 
 ## Shared Index
 
+### Product Domain
+
+| Document | When to Read | Last Updated |
+|----------|--------------|--------------|
+| [product-overview](./product/domain/product-overview.md) | Understanding what Syncro is and its glossary | Apr 2026 |
+| [ticket](./product/domain/ticket.md) | Ticket data model, lifecycle, sub-objects | Apr 2026 |
+| [asset](./product/domain/asset.md) | Asset (managed device) data model | Apr 2026 |
+| [customer](./product/domain/customer.md) | Customer and contact hierarchy | Apr 2026 |
+| [interaction](./product/domain/interaction.md) | Chat/interaction concept | Apr 2026 |
+
 ### AI Patterns
 
 | Document | When to Read | Last Updated |
