@@ -7,7 +7,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
 | [syncro-codebase-improvements](syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4 | not-started | — |
-| [fix-appointments-tab-controller](fix-appointments-tab-controller/overview.md) | Fix LateInitializationError on first Appointments open | syncro-flutter | 0/2 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [fix-gorouter-cubit-extras](fix-gorouter-cubit-extras/overview.md) | Eliminate GoRouter cubit-as-extra serialization warnings via TicketCubitRegistry | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
@@ -22,7 +21,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
-<!-- Completed plans are moved here when all tasks finish -->
+| [fix-appointments-tab-controller](completed/fix-appointments-tab-controller/overview.md) | Fix LateInitializationError on first Appointments open | syncro-flutter | 2/2 | 2026-04-10 |
 
 ---
 
