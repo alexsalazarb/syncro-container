@@ -5,7 +5,7 @@
 **Task ID**: task-02
 **Task Path**: task-02-regression-tests
 **Depends On**: task-01-guard-tab-controller
-**JIRA**: N/A
+**JIRA**: [SE-11855](https://repairtechsolutions.atlassian.net/browse/SE-11855)
 
 ## Objective
 

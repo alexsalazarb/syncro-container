@@ -5,7 +5,7 @@
 **Task ID**: task-01
 **Task Path**: task-01-guard-tab-controller
 **Depends On**: None
-**JIRA**: N/A
+**JIRA**: [SE-11855](https://repairtechsolutions.atlassian.net/browse/SE-11855)
 
 ## Objective
 

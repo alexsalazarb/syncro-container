@@ -2,9 +2,9 @@
 
 **Status**: not-started
 **Created**: 2026-04-09
-**Last Updated**: 2026-04-09
+**Last Updated**: 2026-04-10
 **Estimated Demo Date**: TBD
-**Assigned Dev**: unassigned
+**Assigned Dev**: Alex Salazar
 **Assigned QA**: unassigned
 **Master Plan**: None
 **Integration Branch**: N/A
@@ -94,5 +94,5 @@ Examples:
 
 ## References
 
-- **JIRA Epic**: N/A
+- **JIRA Ticket**: [SE-11855](https://repairtechsolutions.atlassian.net/browse/SE-11855)
 - **Related Plans**: None
