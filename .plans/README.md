@@ -22,6 +22,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 |------|-----------|---------|-------|-----------|
 | [fix-appointments-tab-controller](completed/fix-appointments-tab-controller/overview.md) | Fix LateInitializationError on first Appointments open | syncro-flutter | 2/2 | 2026-04-10 |
 | [fix-gorouter-cubit-extras](completed/fix-gorouter-cubit-extras/overview.md) | Eliminate GoRouter cubit-as-extra serialization warnings via TicketCubitRegistry | syncro-flutter | 4/4 | 2026-04-13 |
+| [ticket-priority-domain-getters](completed/ticket-priority-domain-getters/overview.md) | Move Priority resolution from widget build() to Ticket model getters | syncro-flutter | 3/3 | 2026-04-13 |
 
 ---
 
