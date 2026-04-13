@@ -23,4 +23,16 @@ This document records patterns of errors that agents have made, to prevent repet
 
 ---
 
-**Last Updated**: [Date]
+## 2026-04-13 - config
+
+**Mistake:** Used `flutter` CLI directly instead of `fvm flutter` for all Flutter commands (test, analyze, build, run, pub get).
+
+**Correction:** Always prefix Flutter commands with `fvm` when the project has an `.fvmrc` file (e.g. `fvm flutter test`, `fvm flutter analyze`, `fvm flutter pub get`). The `.fvmrc` at `syncro-flutter/.fvmrc` pins Flutter `3.32.4`.
+
+**Prevention:** At session start, check for `syncro-flutter/.fvmrc` or `syncro-flutter/.fvm/fvm_config.json`. If present, use `fvm flutter` for all commands in that subproject.
+
+**Files involved:** All shell commands running Flutter in `syncro-flutter/`
+
+---
+
+**Last Updated**: 2026-04-13
