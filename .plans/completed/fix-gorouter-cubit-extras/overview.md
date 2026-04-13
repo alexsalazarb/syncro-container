@@ -1,6 +1,6 @@
 # Plan: Fix GoRouter Cubit Extras Serialization Warning
 
-**Status**: not-started
+**Status**: complete
 **Created**: 2026-04-09
 **Last Updated**: 2026-04-09
 **Estimated Demo Date**: TBD
@@ -41,10 +41,10 @@ Eliminate GoRouter serialization warnings caused by passing `TicketDetailsCubit`
 
 | Task Path | Title | Status | Depends On |
 |-----------|-------|--------|------------|
-| task-01-cubit-registry | Create TicketCubitRegistry + self-register in cubit | not-started | — |
-| task-02-router-and-params | Update router routes and strip cubit from params classes | not-started | task-01-cubit-registry |
-| task-03-destination-pages | Update destination pages to read cubit from registry | not-started | task-01-cubit-registry |
-| task-04-call-sites | Update navigation call sites to pass ticketId | not-started | task-02-router-and-params, task-03-destination-pages |
+| task-01-cubit-registry | Create TicketCubitRegistry + self-register in cubit | complete | — |
+| task-02-router-and-params | Update router routes and strip cubit from params classes | complete | task-01-cubit-registry |
+| task-03-destination-pages | Update destination pages to read cubit from registry | complete | task-01-cubit-registry |
+| task-04-call-sites | Update navigation call sites to pass ticketId | complete | task-02-router-and-params, task-03-destination-pages |
 
 > Tasks 02 and 03 depend on task 01, but are independent of each other — they can run in parallel.
 > Task 04 depends on both 02 and 03.

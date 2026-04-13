@@ -1,7 +1,7 @@
-# Status: Update navigation call sites to pass ticketId
+# Status: Update router routes and strip cubit from params classes
 
-**Current Status**: not-started
-**Last Updated**: 2026-04-09
+**Current Status**: complete
+**Last Updated**: 2026-04-13
 **Agent**: —
 **Branch**: —
 **PR**: —

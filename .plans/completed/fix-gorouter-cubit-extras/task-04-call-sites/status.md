@@ -1,7 +1,7 @@
-# Status: Create TicketCubitRegistry + self-register in TicketDetailsCubit
+# Status: Update navigation call sites to pass ticketId
 
-**Current Status**: not-started
-**Last Updated**: 2026-04-09
+**Current Status**: complete
+**Last Updated**: 2026-04-13
 **Agent**: —
 **Branch**: —
 **PR**: —
