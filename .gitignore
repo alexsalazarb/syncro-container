@@ -1,2 +1,8 @@
 # Cursor MCP config contains credentials — never commit
 .cursor/mcp.json
+
+# Standalone repo — managed via REPOS in .ai-framework.config
+/syncro-flutter
+
+# Per-developer local config (SSH host alias, etc.) — do not commit
+.ai-framework.config.local

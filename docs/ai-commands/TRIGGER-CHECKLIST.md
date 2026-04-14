@@ -49,4 +49,5 @@ Quick reference for automatic skill triggers. These fire without being asked.
 | `list-skills` | `/list-skills` | Show all available skills |
 | `research-kb-topic` | `/research-kb-topic [--scan\|technology]` | Detect KB gaps and research missing technology docs |
 | `framework-builder` | `/framework-builder [component-type] [description]` | Generate or improve framework components (agents, skills, KB, plans) |
+| `add-stack` | `/add-stack [stack-name]` | Add a new technology stack to the framework (template + KB + detection) |
 | `framework-review` | `/framework-review [component-path\|--scope type]` | Critical review of framework components with structured report |

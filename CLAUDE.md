@@ -54,10 +54,13 @@ Without this step, you will work with generic container-level guidance only and 
 
 **Key commands**:
 ```bash
-# CUSTOMIZE: Add your project's common commands
-[test command]      # Run tests
-[lint command]      # Lint code
-[build command]     # Build project
+# syncro-flutter
+cd syncro-flutter
+flutter run                # run on connected device
+flutter test               # all tests
+flutter analyze            # lint
+dart format .              # format
+flutter pub run build_runner build --delete-conflicting-outputs  # regenerate mocks
 ```
 
 ---
