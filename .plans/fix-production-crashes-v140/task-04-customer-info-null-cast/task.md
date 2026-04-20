@@ -7,7 +7,7 @@
 **Depends On**: None
 **JIRA**: N/A
 
-**Priority**: MEDIUM — Android: 15 events/3 users, iOS: 7 events/2 users
+**Priority**: MEDIUM — iOS: 7 events/2 users, Android: 18 events/2 users | actualizado 2026-04-20
 **Crashlytics IDs**: `a28ba3f3b903eb994045b446987862ae` (iOS), `0d9f870b504dd2a1c3124683ab253f71` (Android)
 **Error**: "type 'Null' is not a subtype of type 'String' in type cast"
 

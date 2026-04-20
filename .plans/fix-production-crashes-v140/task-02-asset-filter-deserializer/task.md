@@ -7,7 +7,7 @@
 **Depends On**: None
 **JIRA**: N/A
 
-**Priority**: HIGH — highest event volume (iOS: 163 events/34 users, Android: 61 events/12 users)
+**Priority**: HIGH — mayor volumen total (iOS: 129 events/33 users, Android: 93 events/18 users — Android escalando ↑) | actualizado 2026-04-20
 **Crashlytics IDs**: `3ca075b4171de3e9bed7700c513e575f` (iOS), `9a1d349f325abb563d2b26653a1b993c` (Android)
 
 ## Objective

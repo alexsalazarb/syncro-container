@@ -2,7 +2,7 @@
 
 **Status**: not-started
 **Created**: 2026-04-16
-**Last Updated**: 2026-04-16
+**Last Updated**: 2026-04-20
 **Estimated Demo Date**: TBD
 **Assigned Dev**: unassigned
 **Assigned QA**: unassigned
@@ -19,10 +19,10 @@ in the WebSocket service. DioMixin 504 errors are excluded (handled by the backe
 ## Scope
 
 ### In Scope
-- `GetTicketsSettingsDeserializer.fromJson` FATAL — returns graceful empty response when `data` is null/non-Map (Android FATAL + NON_FATAL, 3 events)
-- `GetAssetsFiltersSavedSearchesDeserializer.fromJson` — null guard + proper error propagation (iOS: 163 events/34 users, Android: 61 events/12 users)
-- `ChatWebSocketService.connect` — capture `_socket` as local var to eliminate null-check race condition after `await` (iOS: 74 events/57 users)
-- `CustomerInformation.fromJson` — null-safe casts for `fullname` and `business_name` (Android: 15 events/3 users, iOS: 7/2)
+- `GetTicketsSettingsDeserializer.fromJson` FATAL — returns graceful empty response when `data` is null/non-Map (Android FATAL: 3 events/1 user + NON_FATAL: 3 events/1 user)
+- `GetAssetsFiltersSavedSearchesDeserializer.fromJson` — null guard + proper error propagation (iOS: 129 events/33 users, Android: 93 events/18 users — **Android escalando**)
+- `ChatWebSocketService.connect` — capture `_socket` as local var to eliminate null-check race condition after `await` (iOS: 70 events/~54 users, Android: 6 events/5 users)
+- `CustomerInformation.fromJson` — null-safe casts for `fullname` y `business_name` (iOS: 7 events/2 users, Android: 18 events/2 users)
 
 ### Out of Scope
 - DioMixin 504 Gateway Timeout — backend team handling
@@ -40,12 +40,12 @@ No phases — all 4 tasks are independent and can run in parallel.
 
 ## Task Summary
 
-| Task Path | Title | Status | Priority | Depends On |
-|-----------|-------|--------|----------|------------|
-| task-01-tickets-settings-fatal | Fix GetTicketsSettingsDeserializer FATAL crash | not-started | **HIGHEST** — FATAL crash | — |
-| task-02-asset-filter-deserializer | Fix GetAssetsFiltersSavedSearchesDeserializer | not-started | HIGH — highest event volume | — |
-| task-03-websocket-null-check | Fix ChatWebSocketService.connect null check | not-started | HIGH — 57 unique iOS users | — |
-| task-04-customer-info-null-cast | Fix CustomerInformation.fromJson null cast | not-started | MEDIUM | — |
+| Task Path | Title | Status | Priority | Eventos totales | Usuarios totales |
+|-----------|-------|--------|----------|-----------------|-----------------|
+| task-01-tickets-settings-fatal | Fix GetTicketsSettingsDeserializer FATAL crash | not-started | **HIGHEST** — FATAL Android | 6 | 1 |
+| task-02-asset-filter-deserializer | Fix GetAssetsFiltersSavedSearchesDeserializer | not-started | **HIGH** — mayor volumen, Android escalando | 222 | 51 |
+| task-03-websocket-null-check | Fix ChatWebSocketService.connect null check | not-started | **HIGH** — ~59 usuarios afectados | 76 | ~59 |
+| task-04-customer-info-null-cast | Fix CustomerInformation.fromJson null cast | not-started | MEDIUM | 25 | ~4 |
 
 ## Branch Convention
 

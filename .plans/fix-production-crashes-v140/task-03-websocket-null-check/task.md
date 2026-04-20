@@ -7,7 +7,7 @@
 **Depends On**: None
 **JIRA**: N/A
 
-**Priority**: HIGH — 57 unique iOS users affected, 3 Android users
+**Priority**: HIGH — iOS: 70 events/~54 users, Android: 6 events/5 users | actualizado 2026-04-20
 **Crashlytics IDs**: `544ed9e78b79ddd91868924bcd1effcc` (iOS), `a7bc3afa8e582c9aec48aee6663ca02d` (Android)
 **Error**: "Null check operator used on a null value" in `ChatWebSocketService.connect`
 
