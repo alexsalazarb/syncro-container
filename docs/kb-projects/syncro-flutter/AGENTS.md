@@ -39,29 +39,29 @@ Cursor, Codex, Windsurf, and Copilot read this file directly. Claude Code uses `
 | Main branch | `main` |
 | Testing | `flutter_test` + `mockito` + `bloc_test` |
 
-**Key commands**:
+**Key commands** (project uses fvm — always prefix with `fvm`):
 ```bash
 # Run app
-flutter run
-flutter run --dart-define=FLAVOR=qa  # QA environment
+fvm flutter run
+fvm flutter run --dart-define=FLAVOR=qa  # QA environment
 
 # Build
-flutter build apk                     # Android
-flutter build ipa                     # iOS
+fvm flutter build apk                     # Android
+fvm flutter build ipa                     # iOS
 
 # Tests
-flutter test                          # unit + widget tests
-flutter test --coverage               # with coverage (see generate_coverage.sh)
+fvm flutter test                          # unit + widget tests
+fvm flutter test --coverage               # with coverage (see generate_coverage.sh)
 
 # Code generation (mocks)
-flutter pub run build_runner build --delete-conflicting-outputs
+fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 # Lint & Format
-flutter analyze
-dart format .
+fvm flutter analyze
+fvm dart format .
 
 # Dependencies
-flutter pub get
+fvm flutter pub get
 ```
 
 ---
@@ -290,13 +290,13 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 
 | Task | Command |
 |------|---------|
-| Run app | `flutter run` |
-| Unit/widget tests | `flutter test` |
-| Generate mocks | `flutter pub run build_runner build --delete-conflicting-outputs` |
-| Analyze | `flutter analyze` |
-| Format | `dart format .` |
-| Build Android | `flutter build apk` |
-| Build iOS | `flutter build ipa` |
+| Run app | `fvm flutter run` |
+| Unit/widget tests | `fvm flutter test` |
+| Generate mocks | `fvm flutter pub run build_runner build --delete-conflicting-outputs` |
+| Analyze | `fvm flutter analyze` |
+| Format | `fvm dart format .` |
+| Build Android | `fvm flutter build apk` |
+| Build iOS | `fvm flutter build ipa` |
 | Coverage report | `bash generate_coverage.sh` |
 
 ---

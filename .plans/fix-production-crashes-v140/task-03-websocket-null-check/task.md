@@ -147,8 +147,8 @@ If the singleton pattern makes unit testing impractical, document WHY in the tes
 - [ ] `connect()` called when `_socket` is null → returns `false`, no crash
 - [ ] `connect()` called when `_socket` is non-null → proceeds normally
 - [ ] Simulated scenario: `disconnect()` called concurrently during `connect()` → no null check crash (document if not automatable)
-- [ ] `flutter test` passes (all existing tests)
-- [ ] `flutter analyze` passes
+- [ ] `fvm flutter test` passes (all existing tests)
+- [ ] `fvm fvm flutter analyze` passes
 
 ## Documentation / KB Updates
 
@@ -160,6 +160,6 @@ If the singleton pattern makes unit testing impractical, document WHY in the tes
 - [ ] Other `_socket!` sites following `await` in the file also fixed
 - [ ] Test file created (or documented reason for skip)
 - [ ] All existing tests pass
-- [ ] `flutter analyze` passes with no new warnings
+- [ ] `fvm fvm flutter analyze` passes with no new warnings
 - [ ] Changes committed to `plan/fix-production-crashes-v140/task-03-websocket-null-check` branch
 - [ ] Status updated in `status.md`

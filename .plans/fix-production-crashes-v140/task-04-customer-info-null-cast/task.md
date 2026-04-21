@@ -137,8 +137,8 @@ group('CustomerInformation.fromJson', () {
 - [ ] `null` `business_name` → defaults to `''`, no crash
 - [ ] Both null → both `''`, no crash
 - [ ] Valid data → parsed correctly
-- [ ] `flutter test test/features/assets/domain/` passes
-- [ ] `flutter analyze` passes
+- [ ] `fvm fvm flutter test test/features/assets/domain/` passes
+- [ ] `fvm fvm flutter analyze` passes
 
 ## Documentation / KB Updates
 

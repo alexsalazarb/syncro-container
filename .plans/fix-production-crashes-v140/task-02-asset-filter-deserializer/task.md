@@ -179,8 +179,8 @@ In `test/features/assets/infraestructure/asset_filter_deserializer_test.dart`:
 - [ ] Item with null `id`/`name` → coerces to `0`/`''`, does not throw
 - [ ] Valid list → returns correct filters
 - [ ] `GetAssetsFiltersAssetTypesDeserializer` with missing `asset_types` key → returns empty
-- [ ] All updated tests pass: `flutter test test/features/assets/infraestructure/`
-- [ ] `flutter analyze` passes
+- [ ] All updated tests pass: `fvm fvm flutter test test/features/assets/infraestructure/`
+- [ ] `fvm fvm flutter analyze` passes
 
 ## Documentation / KB Updates
 

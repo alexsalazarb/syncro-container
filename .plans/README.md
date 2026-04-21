@@ -7,8 +7,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
 | [notifications-screen](notifications-screen/overview.md) | Notifications Screen — list, badge, deep-link routing (SE-11964) | syncro-flutter | 0/5 | not-started | TBD |
-| [fix-production-crashes-v140](fix-production-crashes-v140/overview.md) | Fix 4 production crashes from Crashlytics v1.4.0 (FATAL + null-safety) | syncro-flutter | 0/4 | not-started | TBD |
-| [syncro-codebase-improvements](syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4 | not-started | — |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 
@@ -26,6 +24,8 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [fix-gorouter-cubit-extras](completed/fix-gorouter-cubit-extras/overview.md) | Eliminate GoRouter cubit-as-extra serialization warnings via TicketCubitRegistry | syncro-flutter | 4/4 | 2026-04-13 |
 | [ticket-priority-domain-getters](completed/ticket-priority-domain-getters/overview.md) | Move Priority resolution from widget build() to Ticket model getters | syncro-flutter | 3/3 | 2026-04-13 |
 | [appointment-location-type](appointment-location-type/overview.md) | Send appointment_location_type on create/update via dedicated /appointment_types endpoint | syncro-flutter | 4/4 | 2026-04-14 |
+| [fix-production-crashes-v140](fix-production-crashes-v140/overview.md) | Fix 4 production crashes from Crashlytics v1.4.0 (FATAL + null-safety) | syncro-flutter | 4/4 | 2026-04-20 |
+| [syncro-codebase-improvements](syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4/4 | 2026-04-20 |
 
 ---
 

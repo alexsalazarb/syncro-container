@@ -54,13 +54,13 @@ Without this step, you will work with generic container-level guidance only and 
 
 **Key commands**:
 ```bash
-# syncro-flutter
+# syncro-flutter (uses fvm — always prefix with fvm)
 cd syncro-flutter
-flutter run                # run on connected device
-flutter test               # all tests
-flutter analyze            # lint
-dart format .              # format
-flutter pub run build_runner build --delete-conflicting-outputs  # regenerate mocks
+fvm flutter run                # run on connected device
+fvm flutter test               # all tests
+fvm flutter analyze            # lint
+fvm dart format .              # format
+fvm flutter pub run build_runner build --delete-conflicting-outputs  # regenerate mocks
 ```
 
 ---
@@ -173,6 +173,7 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 | `check-test-coverage` | After implementing feature/fix |
 | `check-agent-drift` | Periodic / on request |
 | `cleanup-sessions` | Manual / maintenance |
+| `create-new-build` | Explicitly requested build bump (develop only) |
 | `list-skills` | Discover available automation |
 | `create-plan` | Starting a new feature/project |
 | `create-bug-plan` | Investigating + planning a production bug fix |

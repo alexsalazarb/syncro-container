@@ -117,7 +117,7 @@ group('GetTicketsSettingsDeserializer', () {
 });
 ```
 
-Note: `FirebaseCrashlytics` must be mocked or the test will throw. Use `setUpAll` to initialize Firebase test mocks or run with `flutter test --dart-define=...`. Check how other tests in the project handle Crashlytics (see `test/` root for any `firebase_mock_setup.dart` or `setUp` patterns).
+Note: `FirebaseCrashlytics` must be mocked or the test will throw. Use `setUpAll` to initialize Firebase test mocks or run with `fvm fvm flutter test --dart-define=...`. Check how other tests in the project handle Crashlytics (see `test/` root for any `firebase_mock_setup.dart` or `setUp` patterns).
 
 ## Testing
 
@@ -126,8 +126,8 @@ Note: `FirebaseCrashlytics` must be mocked or the test will throw. Use `setUpAll
 - [ ] Valid Map → parses and returns correct `GetTicketsSettingsResponse`
 - [ ] No FATAL Crashlytics events logged when data is invalid (verify `fatal: false`)
 - [ ] Existing `tickets_settings_test.dart` still passes
-- [ ] `flutter test` passes
-- [ ] `flutter analyze` passes
+- [ ] `fvm flutter test` passes
+- [ ] `fvm fvm flutter analyze` passes
 
 ## Documentation / KB Updates
 

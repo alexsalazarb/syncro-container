@@ -1,6 +1,6 @@
 # Plan: Fix Production Crashes — v1.4.0
 
-**Status**: not-started
+**Status**: complete
 **Created**: 2026-04-16
 **Last Updated**: 2026-04-20
 **Estimated Demo Date**: TBD
@@ -97,5 +97,5 @@ Base branch: `main`
 
 ## References
 
-- **JIRA Epic**: N/A
+- **JIRA Epic**: SE-11997
 - **Related Plans**: None
