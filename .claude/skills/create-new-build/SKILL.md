@@ -2,7 +2,7 @@
 name: create-new-build
 description: >
   Increments the build number in pubspec.yaml, commits on develop, rebases qa from develop,
-  and force-pushes to all remotes (origen + bla).
+  and force-pushes to all remotes (origin + bla).
   Trigger: When the user explicitly requests "create new build", "nuevo build", or similar.
 license: Apache-2.0
 metadata:
@@ -20,7 +20,8 @@ metadata:
 - **MUST be on `develop`** — abort if current branch is anything else
 - **Only increment the build number** (the part after `+`) — never touch major.minor.patch
 - **Commit message is fixed**: `Set version to x.x.x+xx` — no deviations
-- **Force-push to BOTH remotes**: `origen` AND `bla` — never skip either one
+- **Force-push to BOTH remotes**: `origin` AND `bla` — never skip either one
+- **Push BOTH branches**: `develop` AND `qa` to both remotes
 - **qa must mirror develop exactly** — always rebase, never merge
 
 ## Steps
@@ -64,15 +65,14 @@ git rebase develop
 
 ### 5. Force Push to Both Remotes
 
+Push `qa` first, then return to `develop` and push it too:
+
 ```bash
-git push --force origen qa
+git push --force origin qa
 git push --force bla qa
-```
-
-Then return to develop:
-
-```bash
 git checkout develop
+git push --force origin develop
+git push --force bla develop
 ```
 
 ## Commands
@@ -83,13 +83,15 @@ git add syncro-flutter/pubspec.yaml
 git commit -m "Set version to {new_version}"
 git checkout qa
 git rebase develop
-git push --force origen qa
+git push --force origin qa
 git push --force bla qa
 git checkout develop
+git push --force origin develop
+git push --force bla develop
 ```
 
 ## Output
 
 Report to user:
 - New version string (e.g. `1.5.0+416`)
-- Confirmation that force push completed on both `origen` and `bla`
+- Confirmation that force push completed on both `origin` and `bla`
