@@ -157,13 +157,26 @@ Save to `{destination}/{category}/{filename}.md` where `{destination}` is `KB_DI
 ### Step 6: Run check-kb-index
 Update the knowledge base index for the destination directory used in Step 5.
 
-### Step 7: Confirm to user
-```text
-Solution documented: {destination}/{category}/{filename}.md
+### Step 7: Hand off for review — separate KB PR
 
-Knowledge base index updated.
+Do NOT commit. Show the written content, then tell the user to open a dedicated PR for the KB change. Follow §6c of [`common/resolve-project-context.md`](../common/resolve-project-context.md).
 
-Future agents will find this when working on: [trigger keywords]
+```
+KB addition ready for review.
+
+  File: {destination}/{category}/{filename}.md
+  Layer: {2 — shared across all projects | 3 — project-specific: {folder}}
+
+When you're satisfied with the content, open a dedicated PR for this KB change:
+
+  git checkout -b kb/{topic-slug}
+  git add {file} {index}
+  git commit -m "docs(kb): add {filename}"
+  git push -u origin kb/{topic-slug}
+  # then open a PR targeting main
+
+Keep KB PRs separate from plan files and application code.
+Plans push directly to main. KB changes go through a PR so the team can review.
 ```
 
 ### Step 8: Framework contribution check (automatic)

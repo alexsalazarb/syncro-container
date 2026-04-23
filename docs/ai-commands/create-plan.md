@@ -92,6 +92,24 @@ If a KB doc is directly relevant to the feature (e.g. planning a payments featur
 3. Identify existing tests for the affected area
 4. Note any KB/docs that should be updated (include as task deliverables)
 
+**2d. Conventions + KB gap check**
+
+1. **Read `conventions.md`** at L2 (`CONTAINER_KB_DIR/conventions.md`) and L3 (`KB_DIR/conventions.md`)
+   if either exists. Note any entries relevant to this feature — include them as constraints
+   in task descriptions. Skip if absent.
+
+2. **KB gap check**: From the feature description and codebase findings in Step 2c, identify
+   the key implementation patterns this feature requires (e.g., "offline sync", "push notifications",
+   "coordinator navigation", "token refresh").
+
+   For each pattern:
+   - Check `{FRAMEWORK_KB_DIR}/_index.md` trigger keywords for a match.
+   - **If covered** — note the KB doc; include it as "Relevant KB" in the relevant task descriptions.
+   - **If not covered** — run `/research-implementation [pattern]` before continuing to Step 3.
+     The new KB doc will be available to reference in task descriptions once complete.
+
+   Skip patterns clearly within the stack's standard library or already covered by AGENTS.md conventions.
+
 ---
 
 ### Step 3: Generate Plan Slug
@@ -151,8 +169,8 @@ Everything is local within `{PLANS_DIR}` — no external repository required.
 
 1. Check that `{PLANS_DIR}/{master-plan-slug}/overview.md` exists.
    If not found locally, check the hub:
-   a. Resolve `HUB_DIR` from `.ai-framework.config` (`HUB_DIR` key).
-      If `HUB_DIR` is not set or the directory is unreachable, stop and ask the user to verify the slug or create the master plan first.
+   a. Resolve hub directory per [`common/hub-resolution.md`](../common/hub-resolution.md) → `HUB_ROOT`.
+      If hub is unavailable (tier 4), stop and ask the user to verify the slug or create the master plan first.
    b. Scan all state directories in the hub for `plans/{state}/{master-plan-slug}/plan.md`
       (states: `active`, `completed`, `deprioritized`, `cancelled`).
    c. If found in `active` or `completed`: read `plan.md` for scope and expectations to carry into the local plan.

@@ -62,6 +62,13 @@ If `in-progress`, ask the user if they want to resume or restart.
 3. Check prerequisites: verify each task in "Depends On" has `status.md` showing `complete` or `adapted`
 4. Read referenced KB docs and architecture files mentioned in `task.md`
 5. Review existing tests for the affected area
+6. **KB gap check**: From the task's implementation steps and file ownership, identify
+   key patterns being implemented. Skip this check if the task is documentation-only
+   or configuration-only (no implementation logic). For all other tasks — including
+   refactors — check all KB layers (`{FRAMEWORK_KB_DIR}`, `{CONTAINER_KB_DIR}`, `{KB_DIR}`)
+   for each pattern. If a pattern is not covered in any layer, run
+   `/research-implementation [pattern]` before proceeding to Step 3. If all patterns
+   are covered, continue.
 
 ---
 
@@ -142,6 +149,22 @@ If `PLANS_MODE=local`: include plan file changes in the same commit or a follow-
 Skip if `overview.md` has no `**Master Plan**` field or value is "None".
 
 Run `sync-master-plan` in automatic mode (pass plan-slug, task-path, new-status). If sync fails, log warning in `status.md` Adaptations section and continue — sync failure must never block task completion.
+
+---
+
+### Step 7c: Post-task knowledge capture
+
+Before committing, ask: **"Did this implementation reveal any patterns, conventions, or approaches not already in the KB?"**
+
+Route based on what was found:
+
+| Finding | Action |
+|---------|--------|
+| Project-specific rule (one-liner, session-discovered) | `/capture-convention` |
+| Complex or reusable pattern (multi-step, architectural) | `/document-solution` |
+| Nothing new | Continue to Step 8 |
+
+Skip this step if the task was documentation-only or configuration-only (no implementation logic).
 
 ---
 

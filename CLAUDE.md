@@ -25,7 +25,7 @@ Without this step, you will work with generic container-level guidance only and 
 
 ## QUICK TRIGGERS (Memorize These)
 
-**Session Start**: Check `docs/kb-container/ai-patterns/mistake-log.md` for patterns to avoid.
+**Session Start**: Check `docs/kb-container/ai-patterns/mistake-log.md` for patterns to avoid. If `docs/kb-container/conventions.md` (L2) or `{KB_DIR}/conventions.md` (L3) exists, read it for project-specific rules.
 
 **During Session**:
 - User says "commit/stage" → run `pre-commit-check`
@@ -89,6 +89,14 @@ Before exploring code in any area, check KB across all three layers:
 This applies mid-task too. If you start investigating a different subsystem, re-check the KB indexes before exploring that code.
 
 **Why**: KB docs contain curated knowledge that prevents unnecessary code exploration.
+
+### KB Loading
+
+When loading Layer 2 (`CONTAINER_KB_DIR`) or Layer 3 (`KB_DIR`):
+- If `kb-index.yaml` exists at the root: use trigger-based loading — match keywords, load compact variant first, escalate to full doc if needed, co-load `load_with` siblings.
+- If absent: scan `README.md` for relevant docs (current behavior).
+
+See `docs/KNOWLEDGE-LAYERING.md` for the full schema and `docs/AGENT-RUNTIME-FLOW.md` for the decision algorithm.
 
 ### Optional: technology choices per topic
 
@@ -188,6 +196,9 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 | `plans-status` | Aggregated plan status dashboard |
 | `pr-cleanup` | Automated CodeRabbit triage and CI polling for PRs |
 | `upgrade-framework` | AI-assisted framework upgrade with intelligent skill review |
+| `capture-convention` | Capture a project-specific rule to conventions.md (L2 or L3) |
+| `generate-kb-index` | Generate kb-index.yaml stub for README-based KB directories |
+| `research-implementation` | Proactive KB gap research before planning or building |
 *Invoke skills with `/skill-name` or natural language. Legacy commands: `docs/ai-commands/`*
 
 ### Hub Commands (cross-repo master plans)

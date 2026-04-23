@@ -77,7 +77,7 @@ If a master plan slug is set:
 3. Read the hub's `STATUS.md` for the master plan. Check whether **all** repos listed
    in the status table show a completed state.
 4. If **all** repos are complete: run `transition-plan` logic to move the master plan
-   directory to `{HUB_DIR}/plans/completed/{master-plan-slug}/` and update its status.
+   directory to `{HUB_ROOT}/plans/completed/{master-plan-slug}/` and update its status.
 5. If some repos are still in progress: log info
    ("Master plan has other repos still active; not transitioning to completed") and continue.
 

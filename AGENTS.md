@@ -25,7 +25,7 @@ Without this step, you will work with generic container-level guidance only and 
 
 ## QUICK TRIGGERS (Memorize These)
 
-**Session Start**: Check `docs/kb-container/ai-patterns/mistake-log.md` for patterns to avoid.
+**Session Start**: Check `docs/kb-container/ai-patterns/mistake-log.md` for patterns to avoid. If `docs/kb-container/conventions.md` (L2) or `{KB_DIR}/conventions.md` (L3) exists, read it for project-specific rules.
 
 **During Session**:
 - User says "commit/stage" → run `pre-commit-check`
@@ -54,13 +54,13 @@ Without this step, you will work with generic container-level guidance only and 
 
 **Key commands**:
 ```bash
-# syncro-flutter
+# syncro-flutter (uses fvm — always prefix with fvm)
 cd syncro-flutter
-flutter run                # run on connected device
-flutter test               # all tests
-flutter analyze            # lint
-dart format .              # format
-flutter pub run build_runner build --delete-conflicting-outputs  # regenerate mocks
+fvm flutter run                # run on connected device
+fvm flutter test               # all tests
+fvm flutter analyze            # lint
+fvm dart format .              # format
+fvm flutter pub run build_runner build --delete-conflicting-outputs  # regenerate mocks
 ```
 
 ---
@@ -89,6 +89,14 @@ Before exploring code in any area, check KB across all three layers:
 This applies mid-task too. If you start investigating a different subsystem, re-check the KB indexes before exploring that code.
 
 **Why**: KB docs contain curated knowledge that prevents unnecessary code exploration.
+
+### KB Loading
+
+When loading Layer 2 (`CONTAINER_KB_DIR`) or Layer 3 (`KB_DIR`):
+- If `kb-index.yaml` exists at the root: use trigger-based loading — match keywords, load compact variant first, escalate to full doc if needed, co-load `load_with` siblings.
+- If absent: scan `README.md` for relevant docs (current behavior).
+
+See `docs/KNOWLEDGE-LAYERING.md` for the full schema and `docs/AGENT-RUNTIME-FLOW.md` for the decision algorithm.
 
 ### Optional: technology choices per topic
 
@@ -173,6 +181,7 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 | `check-test-coverage` | After implementing feature/fix |
 | `check-agent-drift` | Periodic / on request |
 | `cleanup-sessions` | Manual / maintenance |
+| `create-new-build` | Explicitly requested build bump (develop only) |
 | `list-skills` | Discover available automation |
 | `create-plan` | Starting a new feature/project |
 | `create-bug-plan` | Investigating + planning a production bug fix |
@@ -187,6 +196,9 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 | `plans-status` | Aggregated plan status dashboard |
 | `pr-cleanup` | Automated CodeRabbit triage and CI polling for PRs |
 | `upgrade-framework` | AI-assisted framework upgrade with intelligent skill review |
+| `capture-convention` | Capture a project-specific rule to conventions.md (L2 or L3) |
+| `generate-kb-index` | Generate kb-index.yaml stub for README-based KB directories |
+| `research-implementation` | Proactive KB gap research before planning or building |
 *Invoke skills with `/skill-name` or natural language. Legacy commands: `docs/ai-commands/`*
 
 ### Hub Commands (cross-repo master plans)
@@ -219,6 +231,14 @@ Agents: `.claude/agents/` (orchestrator, planner, implementer, reviewer, researc
 | Run tests | `[test command]` |
 | Lint | `[lint command]` |
 | Build | `[build command]` |
+
+---
+
+## Memory
+
+You have access to Engram persistent memory via MCP tools (mem_save, mem_search, mem_session_summary, etc.).
+- Save proactively after significant work — don't wait to be asked.
+- After any compaction or context reset, call `mem_context` to recover session state before continuing.
 
 ---
 

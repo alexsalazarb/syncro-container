@@ -146,15 +146,25 @@ For container layout with multiple projects, add a row per local plan.
 
 ---
 
-### Step 7: Commit Plan Files
+### Step 7: Hand Off Plan for Review
 
-Plan files are metadata — commit directly to the base branch (no PRs needed).
+The plan files are written and ready. Do NOT commit automatically — the developer must review the investigation findings and task breakdown first.
 
-```bash
-git checkout main && git pull
-git add {PLANS_DIR}/{slug}/ {PLANS_DIR}/README.md
-git commit -m "plan: create bug plan {slug}"
-git push origin main
+Tell the user:
+
+```
+Bug plan ready for review.
+
+  Plan: {PLANS_DIR}/{slug}/
+  Files: overview.md, investigation.md, task directories, README.md (index updated)
+
+Review the investigation and tasks, then push when satisfied:
+
+  git add {PLANS_DIR}/{slug}/ {PLANS_DIR}/README.md
+  git commit -m "plan: create bug plan {slug}"
+  git push origin main
+
+Plans push directly to main — no PR needed.
 ```
 
 ---

@@ -26,10 +26,14 @@ Key fields:
 | `PLANS_DIR` | Path to plans directory. Defaults to `.plans` |
 | `CONTAINER_KB_ROOT` | Directory under repo root for **Layer 2** (container-wide KB). Default `docs/kb-container`. Written by `init-repo.sh`; override if you relocate shared KB. |
 | `AI_CONTEXT_ROOT` | (Container, optional) Parent directory for **Layer 3** when projects are **isolated** (`AGENTS.md` + KB live under `{AI_CONTEXT_ROOT}/{folder}/`). Default `docs/kb-projects`. Ignored if all projects are embedded. |
+| `WORK_PLANS_PATH` | (Optional) Absolute path to an external work-plans hub directory. Used by hub-resolution (tier 1). If unset, falls back to git global config then container self-hosting. See [`common/hub-resolution.md`](hub-resolution.md). |
+| `REPOS` | Comma-separated repo entries: `key\|remote-url\|local-path`. Each entry registers a client repo for cloning via `clone-repos.sh`. Each repo lives **inside** the container as a subfolder. Pipe (`\|`) is the field separator because SSH URLs contain colons. Example: `ios\|git@github.com:org/ios.git\|ios` |
 
 **Spotting layers from paths**: `docs/kb-container/` = Layer 2 only. `docs/kb-projects/<project>/` = Layer 3 (isolated). Embedded projects use `<project>/docs/kb-project/` for Layer 3 KB.
 
 If config is absent, assume: `LAYOUT=single`, `PROJECT_DIR=.`, `PLANS_DIR=.plans`, `CONTAINER_KB_ROOT=docs/kb-container`.
+
+**Parse `REPOS`**: Split on `,` to get entries; split each entry on `|` to get `repo_key`, `repo_url`, `repo_local_path`. Build a `repo_key → repo_local_path` lookup table. A project whose `folder` key appears in this table is **registered in REPOS for cloning purposes** — the `repo_local_path` is a subfolder inside the container (relative to container root).
 
 ### 1a. Parse each `PROJECTS` entry (container only)
 
@@ -115,6 +119,8 @@ These KB variables form a **3-layer hierarchy** — ordered from broadest to nar
 > For **reading** KB: agents check Layer 1 first (`_index.md` for tiered loading), then Layer 2/3 (`README.md` indexes).
 > For **writing** KB: skills route new docs to the correct layer based on scope (see Section 5).
 
+**Optional machine index**: `kb-index.yaml` may exist at `CONTAINER_KB_DIR` and `KB_DIR` roots. When present, agents use trigger-based loading (compact-first) instead of README scanning. See `docs/KNOWLEDGE-LAYERING.md` (§ "Optional Machine-Readable Index") and `docs/AGENT-RUNTIME-FLOW.md` for the loading algorithm. Resolution variables are unchanged.
+
 ### 4b. Topic standards — multiple Layer 1 approaches *(optional — skip if no multi-approach topics)*
 
 Some concerns (concurrency, persistence, navigation, state) have **several valid technologies** in Layer 1. The framework may ship reference docs for more than one approach.
@@ -174,3 +180,61 @@ Prefer neutral phrasing in skill text:
 
 - "Layer 3 / per-project KB (`KB_DIR`)" instead of only "`{folder}/`".
 - "Read per-project `AGENTS.md` at `AGENTS_MD` (`PROJECT_CONTEXT_ROOT`)" instead of assuming `{folder}/AGENTS.md`.
+
+---
+
+### 6. Container repo Git rules (MANDATORY)
+
+These rules apply whenever `LAYOUT=container`. Every skill that touches git MUST follow them.
+
+#### 6a. Never branch the container repo
+
+**The container repo MUST NOT receive task branches or integration branches.** All `git switch -c`, `git checkout -b`, and branch-creating operations run inside `PROJECT_CODE_ROOT` — which is a project subfolder inside the container.
+
+If a skill resolves `PROJECT_CODE_ROOT` to the container root itself (`.` in container layout), that is a misconfiguration — **stop, do not branch, and ask the user to clarify the target project.**
+
+#### 6b. What may auto-commit vs. what requires human approval
+
+| Operation | Examples | Auto-commit? |
+|-----------|----------|-------------|
+| Plan metadata | `{PLANS_DIR}/*/overview.md`, `status.md`, `README.md` | **Yes** |
+| Config / skill sync | `.ai-framework.config`, skill/agent sync via upgrade | **Yes** |
+| Layer 2 KB | `{CONTAINER_KB_DIR}/**/*.md` | **No — human approval required (§6c)** |
+| Layer 3 KB | `{KB_DIR}/**/*.md` | **No — human approval required (§6c)** |
+
+All application code, tests, and migrations belong in `PROJECT_CODE_ROOT` — never in the container.
+
+#### 6c. All KB additions require human approval — separate PR
+
+This applies to **both Layer 2 (`CONTAINER_KB_DIR`) and Layer 3 (`KB_DIR`)**.
+
+When a skill writes a new or updated file under any KB directory, it MUST:
+
+1. Write the file(s).
+2. Run `check-kb-index` to update the index.
+3. Show the written content and path to the user.
+4. Tell the user to create a **dedicated KB PR** — never mix KB changes with plan files or application code:
+
+```
+KB addition ready for review.
+
+  File: {path}
+  Layer: {2 — shared across all projects | 3 — project-specific: {folder}}
+
+When you're satisfied with the content, open a dedicated PR for this KB change:
+
+  git checkout -b kb/{topic-slug}
+  git add {file} {index}
+  git commit -m "docs(kb): add {filename}"
+  git push -u origin kb/{topic-slug}
+  # then open a PR targeting main
+
+Keep KB PRs separate from plan files and application code.
+Plans push directly to main. KB changes go through a PR so the team can review.
+```
+
+**Why both layers need a PR:**
+- **Layer 2 (shared)**: product domain docs and technical contracts affect all projects — the whole team needs to review before they land on main.
+- **Layer 3 (project-specific)**: architecture and product feature docs are stack-specific — the relevant team needs to validate accuracy.
+- **`ai-patterns/` (mistake log, sessions)**: leave written, uncommitted. The dev decides when and whether to push — no PR required, but no auto-commit either.
+- **Plans are the only exception**: plan metadata is operational state that changes constantly. Push directly to main, no PR.

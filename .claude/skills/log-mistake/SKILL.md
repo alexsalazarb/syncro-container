@@ -74,6 +74,8 @@ Stack-specific categories to add in AGENTS.md as needed:
 - React: `hook-rules`, `prop-types`, `re-render`
 - Python: `type-annotation`, `async-pattern`
 
+> **Convention vs. mistake?** If the correction reveals a project-specific rule the agent couldn't have known (e.g. "this project uses pnpm, not npm"), that rule also belongs in `conventions.md` via `/capture-convention`. Log the mistake here AND capture the convention — they serve different purposes.
+
 ### Step 4: Check for duplicates before appending
 
 - Scan the existing mistake log for an entry with the same category and similar mistake/correction

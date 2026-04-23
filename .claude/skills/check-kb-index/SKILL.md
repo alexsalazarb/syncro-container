@@ -49,6 +49,37 @@ Scan all KB files under `TARGET_ROOT`:
 find {TARGET_ROOT} -name "*.md" -not -name "README.md"
 ```
 
+### Step 1a: YAML validation (when `kb-index.yaml` exists)
+
+> **Note:** v1 does not auto-regenerate README from YAML. That remains future work (deferred from the `l2-l3-kb-index-yaml` plan). `generate-kb-index` goes the other direction: it generates a `kb-index.yaml` stub from an existing README-based KB.
+
+Check whether `{TARGET_ROOT}/kb-index.yaml` exists.
+
+**If `kb-index.yaml` is absent** — skip this step entirely. Behavior is unchanged (README-only flow, Steps 2–7 below).
+
+**If `kb-index.yaml` is present:**
+
+1. **Validate the YAML** — run the validation script:
+   ```bash
+   {FRAMEWORK_ROOT}/scripts/validate-kb-index-yaml.sh {TARGET_ROOT}
+   ```
+   Report any errors or warnings produced. If the script exits non-zero, surface the full output and stop (do not proceed to README update).
+
+2. **Collect all `.md` files** under `{TARGET_ROOT}`, excluding `README.md`:
+   ```bash
+   find {TARGET_ROOT} -name "*.md" -not -name "README.md"
+   ```
+
+3. **Collect all `path:` values** from `kb-index.yaml`. Each entry in the `docs` list has a `path:` key; normalize paths to be relative to `{TARGET_ROOT}` for comparison.
+
+4. **Detect orphans** — any `.md` file found in Step 2 that is NOT listed as a `path:` value in Step 3 is an orphan. Warn for each:
+   ```text
+   WARNING: orphaned KB file not listed in kb-index.yaml:
+     technical/architecture/some-undocumented.md
+   ```
+
+5. Continue to Steps 2–7 (README update flow) as normal.
+
 ### Step 2: Extract metadata for each file
 - Category (from directory — same folder names for both Layer 2 and Layer 3):
   - `product/domain/`, `product/features/`

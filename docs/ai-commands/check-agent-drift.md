@@ -62,7 +62,33 @@ If config is absent, use defaults: `AGENTS_MD=AGENTS.md`, `CONTAINER_KB_DIR=docs
 - Verify documented constraints are still valid
 - Check for changed infrastructure or requirements
 
-### Step 7: Generate drift report
+### Step 7: Check for stale AI tool shims
+
+Some editors maintain their own config files that mirror AGENTS.md content. Check each of the following paths if they exist:
+
+| Shim file | Tool |
+|-----------|------|
+| `.cursor/rules/agent.mdc` | Cursor |
+| `.github/copilot-instructions.md` | GitHub Copilot |
+| `.windsurfrules` | Windsurf |
+
+For each file found:
+1. Compare its last-modified timestamp against `{AGENTS_MD}` (via `git log -1 --format="%ci" -- <file>`)
+2. Check whether it contains the same Skills/Commands section headings as `{AGENTS_MD}`
+3. Flag as `[STALE_SHIM]` if `{AGENTS_MD}` is newer or key headings are missing/diverged
+
+Add to the drift report under a `STALE SHIMS:` section:
+
+```text
+[STALE_SHIM] .cursor/rules/agent.mdc
+  AGENTS.md last updated: 2026-04-15
+  Shim last updated:      2026-03-10
+  SUGGESTION: Regenerate via upgrade-framework (Step 5d re-runs shim generation)
+```
+
+---
+
+### Step 8: Generate drift report
 
 ```text
 {AGENTS_MD} Drift Check
@@ -98,7 +124,7 @@ N drift issues found, M sections verified OK
 Would you like me to apply suggested fixes?
 ```
 
-### Step 8: Offer to apply fixes
+### Step 9: Offer to apply fixes
 - Show proposed `{AGENTS_MD}` changes
 - Apply with user confirmation
 
