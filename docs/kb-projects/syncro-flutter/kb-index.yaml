@@ -1,12 +1,6 @@
 # kb-index.yaml — Layer 3 (syncro-flutter project KB)
 # Generated stub cleaned up manually — 2026-04-28
 # Schema: docs/KNOWLEDGE-LAYERING.md § "Optional Machine-Readable Index"
-#
-# NOTE: load_with is omitted — validator has a sed bug that strips everything before
-# the last hyphen in IDs containing dashes (e.g. "phoenix-socket" → "socket").
-# Bug filed: validate-kb-index-yaml.sh check 8 sed 's/.*-[[:space:]]*//' should be
-# sed 's/^[[:space:]]*-[[:space:]]*//' to only strip the YAML list prefix.
-# Re-add load_with once the bug is fixed upstream.
 
 version: 1
 layer: project
@@ -76,6 +70,8 @@ documents:
 
   - id: push-notifications
     path: product/features/push-notifications.md
+    load_with:
+      - firebase
     triggers:
       - push notification
       - FCM
@@ -90,6 +86,8 @@ documents:
 
   - id: real-time-chat
     path: product/features/real-time-chat.md
+    load_with:
+      - phoenix-socket
     triggers:
       - chat
       - real-time chat
@@ -119,6 +117,8 @@ documents:
 
   - id: architecture-patterns
     path: technical/architecture/architecture-patterns.md
+    load_with:
+      - coding-conventions
     triggers:
       - architecture
       - clean architecture
@@ -144,6 +144,8 @@ documents:
 
   - id: coding-conventions
     path: technical/architecture/coding-conventions.md
+    load_with:
+      - architecture-patterns
     triggers:
       - naming conventions
       - snake_case
@@ -186,6 +188,8 @@ documents:
 
   - id: firebase
     path: technical/integrations/firebase.md
+    load_with:
+      - push-notifications
     triggers:
       - firebase
       - Crashlytics
@@ -228,6 +232,8 @@ documents:
 
   - id: phoenix-socket
     path: technical/integrations/phoenix-socket.md
+    load_with:
+      - real-time-chat
     triggers:
       - phoenix socket
       - WebSocket
