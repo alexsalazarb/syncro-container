@@ -30,6 +30,7 @@ Without this step, you will work with generic container-level guidance only and 
 **During Session**:
 - User says "commit/stage" → run `pre-commit-check`
 - You get corrected → run `log-mistake`
+- KB missing or wrong for the task → tell user; follow `KB_GAP_PROTOCOL.md`; then `document-solution` or edit KB; `check-kb-index` after index changes
 - KB lookup fails → after solving, run `document-solution`
 - You modify KB files → run `check-kb-index`
 
@@ -89,6 +90,10 @@ Before exploring code in any area, check KB across all three layers:
 This applies mid-task too. If you start investigating a different subsystem, re-check the KB indexes before exploring that code.
 
 **Why**: KB docs contain curated knowledge that prevents unnecessary code exploration.
+
+### Framework KB contract (all ai-framework projects)
+
+This repo uses **ai-framework**. Agents **must** (1) follow the **KB-First Rule** above to avoid *unfocused* code exploration, and (2) follow **`.ai-framework/docs/KB_GAP_PROTOCOL.md`**: if the KB is missing or wrong, **tell the user**, complete the work, then **recommend or apply** a doc update (`document-solution`, `check-kb-index`, or `add-kb-doc`). **Code and tests are authoritative** for behavior—see **§ KB vs code** in that doc. This is the **default contract** for every project with this submodule.
 
 ### KB Loading
 
