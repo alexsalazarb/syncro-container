@@ -1,0 +1,104 @@
+# kb-index.yaml — Layer 2 (container KB)
+# Generated stub cleaned up manually — 2026-04-28
+# Schema: docs/KNOWLEDGE-LAYERING.md § "Optional Machine-Readable Index"
+
+version: 1
+layer: container
+
+documents:
+
+  - id: mistake-log
+    path: ai-patterns/mistake-log.md
+    triggers:
+      - mistake log
+      - agent errors
+      - fvm
+      - fvm flutter
+      - fvmrc
+      - flutter version
+      - corrections
+
+  - id: engineering-standards
+    path: engineering/best-practices/engineering-standards.md
+    triggers:
+      - engineering standards
+      - localization
+      - hardcoded strings
+      - i18n
+      - secrets
+      - api keys
+      - environment variables
+      - debug statements
+      - print statement
+      - silent failure
+      - code review
+      - pr checklist
+
+  - id: asset
+    path: product/domain/asset.md
+    triggers:
+      - asset
+      - managed device
+      - RMM
+      - asset domain
+      - remote script
+      - session token
+      - Authorization2FAToken
+      - asset detail
+      - asset chat
+
+  - id: customer
+    path: product/domain/customer.md
+    triggers:
+      - customer
+      - contact
+      - end user
+      - end_user
+      - company
+      - CustomersRepository
+      - EndUsersRepository
+      - customer domain
+
+  - id: interaction
+    path: product/domain/interaction.md
+    triggers:
+      - interaction
+      - chat domain
+      - conversation
+      - unread
+      - userLastReadAt
+      - archivedAt
+      - get_interactions_batched
+      - open interaction
+      - archived interaction
+
+  - id: product-overview
+    path: product/domain/product-overview.md
+    triggers:
+      - product overview
+      - syncro
+      - MSP
+      - glossary
+      - technician
+      - worksheet
+      - timer entry
+      - charge
+      - environment
+      - staging
+      - multi-environment
+
+  - id: ticket
+    path: product/domain/ticket.md
+    triggers:
+      - ticket domain
+      - service request
+      - ticket lifecycle
+      - ticket status
+      - ticket priority
+      - assignee
+      - note
+      - timer entry
+      - charge
+      - worksheet
+      - attachment
+      - TicketsSettingsCubit

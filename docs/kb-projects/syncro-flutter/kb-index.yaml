@@ -1,0 +1,244 @@
+# kb-index.yaml — Layer 3 (syncro-flutter project KB)
+# Generated stub cleaned up manually — 2026-04-28
+# Schema: docs/KNOWLEDGE-LAYERING.md § "Optional Machine-Readable Index"
+#
+# NOTE: load_with is omitted — validator has a sed bug that strips everything before
+# the last hyphen in IDs containing dashes (e.g. "phoenix-socket" → "socket").
+# Bug filed: validate-kb-index-yaml.sh check 8 sed 's/.*-[[:space:]]*//' should be
+# sed 's/^[[:space:]]*-[[:space:]]*//' to only strip the YAML list prefix.
+# Re-add load_with once the bug is fixed upstream.
+
+version: 1
+layer: project
+
+documents:
+
+  - id: AGENTS
+    path: AGENTS.md
+    triggers:
+      - flutter conventions
+      - syncro flutter
+      - fvm
+      - project conventions
+      - test command
+      - build command
+      - flutter test
+      - flutter analyze
+
+  - id: known-issues
+    path: ai-patterns/known-issues.md
+    triggers:
+      - known issues
+      - token refresh
+      - _refreshToken
+      - bugs
+      - magic delay
+      - Future.delayed
+      - architecture violation
+      - use case infrastructure
+
+  - id: mistake-log
+    path: ai-patterns/mistake-log.md
+    triggers:
+      - mistake log
+      - agent errors
+      - corrections
+
+  - id: engineering-standards
+    path: engineering/best-practices/engineering-standards.md
+    triggers:
+      - engineering standards
+      - localization
+      - hardcoded strings
+      - i18n
+      - secrets
+      - api keys
+      - debug statements
+      - print statement
+      - silent failure
+      - code review
+      - pr checklist
+
+  - id: flutter-standards
+    path: engineering/best-practices/flutter-standards.md
+    compact: engineering/best-practices/flutter-standards.compact.md
+    triggers:
+      - flutter standards
+      - BuildContext
+      - async safety
+      - mounted
+      - StatelessWidget
+      - widget architecture
+      - secure storage
+      - flutter testing
+      - bloc_test
+      - mockito
+
+  - id: push-notifications
+    path: product/features/push-notifications.md
+    triggers:
+      - push notification
+      - FCM
+      - firebase messaging
+      - NotificationManager
+      - deep link
+      - notification tap
+      - background launch
+      - openStruct
+      - APNs
+      - rmmAlert
+
+  - id: real-time-chat
+    path: product/features/real-time-chat.md
+    triggers:
+      - chat
+      - real-time chat
+      - ChatCubit
+      - ChatDetailCubit
+      - chat list
+      - chat detail
+      - unread count
+      - archive chat
+      - create ticket from chat
+      - ChatDetailParameters
+      - chat feature
+
+  - id: ticket-management
+    path: product/features/ticket-management.md
+    triggers:
+      - ticket management
+      - TicketDetailsCubit
+      - TicketsSettingsCubit
+      - worksheet
+      - canned responses
+      - ticket routes
+      - ticket create
+      - ticket details
+      - route parameter cubit
+      - GoRouter extra
+
+  - id: architecture-patterns
+    path: technical/architecture/architecture-patterns.md
+    triggers:
+      - architecture
+      - clean architecture
+      - feature-first
+      - cubit
+      - safeEmit
+      - state management
+      - Either
+      - Failure
+      - dartz
+      - dependency injection
+      - GetIt
+      - service_locator
+      - BlocProvider
+      - GoRouter
+      - RouteCubit
+      - shell branch
+      - NetworkService
+      - sendRequestCall
+      - FeatureFlagManager
+      - Hive
+      - local storage
+
+  - id: coding-conventions
+    path: technical/architecture/coding-conventions.md
+    triggers:
+      - naming conventions
+      - snake_case
+      - PascalCase
+      - cubit state
+      - sealed class
+      - Equatable
+      - repository pattern
+      - UseCase
+      - Deserializer
+      - safeEmit
+      - context safety
+      - mounted
+      - logger
+      - logging
+      - testing conventions
+      - GenerateMocks
+      - const constructor
+      - hardcoded
+      - .hardcoded
+
+  - id: project-overview
+    path: technical/architecture/project-overview.md
+    triggers:
+      - project overview
+      - project structure
+      - lib structure
+      - stack
+      - flutter_bloc
+      - go_router
+      - get_it
+      - dio
+      - hive
+      - main.dart
+      - entry point
+      - initialization
+      - feature list
+      - app_repositories
+      - app_providers
+
+  - id: firebase
+    path: technical/integrations/firebase.md
+    triggers:
+      - firebase
+      - Crashlytics
+      - crash reporting
+      - analytics
+      - AnalyticsManager
+      - trackEvent
+      - remote config
+      - feature flags
+      - firebase_messaging
+      - Firebase.initializeApp
+      - firebase initialization
+
+  - id: oauth
+    path: technical/integrations/oauth.md
+    triggers:
+      - oauth
+      - authentication
+      - login
+      - oauth_webauth
+      - access token
+      - StorageManager
+      - flutter_secure_storage
+      - TokenCubit
+      - token refresh
+      - 401
+      - credentials
+      - CLIENT_ID
+
+  - id: pendo
+    path: technical/integrations/pendo.md
+    triggers:
+      - pendo
+      - product analytics
+      - screen tracking
+      - PendoService
+      - pendo_sdk
+      - unawaited
+      - navigation tracking
+
+  - id: phoenix-socket
+    path: technical/integrations/phoenix-socket.md
+    triggers:
+      - phoenix socket
+      - WebSocket
+      - ChatWebSocketService
+      - chat token
+      - access_token
+      - reconnection
+      - exponential backoff
+      - health check
+      - wasChatArchived
+      - PhoenixSocket
+      - chatsSocketStream
+      - messagesSocketStream
+      - get_interactions_batched
