@@ -1,6 +1,6 @@
 # Plan: Unify Appointment CRUD Cubit Logic
 
-**Status**: not-started  
+**Status**: complete  
 **Type**: Type 2 — Technical (Refactor)  
 **Project**: syncro-flutter  
 **Branch Convention**: `plan/unify-appointment-crud-cubit/{task-path}`  
