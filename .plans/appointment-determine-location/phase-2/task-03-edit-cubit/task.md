@@ -11,7 +11,7 @@ Integrate `DetermineAppointmentLocationUseCase` into `AppointmentEditCubit` so t
 
 ## Steps
 
-1. **BLOCKER — Verify ticket ID availability**: Check the `Appointment` model loaded in `getAppointment()`. If it includes a `ticketId: int?` field, store it in `AppointmentEditLoaded` (currently only `ticketNumber: String?` is stored). If the `Appointment` model does NOT include a ticket ID, document this gap and send `ticketId: null` in the request (the `customer_id` will still be sent).
+1. **Add `ticketId: int?` to `AppointmentEditLoaded`**: `Appointment` has `ticket: Ticket?` and `Ticket` has `id: int`. The edit state currently only stores `ticketNumber: appointment.ticket?.number.toString()`. Add `ticketId: appointment.ticket?.id` following the same pattern in `initialized()` / `fromAppointment` factory.
 
 2. **Inject use case** via constructor:
    ```dart
@@ -49,7 +49,7 @@ Integrate `DetermineAppointmentLocationUseCase` into `AppointmentEditCubit` so t
 ## Notes
 
 - In Edit mode, customer and ticket are always read-only (loaded from the saved appointment). Only `selectAppointmentType()` is a trigger — no `customerChanged` or `ticketChanged` equivalents needed.
-- Step 1 is a BLOCKER: resolve ticket ID availability before implementing `_determineLocation()`.
+- `Appointment.ticket?.id` gives the `ticketId: int?` needed — no blocker.
 - The old `emit(AppointmentEditPopulateLocation(type?.locationHardCode))` must be REMOVED, same as in task-02.
 
 ## Success Criteria

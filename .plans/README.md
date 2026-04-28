@@ -6,7 +6,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [appointment-determine-location](appointment-determine-location/overview.md) | Auto-fill location field via determine_location endpoint on type/customer/ticket change | syncro-flutter | 0/4 | not-started | TBD |
+| [unify-appointment-crud-cubit](unify-appointment-crud-cubit/overview.md) | Move selectAppointmentType/_determineLocation/sendCustomerEmailChanged to CrudAppointmentBaseCubit | syncro-flutter | 0/3 | not-started | TBD |
 | [notifications-screen](notifications-screen/overview.md) | Notifications Screen — list, badge, deep-link routing (SE-11964) | syncro-flutter | 0/5 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
@@ -27,6 +27,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [appointment-location-type](appointment-location-type/overview.md) | Send appointment_location_type on create/update via dedicated /appointment_types endpoint | syncro-flutter | 4/4 | 2026-04-14 |
 | [fix-production-crashes-v140](fix-production-crashes-v140/overview.md) | Fix 4 production crashes from Crashlytics v1.4.0 (FATAL + null-safety) | syncro-flutter | 4/4 | 2026-04-20 |
 | [syncro-codebase-improvements](syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4/4 | 2026-04-20 |
+| [appointment-determine-location](appointment-determine-location/overview.md) | Auto-fill location field via determine_location endpoint on type/customer/ticket change | syncro-flutter | 4/4 | 2026-04-27 |
 
 ---
 

@@ -211,6 +211,7 @@ These MUST fire automatically. Do not wait for user to ask:
 | User corrects you | `log-mistake` | Build patterns |
 | Modified KB files | `check-kb-index` | Keep index current |
 | User ending session | `session-end-checklist` | Catch missed automation |
+| After writing or editing any `.dart` file | Run `fvm dart format <file>` | Keep AI-written code format-identical to editor format-on-save |
 
 ### Trigger Detection Examples
 
