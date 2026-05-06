@@ -14,7 +14,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Priority | Added |
 |------|-----------|---------|----------|-------|
-<!-- Plans captured but not yet started -->
+| [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | low | 2026-04-29 |
 
 ## Completed Plans
 
@@ -28,6 +28,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [syncro-codebase-improvements](syncro-codebase-improvements/overview.md) | Fix critical/major issues found in April 2026 audit | syncro-flutter | 4/4 | 2026-04-20 |
 | [appointment-determine-location](appointment-determine-location/overview.md) | Auto-fill location field via determine_location endpoint on type/customer/ticket change | syncro-flutter | 4/4 | 2026-04-27 |
 | [unify-appointment-crud-cubit](unify-appointment-crud-cubit/overview.md) | Move selectAppointmentType/_determineLocation/sendCustomerEmailChanged to CrudAppointmentBaseCubit | syncro-flutter | 3/3 | 2026-04-28 |
+| [bugfix-edit-appt-swipe-back](bugfix-edit-appt-swipe-back/overview.md) | Edit Appointment swipe-back does not navigate after Leave Screen dialog | syncro-flutter | 2/2 | 2026-05-04 |
 
 ---
 

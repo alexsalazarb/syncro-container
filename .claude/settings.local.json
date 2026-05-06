@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/alex/Development/syncro-container/.claude/skills/syncro-create-ticket)",
+      "Bash(mkdir -p /Users/alex/Development/syncro-container/.claude/skills/syncro-create-release)",
+      "Bash(rm -rf /Users/alex/Development/syncro-container/.claude/skills/create-syncro-ticket)",
+      "Bash(rm -rf /Users/alex/Development/syncro-container/.claude/skills/create-syncro-release)"
+    ]
+  }
+}

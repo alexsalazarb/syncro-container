@@ -1,9 +1,9 @@
 ---
-name: create-new-build
+name: syncro-create-qa-build
 description: >
   Increments the build number in pubspec.yaml, commits on develop, rebases qa from develop,
   and force-pushes to all remotes (origin + bla).
-  Trigger: When the user explicitly requests "create new build", "nuevo build", or similar.
+  Trigger: /syncro-create-qa-build or "create new build", "nuevo build", "crear build".
 license: Apache-2.0
 metadata:
   author: gentleman-programming
@@ -12,7 +12,7 @@ metadata:
 
 ## When to Use
 
-- User explicitly says "create new build", "nuevo build", "crear build", or similar
+- User explicitly says `/syncro-create-qa-build`, "create new build", "nuevo build", "crear build", or similar
 - Do NOT trigger automatically — requires an explicit request
 
 ## Critical Patterns

@@ -1,5 +1,5 @@
 ---
-name: create-syncro-release
+name: syncro-create-release
 description: >
   Builds a production release for both iOS and Android.
   Android: generates a signed AAB via Gradle. iOS: archives via xcodebuild + exports for App Store.
@@ -21,16 +21,25 @@ metadata:
 
 Before building, verify:
 
-### iOS only
+### Android
+```bash
+ls syncro-flutter/android/key.properties
+ls syncro-flutter/android/app/syncro-mobile-key.keystore
+```
+Si alguno falta → abort con:
+> "Falta `key.properties` o `syncro-mobile-key.keystore`. Copiarlos desde `syncro-temp/android/`. Ambos están gitignoreados — no se commitean."
+
+### iOS
 ```bash
 xcrun xcodebuild -version
 ```
 If fails → abort with:
 > "Xcode command line tools no están disponibles. Instalá con `xcode-select --install`."
 
-> **Android signing**: esta app usa Google Play App Signing ("Signing by Google Play").
-> El AAB se sube firmado con el `debug.keystore` (upload key registrado en Play Console).
-> Google re-firma para distribución. No se necesita `key.properties`.
+> **Android signing**: usa un keystore de producción (`syncro-mobile-key.keystore`) referenciado en `android/key.properties`.
+> Ambos archivos están gitignoreados y deben estar presentes en la máquina que hace el release.
+> Si faltan, copiarlos desde `syncro-temp/android/` (keystore) y `syncro-temp/android/key.properties`.
+> SHA1 esperado por Play Store: `FD:29:10:C2:A8:83:C1:A4:EE:33:05:F9:46:18:AB:F1:08:8C:C6:BE`
 
 ---
 
@@ -110,7 +119,7 @@ Al finalizar, reportar:
 ✅ Release builds completados
 
 Android AAB: syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab
-iOS IPA:     syncro-flutter/build/ios/export/Runner.ipa
+iOS IPA:     syncro-flutter/build/ios/export/syncro.ipa
 
 Próximos pasos:
 - Android: subir el .aab en Google Play Console → Internal Testing
@@ -131,7 +140,7 @@ Próximos pasos:
 
 ## Notes
 
-- El signing de Android usa `debug.keystore` siempre — es el upload key registrado en Play Console (Google Play App Signing habilitado). Google re-firma el APK de distribución. No se necesita ni usa `key.properties`.
+- El signing de Android usa `syncro-mobile-key.keystore` — es el upload key registrado en Play Console. Requiere `android/key.properties` y `android/app/syncro-mobile-key.keystore` presentes en la máquina (gitignoreados). Backup en `syncro-temp/android/`.
 - El signing de iOS usa `Automatic` — Xcode gestiona los provisioning profiles.
 - NO modificar `build.gradle` ni hacer switch de branches — ese flujo fue eliminado.
 - El branch `gradleForProd` está deprecado desde que se introdujo el signing condicional.

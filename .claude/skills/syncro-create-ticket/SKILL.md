@@ -1,4 +1,4 @@
-# create-syncro-ticket
+# syncro-create-ticket
 
 ## Context Required
 LOW-CONTEXT: No codebase reading needed. Collects ticket details from the conversation.
