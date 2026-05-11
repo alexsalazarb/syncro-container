@@ -54,11 +54,11 @@ See [investigation.md](investigation.md) for full root cause analysis.
 
 | Task Path | Title | Status | Depends On |
 |-----------|-------|--------|------------|
-| task-01-fix-websocket-parsing | Fix unsafe cast in ListChatsFromSocket.fromJson | not-started | — |
-| task-02-fix-new-chat-refresh | Refresh chat list from NewChatCubit after creation | not-started | — |
-| task-03-fix-tab-tap-refresh | Fix tab-tap refresh guard after chat detail return | not-started | — |
-| task-04-fix-empty-state-timeout | Fix empty state flash and timeout in refresh() | not-started | — |
-| task-05-regression-tests | Add regression tests for all four fixes | not-started | task-01, task-02, task-03, task-04 |
+| task-01-fix-websocket-parsing | Fix unsafe cast in ListChatsFromSocket.fromJson | complete | — |
+| task-02-fix-new-chat-refresh | Refresh chat list from NewChatCubit after creation | complete | — |
+| task-03-fix-tab-tap-refresh | Fix tab-tap refresh guard after chat detail return | complete | — |
+| task-04-fix-empty-state-timeout | Fix empty state flash and timeout in refresh() | complete | — |
+| task-05-regression-tests | Add regression tests for all four fixes | complete | task-01, task-02, task-03, task-04 |
 
 ## Branch Convention
 
