@@ -1,4 +1,4 @@
-# Task: Sync unread badge on return to dashboard
+# Task: Sync unread badge on every dashboard visit
 
 **Plan**: notifications-ui-polish
 **Task ID**: task-01
@@ -8,48 +8,76 @@
 
 ## Objective
 
-The unread count badge shown in the dashboard AppBar must reflect the real server count after the user returns from the Notifications screen — regardless of how many items they marked as read (one, several, or all).
+The unread count badge shown in the dashboard AppBar must reflect the real server count every time the dashboard becomes visible — whether the user returns from Notifications, Settings, any other sub-route, or switches back to the Home tab.
 
 ## Context
 
-`UnreadCountCubit` (provided at the root `MultiRepositoryProvider` level) already exposes `fetchUnreadCount()`. The Notifications screen creates its own `NotificationsCubit` via `BlocProvider` and has no reference to `UnreadCountCubit`.
+`DashboardPage` lives inside a `StatefulShellBranch` (GoRouter `StatefulShellRoute.indexedStack`). The widget is **never disposed** — `initState()` runs only once. Currently `fetchUnreadCount()` is called:
+- Once in `DashboardPage.initState()` (first load)
+- On app resume via `AppLifecycleService` inside `UnreadCountCubit`
 
-The chosen strategy is **refresh on pop** via `PopScope`:
-- No coupling between `NotificationsCubit` and `UnreadCountCubit`.
-- A single API call when the user navigates back — always reflects real server state.
-- Avoids local counter drift (e.g. if the user marks 3 as read then navigates back via deep-link).
+Missing: refresh when the user navigates back to `/home` from any sub-route pushed on top (Notifications, Settings, etc.) or switches back to the Home tab.
+
+There is no existing pattern in the app for "refresh on every dashboard visit". `TimeClockButton` uses a one-time init guard (`LatestTimeClockInitial`), not a per-visit refresh. The GoRouter listener is the correct approach.
+
+## Strategy
+
+Listen to `GoRouter.routeInformationProvider` changes inside `_DashboardPageState`. Every time the active route path becomes `AppRoute.home.path` (i.e. `/home`), call `fetchUnreadCount()`. This covers all entry points without coupling any other screen to `UnreadCountCubit`.
 
 ## Steps
 
-1. Wrap the `AppScaffold` inside `NotificationsPage.build()` with a `PopScope`:
+1. In `_DashboardPageState`, add a `GoRouter` field and a listener method:
 
 ```dart
-return PopScope(
-  canPop: true,
-  onPopInvokedWithResult: (didPop, _) {
-    if (didPop) {
-      context.read<UnreadCountCubit>().fetchUnreadCount();
-    }
-  },
-  child: BlocProvider(
-    create: ...,
-    child: const AppScaffold(...),
-  ),
-);
+GoRouter? _router;
+
+void _onRouteChanged() {
+  final path = _router?.routeInformationProvider.value.uri.path;
+  if (path == AppRoute.home.path && mounted) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<UnreadCountCubit>().fetchUnreadCount();
+    });
+  }
+}
 ```
 
-> **Important**: `context.read<UnreadCountCubit>()` must be called on the outer `context` (the one that has `UnreadCountCubit` in scope), not inside the inner `BlocProvider`.
+2. Register and unregister the listener in `didChangeDependencies` and `dispose`:
 
-2. Add the missing import for `UnreadCountCubit`.
+```dart
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  final router = GoRouter.of(context);
+  if (_router != router) {
+    _router?.routeInformationProvider.removeListener(_onRouteChanged);
+    _router = router;
+    _router!.routeInformationProvider.addListener(_onRouteChanged);
+  }
+}
 
-3. No changes to `NotificationsCubit` or `UnreadCountCubit` — they stay decoupled.
+@override
+void dispose() {
+  _router?.routeInformationProvider.removeListener(_onRouteChanged);
+  super.dispose();
+}
+```
+
+3. **Remove** the existing `WidgetsBinding.instance.addPostFrameCallback` call from `initState` — it's now redundant since `didChangeDependencies` fires on first mount and also triggers `_onRouteChanged` (the path will be `/home` on first load).
+
+> **Note**: `didChangeDependencies` fires on first mount and whenever an `InheritedWidget` dependency changes. The `GoRouter.of(context)` call reads from `InheritedWidget`, so this is safe.
+
+4. Add the missing imports: `go_router/go_router.dart`, `UnreadCountCubit`.
+
+5. No changes to `NotificationsCubit`, `UnreadCountCubit`, or any other screen.
 
 ## File Ownership
 
-- `lib/features/notifications/presentation/notifications_page.dart`
+- `lib/features/dashboard/presentation/dashboard_page.dart`
 
 ## Verification
 
-- Navigate to Notifications, mark 2 items as read, press back → badge count decreases.
-- Navigate to Notifications, tap "Mark all Read", press back → badge shows 0 (or disappears).
+- Return from Notifications after marking items as read → badge updates.
+- Return from Settings → badge updates.
+- Switch away to Appointments tab, then switch back to Home → badge updates.
+- App resume from background still updates badge (existing `AppLifecycleService` behavior unchanged).
 - Run `fvm flutter analyze` — no new issues.
