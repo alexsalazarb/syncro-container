@@ -6,7 +6,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [SE-12380-timeclock-active-session](SE-12380-timeclock-active-session/overview.md) | Fix Time Clock showing wrong state after web edit of historical timelog (SE-12380) | syncro-flutter | 2/2 | complete | TBD |
 | [notifications-screen](notifications-screen/overview.md) | Notifications Screen — list, badge, deep-link routing (SE-11964) | syncro-flutter | 0/5 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
@@ -31,6 +30,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [unify-appointment-crud-cubit](unify-appointment-crud-cubit/overview.md) | Move selectAppointmentType/_determineLocation/sendCustomerEmailChanged to CrudAppointmentBaseCubit | syncro-flutter | 3/3 | 2026-04-28 |
 | [bugfix-edit-appt-swipe-back](bugfix-edit-appt-swipe-back/overview.md) | Edit Appointment swipe-back does not navigate after Leave Screen dialog | syncro-flutter | 2/2 | 2026-05-04 |
 | [SE-12379-chat-list-ios](completed/SE-12379-chat-list-ios/overview.md) | Fix iOS chat list not showing existing or newly created chats (SE-12379) | syncro-flutter | 5/5 | 2026-05-12 |
+| [SE-12380-timeclock-active-session](completed/SE-12380-timeclock-active-session/overview.md) | Fix Time Clock showing wrong state after web edit of historical timelog (SE-12380) | syncro-flutter | 2/2 | 2026-05-12 |
 
 ---
 
