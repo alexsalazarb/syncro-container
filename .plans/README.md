@@ -7,7 +7,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
 | [notifications-screen](notifications-screen/overview.md) | Notifications Screen — list, badge, deep-link routing (SE-11964) | syncro-flutter | 5/5 | complete | TBD |
-| [notifications-ui-polish](notifications-ui-polish/overview.md) | Notifications UI polish — badge refresh, AppBar, filter BottomSheet, item layout | syncro-flutter | 0/3 | not-started | TBD |
+| [notifications-ui-polish](notifications-ui-polish/overview.md) | Notifications UI polish — badge refresh, AppBar, filter BottomSheet, item layout | syncro-flutter | 3/3 | complete | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 

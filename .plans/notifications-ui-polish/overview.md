@@ -1,6 +1,6 @@
 # Plan: Notifications UI Polish
 
-**Status**: not-started
+**Status**: complete
 **Created**: 2026-05-12
 **Last Updated**: 2026-05-12
 **Type**: Feature continuation
