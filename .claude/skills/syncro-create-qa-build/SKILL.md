@@ -17,7 +17,8 @@ metadata:
 
 ## Critical Patterns
 
-- **MUST be on `develop`** — abort if current branch is anything else
+- **ALL git operations run inside `syncro-flutter/`** — this is a subproject with its own git repo
+- **MUST be on `develop`** — check `syncro-flutter` branch, NOT the container repo branch
 - **Only increment the build number** (the part after `+`) — never touch major.minor.patch
 - **Commit message is fixed**: `Set version to x.x.x+xx` — no deviations
 - **Force-push to BOTH remotes**: `origin` AND `bla` — never skip either one
@@ -26,18 +27,21 @@ metadata:
 
 ## Steps
 
-### 1. Verify Branch
+### 1. Verify Branch (inside syncro-flutter)
 
 ```bash
-git branch --show-current
+# From container root — syncro-flutter is a separate git repo
+git -C syncro-flutter branch --show-current
 ```
 
-If not `develop` → abort and tell the user:
-> "Tenés que estar en el branch `develop` para crear un nuevo build."
+If not `develop` → switch to it:
+```bash
+git -C syncro-flutter checkout develop
+```
 
 ### 2. Read and Increment Build Number
 
-File: `syncro-flutter/pubspec.yaml`
+File: `syncro-flutter/pubspec.yaml` (read from container root)
 
 Find the line matching `version: x.x.x+N`. Split on `+`:
 - Left side (semantic version) → unchanged
@@ -47,47 +51,47 @@ Write the updated line back.
 
 **Example:** `version: 1.5.0+415` → `version: 1.5.0+416`
 
-### 3. Commit on develop
+### 3. Commit on develop (inside syncro-flutter)
 
 ```bash
-git add syncro-flutter/pubspec.yaml
-git commit -m "Set version to {new_version}"
+git -C syncro-flutter add pubspec.yaml
+git -C syncro-flutter commit -m "Set version to {new_version}"
 ```
 
 Where `{new_version}` is the full version string, e.g. `1.5.0+416`.
 
-### 4. Switch to qa and Rebase
+### 4. Switch to qa and Rebase (inside syncro-flutter)
 
 ```bash
-git checkout qa
-git rebase develop
+git -C syncro-flutter checkout qa
+git -C syncro-flutter rebase develop
 ```
 
-### 5. Force Push to Both Remotes
+### 5. Force Push to Both Remotes (inside syncro-flutter)
 
 Push `qa` first, then return to `develop` and push it too:
 
 ```bash
-git push --force origin qa
-git push --force bla qa
-git checkout develop
-git push --force origin develop
-git push --force bla develop
+git -C syncro-flutter push --force origin qa
+git -C syncro-flutter push --force bla qa
+git -C syncro-flutter checkout develop
+git -C syncro-flutter push --force origin develop
+git -C syncro-flutter push --force bla develop
 ```
 
 ## Commands
 
 ```bash
-git branch --show-current
-git add syncro-flutter/pubspec.yaml
-git commit -m "Set version to {new_version}"
-git checkout qa
-git rebase develop
-git push --force origin qa
-git push --force bla qa
-git checkout develop
-git push --force origin develop
-git push --force bla develop
+git -C syncro-flutter branch --show-current
+git -C syncro-flutter add pubspec.yaml
+git -C syncro-flutter commit -m "Set version to {new_version}"
+git -C syncro-flutter checkout qa
+git -C syncro-flutter rebase develop
+git -C syncro-flutter push --force origin qa
+git -C syncro-flutter push --force bla qa
+git -C syncro-flutter checkout develop
+git -C syncro-flutter push --force origin develop
+git -C syncro-flutter push --force bla develop
 ```
 
 ## Output
