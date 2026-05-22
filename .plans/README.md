@@ -6,6 +6,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
+| [fix-production-crashes-v152](fix-production-crashes-v152/overview.md) | Fix 4 non-fatal Crashlytics bugs from v1.5.2 (build 423) | syncro-flutter | 0/4 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 
