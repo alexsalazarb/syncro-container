@@ -2,7 +2,7 @@
 
 **Plan**: fix-production-crashes-v152
 **Phase**: —
-**JIRA**: —
+**JIRA**: SE-12498
 **Depends On**: —
 **Crashlytics**: `3ca075b4171de3e9bed7700c513e575f` (iOS), `9a1d349f325abb563d2b26653a1b993c` (Android)
 
