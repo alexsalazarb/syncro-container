@@ -38,7 +38,7 @@ Fix 4 non-fatal production bugs detected in Crashlytics v1.5.2 (build 423). All 
 |------|-------|------|--------|------------|
 | task-01-asset-filter-deserializer | Asset saved-searches: handle Map response | SE-12498 | not-started | — |
 | task-02-websocket-null-completer | WebSocket: null-safe completer after timeout | SE-12499 | complete | — |
-| task-03-worksheet-empty-response | Worksheet: empty paginated response | SE-12500 | not-started | — |
+| task-03-worksheet-empty-response | Worksheet: empty paginated response | SE-12500 | complete | — |
 | task-04-suppress-5xx-noise | Suppress 5xx errors from Crashlytics | SE-12501 | complete | — |
 
 All tasks are independent — can be executed in parallel.
