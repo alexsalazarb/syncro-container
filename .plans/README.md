@@ -8,6 +8,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 |------|-----------|---------|-------|--------|-------------|
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
+| [SE-12477-timeclock-push-sync](SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | complete | TBD |
 
 ## Backlog
 
