@@ -6,7 +6,7 @@
 |-------|-------|
 | Type | Type 2 — Technical |
 | Project | syncro-flutter |
-| Status | backlog |
+| Status | in-progress — blocked on task-03 (manual Play Store validation) |
 | Target Demo | TBD |
 | Dev | Unassigned |
 | QA | Unassigned |

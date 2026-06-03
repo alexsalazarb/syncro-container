@@ -9,6 +9,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [flutter-upgrade-viability](flutter-upgrade-viability/overview.md) | Evaluar viabilidad de upgrade Flutter 3.32.4 → 3.38.7 + package audit | syncro-flutter | 0/3 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
+| [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
 | [SE-12477-timeclock-push-sync](SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | complete | TBD |
 | [SE-12509-stuck-timer-fix](SE-12509-stuck-timer-fix/overview.md) | Fix stuck ticket timer caused by stale SharedPreferences surviving Android Auto-Backup | syncro-flutter | 3/3 | complete | TBD |
 
@@ -16,7 +17,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Priority | Added |
 |------|-----------|---------|----------|-------|
-| [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | low | 2026-04-29 |
 
 ## Completed Plans
 
