@@ -62,9 +62,11 @@ Desde `syncro-flutter/android/`:
 ./gradlew app:bundleProductionRelease
 ```
 
-Artifact resultante: `syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab`
+Artifacts resultantes:
+- AAB: `syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab`
+- Mapping: `syncro-flutter/build/app/outputs/mapping/productionRelease/mapping.txt`
 
-Reportar ruta exacta al usuario.
+Reportar ambas rutas al usuario.
 
 ---
 
@@ -118,11 +120,13 @@ Al finalizar, reportar:
 ```
 ✅ Release builds completados
 
-Android AAB: syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab
-iOS IPA:     syncro-flutter/build/ios/export/syncro.ipa
+Android AAB:     syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab
+Android Mapping: syncro-flutter/build/app/outputs/mapping/productionRelease/mapping.txt
+iOS IPA:         syncro-flutter/build/ios/export/syncro.ipa
 
 Próximos pasos:
-- Android: subir el .aab en Google Play Console → Internal Testing
+- Android: subir el .aab Y el mapping.txt en Play Console → Internal Testing
+  (Play Console → seleccionar release → "Deobfuscation file" → subir mapping.txt)
 - iOS: subir el .ipa con Transporter o desde Xcode → Organizer → Distribute
 ```
 
