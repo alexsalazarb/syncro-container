@@ -35,4 +35,16 @@ This document records patterns of errors that agents have made, to prevent repet
 
 ---
 
-**Last Updated**: 2026-04-13
+## 2026-06-04 - convention
+
+**Mistake:** Committed a bugfix (SE-12659) on an active plan branch (`plan/android-r8-minification/task-04`) instead of creating a dedicated feature branch from `develop`.
+
+**Correction:** Independent bugfixes must always branch from `develop`, not from unrelated plan branches. The correct flow: `git switch develop && git switch -c feature/SE-XXXXX`.
+
+**Prevention:** Before committing any fix, verify the current branch with `git branch --show-current`. If the branch name belongs to a different plan or task, stop and create a new branch from `develop` first.
+
+**Files involved:** `syncro-flutter` — any file modified as part of a bugfix
+
+---
+
+**Last Updated**: 2026-06-04
