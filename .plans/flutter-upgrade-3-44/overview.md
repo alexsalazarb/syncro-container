@@ -51,15 +51,15 @@ Type 2 — Technical (version upgrade)
 
 | Task Path | Title | Status | Depends On |
 |-----------|-------|--------|------------|
-| task-01-sdk-baseline | SDK Baseline: fvm bump + pubspec + analyze | not-started | — |
-| phase-2/task-02-flutter-local-notifications | flutter_local_notifications 18→21 | not-started | task-01 |
-| phase-2/task-03-infinite-scroll-pagination | infinite_scroll_pagination 4→5 | not-started | task-01 |
-| phase-3/task-04-uiscenedelegate-ios | UISceneDelegate iOS Migration | not-started | task-01 |
-| phase-3/task-05-firebase-migration | Firebase 5-package Lock-step | not-started | task-01, task-02 |
-| phase-4/task-06-go-router | go_router 14→17 | not-started | task-01 |
-| phase-4/task-07-yellow-packages | Yellow Packages: service layer | not-started | task-01 |
-| phase-4/task-08-sdk-deprecation-sweep | SDK Deprecation Sweep | not-started | task-01 |
-| phase-4/task-10-icondata-kotlin | IconData final + Kotlin AGP Migration | not-started | task-01 |
+| task-01-sdk-baseline | SDK Baseline: fvm bump + pubspec + analyze | complete | — |
+| phase-2/task-02-flutter-local-notifications | flutter_local_notifications 18→21 | complete | task-01 |
+| phase-2/task-03-infinite-scroll-pagination | infinite_scroll_pagination 4→5 | complete | task-01 |
+| phase-3/task-04-uiscenedelegate-ios | UISceneDelegate iOS Migration | complete | task-01 |
+| phase-3/task-05-firebase-migration | Firebase 5-package Lock-step | complete | task-01, task-02 |
+| phase-4/task-06-go-router | go_router 14→17 | complete | task-01 |
+| phase-4/task-07-yellow-packages | Yellow Packages: service layer | complete | task-01 |
+| phase-4/task-08-sdk-deprecation-sweep | SDK Deprecation Sweep | complete | task-01 |
+| phase-4/task-10-icondata-kotlin | IconData final + Kotlin AGP Migration | complete | task-01 |
 | phase-5/task-09-verification | Verification + Test Suite | not-started | all |
 
 ## Dependency DAG
