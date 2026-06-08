@@ -1,6 +1,6 @@
 # Task: SDK Baseline — fvm bump + pubspec update + analyze
 
-**Plan**: Flutter Upgrade 3.32.4 → 3.38.7
+**Plan**: Flutter Upgrade 3.32.4 → 3.44.1
 **Phase**: 1 — Foundation
 **Task ID**: task-01
 **Task Path**: task-01-sdk-baseline
@@ -9,7 +9,7 @@
 
 ## Objective
 
-Actualizar el Flutter SDK a 3.38.7 via fvm, actualizar TODOS los constraints de packages en pubspec.yaml, correr `flutter pub get`, y documentar el baseline de errores de `flutter analyze` para guiar las tasks siguientes.
+Actualizar el Flutter SDK a stable (3.44.1 / Dart 3.12.1) via fvm, actualizar TODOS los constraints de packages en pubspec.yaml, correr `flutter pub get`, y documentar el baseline de errores de `flutter analyze` para guiar las tasks siguientes.
 
 Esta task NO corrige errores — solo establece el baseline. Toca pubspec.yaml y .fvmrc; ninguna otra task debe modificar esos archivos.
 
@@ -17,7 +17,7 @@ Esta task NO corrige errores — solo establece el baseline. Toca pubspec.yaml y
 
 | File | Action | Notes |
 |------|--------|-------|
-| `syncro-flutter/.fvmrc` | modify | Cambiar `"flutter": "3.32.4"` → `"flutter": "3.38.7"` |
+| `syncro-flutter/.fvmrc` | modify | Cambiar `"flutter": "3.32.4"` → `"flutter": "stable"` (3.44.1 / Dart 3.12.1) |
 | `syncro-flutter/pubspec.yaml` | modify | Actualizar todos los constraints (ver pasos) |
 | `syncro-flutter/pubspec.lock` | modify | Regenerado por `flutter pub get` |
 | `task-01-sdk-baseline/baseline-analysis.md` | create | Resultado completo de `flutter analyze` |
@@ -33,11 +33,12 @@ Esta task NO corrige errores — solo establece el baseline. Toca pubspec.yaml y
 cd syncro-flutter
 # Cambiar .fvmrc
 # De: { "flutter": "3.32.4" }
-# A:  { "flutter": "3.38.7" }
-fvm use 3.38.7
+# A:  { "flutter": "stable" }
+# NOTA: fvm use stable ya fue ejecutado — verificar que .fvmrc esté correcto
+fvm use stable
 ```
 
-Verificar con `fvm flutter --version` que responde `3.38.7`.
+Verificar con `fvm flutter --version` que responde `stable (3.44.1 / Dart 3.12.1)`.
 
 ### Step 2: Actualizar pubspec.yaml
 
@@ -104,13 +105,13 @@ Crear `task-01-sdk-baseline/baseline-analysis.md` con:
 
 ## Testing
 
-- [ ] `fvm flutter --version` muestra 3.38.7 / Dart 3.10.x
+- [ ] `fvm flutter --version` muestra stable (3.44.1 / Dart 3.12.1)
 - [ ] `fvm flutter pub get` termina sin errores
 - [ ] `baseline-analysis.md` creado con el output completo
 
 ## Completion Criteria
 
-- [ ] `.fvmrc` apunta a 3.38.7
+- [ ] `.fvmrc` apunta a stable (3.44.1 / Dart 3.12.1)
 - [ ] `pubspec.yaml` actualizado con todos los nuevos constraints
 - [ ] `fvm flutter pub get` exitoso
 - [ ] `baseline-analysis.md` creado con errors/warnings documentados

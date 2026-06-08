@@ -1,6 +1,6 @@
 # Task: SDK Deprecation Sweep
 
-**Plan**: Flutter Upgrade 3.32.4 → 3.38.7
+**Plan**: Flutter Upgrade 3.32.4 → 3.44.1
 **Phase**: 4 — Routing + Yellow Packages
 **Task ID**: task-08
 **Task Path**: phase-4/task-08-sdk-deprecation-sweep
@@ -123,7 +123,24 @@ rg "setPreferredOrientations" lib/ --type dart
 
 Si existe, documentar en el status.md que este API silenciosamente fallará en Android 16 (API 36). No hay un fix directo disponible aún — es un issue conocido del SDK. Registrar como deuda técnica.
 
-### Step 6: Verificar compilación y warnings
+### Step 6: Material color token algorithm audit
+
+Check theme files for `ColorScheme.fromSeed()` usage:
+```bash
+rg "ColorScheme\.fromSeed|ColorScheme\.fromImageProvider" lib/ --type dart -l
+```
+
+If found, visually audit the 4 affected tokens (`onPrimaryContainer`, `onSecondaryContainer`, `onTertiaryContainer`, `onErrorContainer`) after upgrade. Use `.copyWith()` to override if brand accuracy is required.
+
+### Step 7: FontWeight + Lexend variable font audit
+
+```bash
+rg "FontVariation\('wght'" lib/ --type dart
+```
+
+If any `TextStyle` combines `fontWeight:` AND `FontVariation('wght', ...)`, verify the rendered output hasn't changed.
+
+### Step 8: Verificar compilación y warnings
 
 ```bash
 cd syncro-flutter
@@ -145,5 +162,7 @@ El objetivo es cero errores y reducción significativa de warnings.
 - [ ] `Switch.activeColor` → `activeThumbColor` en todos los usos
 - [ ] `DropdownButtonFormField.value` → `initialValue` en todos los usos
 - [ ] `SystemChrome.setPreferredOrientations` auditado y documentado en status
+- [ ] Material color tokens auditados (ColorScheme.fromSeed usage checked)
+- [ ] FontWeight + Lexend variable font combination auditada
 - [ ] `fvm flutter analyze` sin errores
 - [ ] Status actualizado en `status.md`

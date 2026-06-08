@@ -1,4 +1,4 @@
-# Status: SDK Baseline — fvm bump + pubspec + analyze
+# Status: IconData final + Kotlin AGP Migration
 
 **Current Status**: not-started
 **Last Updated**: 2026-06-08
