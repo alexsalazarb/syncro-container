@@ -1,5 +1,8 @@
 # Plan: SE-12509 — Stuck Ticket Timer Fix
 
+**Status**: complete
+**Last Updated**: 2026-06-08
+
 ## Objective
 
 Fix a stuck ticket timer that displays a 3412-hour running timer across all tickets for a specific

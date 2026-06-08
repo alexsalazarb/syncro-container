@@ -10,8 +10,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
-| [SE-12477-timeclock-push-sync](SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | complete | TBD |
-| [SE-12509-stuck-timer-fix](SE-12509-stuck-timer-fix/overview.md) | Fix stuck ticket timer caused by stale SharedPreferences surviving Android Auto-Backup | syncro-flutter | 3/3 | complete | TBD |
 
 ## Backlog
 
@@ -22,6 +20,8 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [SE-12477-timeclock-push-sync](completed/SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | 2026-06-08 |
+| [SE-12509-stuck-timer-fix](completed/SE-12509-stuck-timer-fix/overview.md) | Fix stuck ticket timer caused by stale SharedPreferences surviving Android Auto-Backup | syncro-flutter | 3/3 | 2026-06-08 |
 | [fix-appointments-tab-controller](completed/fix-appointments-tab-controller/overview.md) | Fix LateInitializationError on first Appointments open | syncro-flutter | 2/2 | 2026-04-10 |
 | [fix-gorouter-cubit-extras](completed/fix-gorouter-cubit-extras/overview.md) | Eliminate GoRouter cubit-as-extra serialization warnings via TicketCubitRegistry | syncro-flutter | 4/4 | 2026-04-13 |
 | [ticket-priority-domain-getters](completed/ticket-priority-domain-getters/overview.md) | Move Priority resolution from widget build() to Ticket model getters | syncro-flutter | 3/3 | 2026-04-13 |

@@ -1,5 +1,8 @@
 # Plan: SE-12477 — TimeClock Silent Push Sync
 
+**Status**: complete
+**Last Updated**: 2026-06-08
+
 ## Objective
 
 Handle the `timelog_state_changed` silent FCM push sent by BE (SE-12420) to keep the TimeClock section and badge in sync when a timelog is created or updated from the web portal.
