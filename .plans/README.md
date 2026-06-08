@@ -6,7 +6,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [flutter-upgrade-viability](flutter-upgrade-viability/overview.md) | Evaluar viabilidad de upgrade Flutter 3.32.4 → 3.38.7 + package audit | syncro-flutter | 0/3 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
@@ -20,6 +19,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [flutter-upgrade-viability](completed/flutter-upgrade-viability/overview.md) | Evaluar viabilidad de upgrade Flutter 3.32.4 → 3.38.7 + package audit | syncro-flutter | 3/3 | 2026-06-08 |
 | [SE-12477-timeclock-push-sync](completed/SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | 2026-06-08 |
 | [SE-12509-stuck-timer-fix](completed/SE-12509-stuck-timer-fix/overview.md) | Fix stuck ticket timer caused by stale SharedPreferences surviving Android Auto-Backup | syncro-flutter | 3/3 | 2026-06-08 |
 | [fix-appointments-tab-controller](completed/fix-appointments-tab-controller/overview.md) | Fix LateInitializationError on first Appointments open | syncro-flutter | 2/2 | 2026-04-10 |
