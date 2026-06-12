@@ -20,6 +20,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [SE-12739-appointment-time-revert](completed/SE-12739-appointment-time-revert/overview.md) | Appointment time changes revert after pressing OK (SE-12739) | syncro-flutter | 3/3 | 2026-06-12 |
 | [flutter-upgrade-viability](completed/flutter-upgrade-viability/overview.md) | Evaluar viabilidad de upgrade Flutter 3.32.4 → 3.38.7 + package audit | syncro-flutter | 3/3 | 2026-06-08 |
 | [SE-12477-timeclock-push-sync](completed/SE-12477-timeclock-push-sync/overview.md) | Handle timelog_state_changed silent push to sync TimeClock state and badge | syncro-flutter | 2/2 | 2026-06-08 |
 | [SE-12509-stuck-timer-fix](completed/SE-12509-stuck-timer-fix/overview.md) | Fix stuck ticket timer caused by stale SharedPreferences surviving Android Auto-Backup | syncro-flutter | 3/3 | 2026-06-08 |

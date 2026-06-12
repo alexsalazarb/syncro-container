@@ -19,7 +19,7 @@ None
 
 ## Artifacts
 
-- `test/features/appointments/appointment_edit/appointment_edit_cubit_test.dart` — 10 SE-12739 regression tests added (startRadioButtonTypeRefresh, endRadioButtonTypeRefresh, changeStartTime, changeEndTime)
+- `test/features/appointments/appointment_edit/application/appointment_edit_cubit_test.dart` — 10 SE-12739 regression tests added (startRadioButtonTypeRefresh, endRadioButtonTypeRefresh, changeStartTime, changeEndTime) — commit 13e86aff
 - `test/features/appointments/appointment_create/application/appointment_create_cubit_test.dart` — new file, 8 SE-12739 regression tests for create flow
 - `test/features/appointments/appointment_create/application/appointment_create_cubit_test.mocks.dart` — generated mocks
 
