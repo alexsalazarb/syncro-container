@@ -4,7 +4,8 @@
 **Jira**: [SE-12758](https://syncrotech.atlassian.net/browse/SE-12758)
 **Type**: Bug Fix
 **Severity**: P3 — Low (1 event, 1 user, edge case)
-**Status**: not-started
+**Status**: complete
+**Completed**: 2026-06-17
 **Project**: syncro-flutter
 **Branch convention**: `plan/SE-12758-webview-auth-challenge/task-{N}-{slug}`
 **Base branch**: `develop`
@@ -63,8 +64,8 @@ the WebView is dismissed mid-challenge.
 
 | # | Task | Status |
 |---|------|--------|
-| 01 | [Fix auth challenge handler](task-01-fix-auth-challenge-handler/task.md) | not-started |
-| 02 | [Regression test](task-02-regression-test/task.md) | not-started |
+| 01 | [Fix auth challenge handler](task-01-fix-auth-challenge-handler/task.md) | complete |
+| 02 | [Regression test](task-02-regression-test/task.md) | complete |
 
 ---
 

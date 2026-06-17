@@ -1,8 +1,8 @@
 # Task 01 — Fix Auth Challenge Handler
 
 **Plan**: SE-12758-webview-auth-challenge
-**Status**: not-started
-**Branch**: `plan/SE-12758-webview-auth-challenge/task-01-fix-auth-challenge-handler`
+**Status**: complete
+**Branch**: `feature/SE-12758`
 **Base**: `develop`
 
 ---
