@@ -248,3 +248,10 @@ documents:
       - chatsSocketStream
       - messagesSocketStream
       - get_interactions_batched
+      - _createListeners
+      - duplicate listeners
+      - StreamSubscription
+      - interactions_batched
+      - chat sort
+      - chat flicker
+      - unawaited init

@@ -1,6 +1,6 @@
 # Phoenix Socket Chat Integration — syncro-flutter
 
-**Last Updated**: April 2026
+**Last Updated**: June 2026
 
 ## Context
 
@@ -81,3 +81,62 @@ When a chat is archived, `wasChatArchived = true` is set **before** calling arch
 - Exponential backoff: 2s, 4s, ... between attempts
 - Connectivity change triggers full reinit (not just reconnect)
 - `Completer`-based serialization ensures only one `connect()` runs at a time
+
+---
+
+## Gotchas
+
+### `_createListeners()` can be called more than once — always cancel before re-subscribing
+
+`_tryInitialConnection()` calls `_createListeners()` to attach listeners to `_socket.messageStream` and `_channel.messages`. It can be invoked more than once:
+
+1. From `ChatWebSocketService.init()` on login (called with `unawaited()` — fire-and-forget)
+2. From `getInteractions()` fallback when `_channel?.canPush == false` at call time
+
+If the second path runs before the first completes, **two sets of listeners accumulate**. Every channel event then fires all listeners, causing `_handleChatUpdate` to execute multiple times per `interactions_batched` event.
+
+**The fix** (SE-12760): store both subscriptions in `StreamSubscription?` fields and cancel them at the top of `_createListeners()` before re-subscribing:
+
+```dart
+StreamSubscription? _socketMessageSubscription;
+StreamSubscription? _channelMessageSubscription;
+
+void _createListeners() {
+  _socketMessageSubscription?.cancel();
+  _channelMessageSubscription?.cancel();
+
+  _socketMessageSubscription = _socket?.messageStream.listen(/* ... */);
+  _channelMessageSubscription = _channel!.messages.listen(/* ... */);
+}
+```
+
+Always cancel both subscriptions in `dispose()` as well. **Never add new `.listen()` calls inside `_createListeners()` without first cancelling the previous ones.**
+
+### `unawaited(init())` creates a race with early consumers
+
+`route_cubit.dart` calls `unawaited(chatWebSocketService.init())` at login and immediately navigates to Home. If any cubit (`ChatCubit`, etc.) calls `getInteractions()` before `init()` completes, the `_channel?.canPush == false` fallback triggers a second `_tryInitialConnection()`. This is the specific race that caused the duplicate listener bug in SE-12760 (visible chat list flicker).
+
+### `!_joinedOnce` assertion from phoenix_socket on hot restart
+
+Occurs when `addChannel()` + `join()` is called on a channel already in the `joined` state (e.g., after a Dart hot restart without full reconnection). The fix is a **full process restart** (`flutter run`), not just hot restart. This error is caught, logged to Crashlytics, and triggers `disconnect()` internally.
+
+### `dart:developer log()` is silent in `flutter run` stdout
+
+Use `debugPrint()` (from `package:flutter/foundation.dart`) for any diagnostic output to the terminal. `dev.log()` goes through a different pipeline and produces no visible output in `flutter run` stdout.
+
+### `interactions_batched` payload structure
+
+The server response to `get_interactions_batched` is a JSON **object** (not array), keyed by index strings plus a `total_count` int:
+
+```json
+{
+  "response": {
+    "total_count": 3,
+    "0": { "id": 1, "asset_id": 10, "last_message": { "inserted_at": "..." }, ... },
+    "1": { ... },
+    "2": { ... }
+  }
+}
+```
+
+`ListChatsFromSocket.fromJson` uses `.whereType<Map<String, dynamic>>()` to filter out the `total_count` integer. `last_message.inserted_at` is the **only sortable timestamp** in the payload — there is no `updated_at` or `created_at` at the interaction level.
