@@ -20,6 +20,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [SE-12785-pendo-sdk-upgrade](completed/SE-12785-pendo-sdk-upgrade/overview.md) | Upgrade pendo_sdk to 3.13.1+ for Android Play Store CT compliance | syncro-flutter | 2/2 | 2026-06-18 |
 | [patrol-deep-tests](completed/patrol-deep-tests/overview.md) | Expand Patrol integration test suite from ~14% to ~70% screen coverage | syncro-flutter | 9/9 | 2026-06-18 |
 | [SE-12758-webview-auth-challenge](completed/SE-12758-webview-auth-challenge/overview.md) | iOS crash: FWFNavigationDelegate auth challenge handler not called in WebView login flow | syncro-flutter | 2/2 | 2026-06-17 |
 | [flutter-upgrade-3-44](completed/flutter-upgrade-3-44/overview.md) | Flutter 3.32.4 → 3.44.1 upgrade execution (SE-12530) | syncro-flutter | 10/10 | 2026-06-17 |
