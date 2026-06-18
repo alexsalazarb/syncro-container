@@ -6,6 +6,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
+| [patrol-test-coverage-phase2](patrol-test-coverage-phase2/overview.md) | Expand test coverage: missing screens, mutations, error states | syncro-flutter | 0/9 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
@@ -19,6 +20,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [patrol-deep-tests](completed/patrol-deep-tests/overview.md) | Expand Patrol integration test suite from ~14% to ~70% screen coverage | syncro-flutter | 9/9 | 2026-06-18 |
 | [SE-12758-webview-auth-challenge](completed/SE-12758-webview-auth-challenge/overview.md) | iOS crash: FWFNavigationDelegate auth challenge handler not called in WebView login flow | syncro-flutter | 2/2 | 2026-06-17 |
 | [flutter-upgrade-3-44](completed/flutter-upgrade-3-44/overview.md) | Flutter 3.32.4 → 3.44.1 upgrade execution (SE-12530) | syncro-flutter | 10/10 | 2026-06-17 |
 | [SE-12760-chat-sort-ios](completed/SE-12760-chat-sort-ios/overview.md) | iOS chat list flicker + wrong sort — duplicate WebSocket listeners race condition | syncro-flutter | 6/6 | 2026-06-17 |

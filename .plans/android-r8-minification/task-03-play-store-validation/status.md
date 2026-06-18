@@ -3,18 +3,30 @@
 | Field | Value |
 |-------|-------|
 | Status | blocked |
-| Agent | — |
-| Branch | plan/android-r8-minification/task-03 |
+| Agent | claude-sonnet-4-6 |
+| Branch | plan/android-r8-minification/task-03-prep |
 | PR | — |
-| Started | — |
+| Started | 2026-06-17 |
 | Completed | — |
 
 ## Notes
 
-Requiere acción manual del developer:
-1. Subir el AAB a Play Console → Internal Testing (path: `syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab`)
-2. En el mismo upload, adjuntar el mapping.txt → sección "Deobfuscation file" (`build/app/outputs/mapping/productionRelease/mapping.txt`)
-3. Instalar desde Play Store en al menos 2 devices físicos (NO vía adb — los crashes anteriores solo aparecen en builds de Play Store)
-4. Probar todos los flows: login, tickets, assets, chat, appointments, time tracking, push notifications, Pendo
-5. Monitorear Crashlytics 24-48hs — si crash-free rate < 99% → kill criteria #1
-6. Marcar este status como complete cuando pase 48hs sin crashes nuevos
+**Kill criterion #1 met** — R8 (`minifyEnabled true`) causa crash inmediato en Play Store builds.
+
+### Root cause
+`java.lang.IllegalArgumentException: No view found for id 0x1 (unknown) for FlutterFragment`
+
+R8 incompatibilidad con `FlutterFragmentActivity`. El crash ocurre en `FragmentActivity.onStart()` al intentar resolver el container view de FlutterFragment. No reproducible en builds locales — solo en Play Store.
+
+### Intentos fallidos
+| Intento | Cambio | Resultado |
+|---------|--------|-----------|
+| 1 | `shrinkResources false` | Crash idéntico |
+| 2 | `proguard-android.txt` (sin optimization passes) | Crash idéntico |
+| 3 | Keep rules extensas para `io.flutter.**`, `androidx.fragment.**` | Crash idéntico |
+
+### Estado actual
+Revertido a `minifyEnabled false`. `mappingFileUploadEnabled true` queda activo (no genera mapping útil sin minification, pero no rompe nada).
+
+### Para desbloquear en el futuro
+Investigar si Flutter 3.x tiene una configuración específica de R8 compatible con `FlutterFragmentActivity`. Ver: https://docs.flutter.dev/deployment/android#obfuscating-dart-code
