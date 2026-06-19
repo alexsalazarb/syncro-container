@@ -38,6 +38,14 @@ Project-specific docs for the Syncro Flutter app (iOS + Android).
 
 ---
 
+## Testing
+
+| Document | When to Read | Last Updated |
+|----------|--------------|--------------|
+| [patrol-integration-tests](./technical/testing/patrol-integration-tests.md) | Running patrol tests, QA auth tokens, known gotchas, navigation patterns | Jun 2026 |
+
+---
+
 ## AI Patterns
 
 | Document | When to Read | Last Updated |
