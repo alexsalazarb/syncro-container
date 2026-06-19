@@ -4,7 +4,7 @@
 |-------|-------|
 | **Slug** | `patrol-test-coverage-phase2` |
 | **Type** | Type 2 — Technical (test infrastructure) |
-| **Status** | not-started |
+| **Status** | complete |
 | **Project** | syncro-flutter |
 | **Branch prefix** | `plan/patrol-test-coverage-phase2` |
 | **Dev** | Alex Salazar |
@@ -70,7 +70,7 @@ Continues from `patrol-deep-tests` (archived 2026-06-18).
 ### Phase 3 — Error states & validation
 | Task | Scope | Files |
 |------|-------|-------|
-| task-08 | Login: wrong credentials → error visible | `authentication_test.dart` (extend) |
+| task-08 ✓ | Login: wrong credentials → error visible (adapted — WebView) | `authentication_test.dart` (comment + withSocketFilter) |
 | task-09 | Form validation: ticket create, appointment create required fields | `form_validation_test.dart` (new) |
 
 ---

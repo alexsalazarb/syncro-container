@@ -6,7 +6,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [patrol-test-coverage-phase2](patrol-test-coverage-phase2/overview.md) | Expand test coverage: missing screens, mutations, error states | syncro-flutter | 0/9 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
@@ -20,6 +19,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Completed |
 |------|-----------|---------|-------|-----------|
+| [patrol-test-coverage-phase2](completed/patrol-test-coverage-phase2/overview.md) | Expand test coverage: missing screens, mutations, error states | syncro-flutter | 9/9 | 2026-06-19 |
 | [SE-12785-pendo-sdk-upgrade](completed/SE-12785-pendo-sdk-upgrade/overview.md) | Upgrade pendo_sdk to 3.13.1+ for Android Play Store CT compliance | syncro-flutter | 2/2 | 2026-06-18 |
 | [patrol-deep-tests](completed/patrol-deep-tests/overview.md) | Expand Patrol integration test suite from ~14% to ~70% screen coverage | syncro-flutter | 9/9 | 2026-06-18 |
 | [SE-12758-webview-auth-challenge](completed/SE-12758-webview-auth-challenge/overview.md) | iOS crash: FWFNavigationDelegate auth challenge handler not called in WebView login flow | syncro-flutter | 2/2 | 2026-06-17 |
