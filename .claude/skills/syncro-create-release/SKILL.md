@@ -109,10 +109,11 @@ Si algo falla, terminar el proceso con Ctrl+C y corregir antes de continuar.
 
 Desde `syncro-flutter/`:
 ```bash
-fvm flutter build appbundle --flavor production --release
-fvm flutter build ios --flavor production --release --no-codesign
+fvm flutter build appbundle --flavor production --release --obfuscate --split-debug-info=build/symbols
+fvm flutter build ios --flavor production --release --no-codesign --obfuscate --split-debug-info=build/symbols
 ```
 
+> `--obfuscate --split-debug-info=build/symbols` es OBLIGATORIO — genera los archivos de símbolos Dart necesarios para desencriptar stack traces en Firebase Crashlytics. Sin estos, los crashes muestran `at ... (.)` indescifrables.
 > El `--no-codesign` en iOS es intencional: el signing lo hace `xcodebuild` en el paso de archive.
 
 ---
@@ -175,7 +176,27 @@ Reportar ruta exacta al usuario.
 
 ---
 
-## Step 6 — Report
+## Step 6 — Upload Dart Symbols to Firebase Crashlytics
+
+Los símbolos Dart generados por `--split-debug-info` deben subirse a Firebase para que los crashes de producción muestren stack traces legibles.
+
+```bash
+# Android
+firebase crashlytics:symbols:upload \
+  --app=1:920223298498:android:3352304fd0baa59e5b5c5b \
+  build/symbols
+
+# iOS
+firebase crashlytics:symbols:upload \
+  --app=1:920223298498:ios:a0d84c75923c83b35b5c5b \
+  build/symbols
+```
+
+> Si `firebase` CLI no está disponible: `npm install -g firebase-tools` y luego `firebase login`.
+
+---
+
+## Step 7 — Report
 
 Al finalizar, reportar:
 
@@ -185,6 +206,7 @@ Al finalizar, reportar:
 Android AAB:     syncro-flutter/build/app/outputs/bundle/productionRelease/app-production-release.aab
 Android Mapping: syncro-flutter/build/app/outputs/mapping/productionRelease/mapping.txt
 iOS IPA:         syncro-flutter/build/ios/export/syncro.ipa
+Dart Symbols:    syncro-flutter/build/symbols/ (subidos a Firebase Crashlytics)
 
 Próximos pasos:
 - Android: subir el .aab Y el mapping.txt en Play Console → Internal Testing
