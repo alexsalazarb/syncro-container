@@ -178,20 +178,22 @@ Reportar ruta exacta al usuario.
 
 ## Step 6 — Upload Dart Symbols to Firebase Crashlytics
 
-Los símbolos Dart generados por `--split-debug-info` deben subirse a Firebase para que los crashes de producción muestren stack traces legibles.
+Los símbolos Dart de Android deben subirse manualmente. Los de iOS los sube automáticamente el build phase de Xcode durante `xcodebuild archive` — no requieren acción manual.
+
+`build/symbols` contiene símbolos de ambas plataformas mezclados. El CLI de Firebase solo puede procesar los Android (ELF). Separar primero:
 
 ```bash
-# Android
+# Separar símbolos Android
+mkdir -p build/symbols-android
+cp build/symbols/app.android-*.symbols build/symbols-android/
+
+# Subir solo Android
 firebase crashlytics:symbols:upload \
   --app=1:920223298498:android:3352304fd0baa59e5b5c5b \
-  build/symbols
-
-# iOS
-firebase crashlytics:symbols:upload \
-  --app=1:920223298498:ios:a0d84c75923c83b35b5c5b \
-  build/symbols
+  build/symbols-android
 ```
 
+> iOS no requiere upload manual — el Xcode build phase `FlutterFire: "flutterfire upload-crashlytics-symbols"` lo ejecuta automáticamente durante el archive.
 > Si `firebase` CLI no está disponible: `npm install -g firebase-tools` y luego `firebase login`.
 
 ---
