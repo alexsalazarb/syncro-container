@@ -47,4 +47,16 @@ This document records patterns of errors that agents have made, to prevent repet
 
 ---
 
-**Last Updated**: 2026-06-04
+## 2026-06-24 - convention
+
+**Mistake:** Created `feature/SE-12850` branching from `main` in `syncro-flutter`. `main` only has 3 initial commits — it's not the development base.
+
+**Correction:** `syncro-flutter` uses `develop` as the base branch for all feature work. The correct flow: `git switch develop && git pull && git switch -c feature/SE-XXXXX`.
+
+**Prevention:** Before creating any feature branch in `syncro-flutter`, verify the current branch state with `git log --oneline -3 main` and `git log --oneline -3 develop`. If `main` has no Flutter source code, it is NOT the base branch — use `develop`.
+
+**Files involved:** `syncro-flutter` — any new feature branch creation
+
+---
+
+**Last Updated**: 2026-06-24
