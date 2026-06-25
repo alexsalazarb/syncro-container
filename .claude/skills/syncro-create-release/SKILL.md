@@ -8,7 +8,7 @@ description: >
 license: Apache-2.0
 metadata:
   author: gentleman-programming
-  version: "1.4"
+  version: "1.5"
 ---
 
 ## When to Use
@@ -44,11 +44,23 @@ If fails → abort with:
 
 ---
 
-## Step 1 — Profile Validation (Android + iOS)
+## Step 1 — Clean + Dep Refresh
+
+Garantiza que no haya artefactos viejos en caché que puedan contaminar el build. Sin este paso, el compilador puede reusar `.dill` files de builds anteriores y producir un APK/AAB con la versión correcta pero con cambios faltantes.
+
+Desde `syncro-flutter/`:
+```bash
+fvm flutter clean
+fvm flutter pub get
+```
+
+---
+
+## Step 2 — Profile Validation (Android + iOS)
 
 Antes de generar cualquier artefacto de producción, validar que el flavor `production` arranca correctamente en ambas plataformas en modo `profile`.
 
-### 1a — Listar dispositivos disponibles
+### 2a — Listar dispositivos disponibles
 
 Desde `syncro-flutter/`:
 ```bash
@@ -59,7 +71,7 @@ Mostrar la lista al usuario e identificar:
 - El dispositivo/emulador Android a usar (ID de la columna `device id`)
 - El simulador/dispositivo iOS a usar (ID de la columna `device id`)
 
-### 1b — Validación Android
+### 2b — Validación Android
 
 ```bash
 fvm flutter run --flavor production --profile -d <android-device-id>
@@ -69,7 +81,7 @@ Esperar a que la app arranque. Pedir al usuario que la recorra brevemente y pres
 
 **NO continuar hasta que el usuario confirme que Android está OK.**
 
-### 1c — Validación iOS
+### 2c — Validación iOS
 
 ```bash
 fvm flutter run --flavor production --profile -d <ios-device-id>
@@ -77,7 +89,7 @@ fvm flutter run --flavor production --profile -d <ios-device-id>
 
 Esperar a que la app arranque. Pedir al usuario que la recorra brevemente y presione `q` cuando confirme que funciona.
 
-**NO continuar al Step 2 hasta que el usuario confirme que iOS está OK.**
+**NO continuar al Step 3 hasta que el usuario confirme que iOS está OK.**
 
 > Si alguna plataforma falla → abortar. No tiene sentido generar artefactos de release de un build que no arranca.
 
@@ -209,7 +221,8 @@ Próximos pasos:
 
 ## Notes
 
-- **El Step 1 (profile validation) es un gate obligatorio** — si alguna plataforma no arranca en profile/production, no se generan artefactos. Profile mode activa AOT sin ofuscación, lo que facilita detectar crashes antes de commitear al build de release.
+- **El Step 1 (flutter clean) es obligatorio** — sin él, el compilador puede reusar `.dill` files de builds anteriores y producir un artifact con la versión correcta pero con cambios faltantes.
+- **El Step 2 (profile validation) es un gate obligatorio** — si alguna plataforma no arranca en profile/production, no se generan artefactos. Profile mode activa AOT sin ofuscación, lo que facilita detectar crashes antes de commitear al build de release.
 - El signing de Android usa `syncro-mobile-key.keystore` — es el upload key registrado en Play Console. Requiere `android/key.properties` y `android/app/syncro-mobile-key.keystore` presentes en la máquina (gitignoreados). Backup en `syncro-temp/android/`.
 - El signing de iOS usa `Automatic` — Xcode gestiona los provisioning profiles.
 - NO modificar `build.gradle` ni hacer switch de branches — ese flujo fue eliminado.
