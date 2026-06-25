@@ -2,13 +2,13 @@
 name: syncro-create-release
 description: >
   Builds a production release for both iOS and Android.
-  Includes mandatory clean + smoke test on Android emulator before generating artifacts.
+  Validates the production flavor in profile mode on both Android and iOS before generating artifacts.
   Android: generates a signed AAB via Gradle. iOS: archives via xcodebuild + exports for App Store.
   Trigger: /syncro-create-release or "crear release", "build produccion", "build release".
 license: Apache-2.0
 metadata:
   author: gentleman-programming
-  version: "1.1"
+  version: "1.4"
 ---
 
 ## When to Use
@@ -44,68 +44,46 @@ If fails → abort with:
 
 ---
 
-## Step 0 — Clean Build Environment (MANDATORY)
+## Step 1 — Profile Validation (Android + iOS)
 
-> **Por qué es obligatorio**: Flutter compila Dart de forma incremental. Si el build cache quedó de una versión anterior o un branch diferente, `flutter build` puede reusar output viejo aunque el código en disco haya cambiado. Esto causó que el AAB de 1.7.0+438 no incluyera el fix de SE-12791 a pesar de estar en el código fuente.
+Antes de generar cualquier artefacto de producción, validar que el flavor `production` arranca correctamente en ambas plataformas en modo `profile`.
+
+### 1a — Listar dispositivos disponibles
 
 Desde `syncro-flutter/`:
 ```bash
-fvm flutter clean
-fvm flutter pub get
-```
-
----
-
-## Step 1 — Smoke Test en Android Emulator (MANDATORY — antes de generar artifacts)
-
-> **Por qué es obligatorio**: El smoke test en release mode detecta problemas que solo aparecen en AOT compilation (release) y nunca en debug mode. Corre ANTES de generar el AAB para no subir un build roto a Play Store.
-
-### 1a. Verificar emulador disponible
-
-```bash
-# Ver emuladores disponibles
-fvm flutter emulators
-
-# Ver dispositivos/emuladores corriendo
 fvm flutter devices
 ```
 
-Si no hay ningún emulador corriendo, lanzar uno:
-```bash
-fvm flutter emulators --launch <emulator_id>
-# Esperar ~30s a que bootee, luego verificar con `fvm flutter devices`
-```
+Mostrar la lista al usuario e identificar:
+- El dispositivo/emulador Android a usar (ID de la columna `device id`)
+- El simulador/dispositivo iOS a usar (ID de la columna `device id`)
 
-### 1b. Correr en release mode sobre el emulador
+### 1b — Validación Android
 
 ```bash
-# Reemplazar <device_id> con el id del emulador Android de `flutter devices`
-fvm flutter run --flavor production --release -d <device_id>
+fvm flutter run --flavor production --profile -d <android-device-id>
 ```
 
-> La app corre en modo release (AOT compilation) — idéntico a lo que se sube a Play Store.
+Esperar a que la app arranque. Pedir al usuario que la recorra brevemente y presione `q` cuando confirme que funciona.
 
-### 1c. Verificación manual — STOP
+**NO continuar hasta que el usuario confirme que Android está OK.**
 
-**DETENER aquí y pedirle al usuario que verifique en el emulador:**
+### 1c — Validación iOS
 
-```
-⏸️  Smoke test en progreso. Verificá en el emulador Android:
-
-1. ✅ La app arranca correctamente
-2. ✅ Create Ticket → dejar campos vacíos → Save → aparecen mensajes de error (no solo borde rojo)
-3. ✅ Create Appointment → verificar que funciona
-4. ✅ Cualquier flow afectado por los cambios de este release
-
-¿Todo OK? Confirmá para continuar con la generación de artifacts.
-Si algo falla, terminar el proceso con Ctrl+C y corregir antes de continuar.
+```bash
+fvm flutter run --flavor production --profile -d <ios-device-id>
 ```
 
-**NO continuar al Step 2 hasta que el usuario confirme.**
+Esperar a que la app arranque. Pedir al usuario que la recorra brevemente y presione `q` cuando confirme que funciona.
+
+**NO continuar al Step 2 hasta que el usuario confirme que iOS está OK.**
+
+> Si alguna plataforma falla → abortar. No tiene sentido generar artefactos de release de un build que no arranca.
 
 ---
 
-## Step 2 — Flutter Build (required before platform-specific steps)
+## Step 3 — Flutter Build (required before platform-specific steps)
 
 Desde `syncro-flutter/`:
 ```bash
@@ -118,7 +96,7 @@ fvm flutter build ios --flavor production --release --no-codesign --obfuscate --
 
 ---
 
-## Step 3 — Android Bundle
+## Step 4 — Android Bundle
 
 Desde `syncro-flutter/android/`:
 ```bash
@@ -133,7 +111,7 @@ Reportar ambas rutas al usuario.
 
 ---
 
-## Step 4 — iOS Archive
+## Step 5 — iOS Archive
 
 Desde `syncro-flutter/`:
 
@@ -160,7 +138,7 @@ xcodebuild archive \
 
 ---
 
-## Step 5 — iOS Export (App Store)
+## Step 6 — iOS Export (App Store)
 
 ```bash
 xcodebuild -exportArchive \
@@ -176,7 +154,7 @@ Reportar ruta exacta al usuario.
 
 ---
 
-## Step 6 — Upload Dart Symbols to Firebase Crashlytics
+## Step 7 — Upload Dart Symbols to Firebase Crashlytics
 
 Los símbolos Dart de Android deben subirse manualmente. Los de iOS los sube automáticamente el build phase de Xcode durante `xcodebuild archive` — no requieren acción manual.
 
@@ -198,7 +176,7 @@ firebase crashlytics:symbols:upload \
 
 ---
 
-## Step 7 — Report
+## Step 8 — Report
 
 Al finalizar, reportar:
 
@@ -231,8 +209,7 @@ Próximos pasos:
 
 ## Notes
 
-- **`flutter clean` es OBLIGATORIO** — previene que el build cache reutilice output compilado de una versión anterior. Sin este paso, el AAB puede contener código viejo aunque el fuente esté actualizado (ver SE-12791).
-- **El smoke test corre en release mode (AOT)** — no debug. Esto es crítico porque algunos bugs solo aparecen en compilación AOT y no son detectables con `flutter run` sin `--release`.
+- **El Step 1 (profile validation) es un gate obligatorio** — si alguna plataforma no arranca en profile/production, no se generan artefactos. Profile mode activa AOT sin ofuscación, lo que facilita detectar crashes antes de commitear al build de release.
 - El signing de Android usa `syncro-mobile-key.keystore` — es el upload key registrado en Play Console. Requiere `android/key.properties` y `android/app/syncro-mobile-key.keystore` presentes en la máquina (gitignoreados). Backup en `syncro-temp/android/`.
 - El signing de iOS usa `Automatic` — Xcode gestiona los provisioning profiles.
 - NO modificar `build.gradle` ni hacer switch de branches — ese flujo fue eliminado.
