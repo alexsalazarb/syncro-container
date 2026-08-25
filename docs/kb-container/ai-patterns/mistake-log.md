@@ -59,4 +59,16 @@ This document records patterns of errors that agents have made, to prevent repet
 
 ---
 
-**Last Updated**: 2026-06-24
+## 2026-08-25 - testing
+
+**Mistake:** Before running Patrol E2E tests, checked `which patrol` / `dart pub global run patrol_cli --version` and reported "patrol not found" as a blocker, without first checking the project KB for how tests are actually run.
+
+**Correction:** This project's Patrol suite uses `patrol_finders` only (widget-tree automation, no native automation bridge) — `patrol_cli` is never invoked and never needs to be installed. Tests run via plain `fvm flutter test integration_test/patrol/features/<file>.dart --flavor qa -d <device> --dart-define=PATROL=true`, exactly as documented in `docs/kb-projects/syncro-flutter/technical/testing/patrol-integration-tests.md`.
+
+**Prevention:** Before probing the shell for a CLI tool needed to run a stack's test suite, apply the KB-First Rule — check `docs/kb-projects/{project}/README.md` for a "how to run tests" doc before assuming tooling is missing.
+
+**Files involved:** `docs/kb-projects/syncro-flutter/technical/testing/patrol-integration-tests.md`
+
+---
+
+**Last Updated**: 2026-08-25
