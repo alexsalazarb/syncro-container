@@ -6,6 +6,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
+| [1.7.1-crashlytics](1.7.1-crashlytics/overview.md) | Fix 8 open Crashlytics issues (7 iOS, 1 Android) from the 1.7.1 release window; task-01 is a confirmed regression already reproduced in 1.7.1 | syncro-flutter | 0/6 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
