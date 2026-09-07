@@ -1,11 +1,11 @@
 # Task: iOS — guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown`
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 2
 **Task ID**: task-03
 **Task Path**: `phase-2/task-03-notification-permission-crash`
 **Depends On**: None
-**JIRA**: N/A — create one if desired
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 **Crashlytics Issues**:
 - `307055b68251cef77c20c6ca27b33816` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/307055b68251cef77c20c6ca27b33816)) — firstSeen/lastSeen 1.7.0
 - `4d17e7a500b300c48a84f037b2ded77a` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/4d17e7a500b300c48a84f037b2ded77a)) — SIGNAL_FRESH, first appeared 2026-08-21, firstSeen/lastSeen 1.6.0
@@ -39,7 +39,7 @@ Every other `try`/`catch` in this same file (`_subscribeToAuthStateChanges`, `lo
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-2/task-03-notification-permission-crash`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash`
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 
 ## File Ownership

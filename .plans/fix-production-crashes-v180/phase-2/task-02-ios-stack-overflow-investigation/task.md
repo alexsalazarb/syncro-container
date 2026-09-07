@@ -1,11 +1,11 @@
 # Task: iOS — investigate + fix repetitive FlutterError Stack Overflow
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 2
 **Task ID**: task-02
 **Task Path**: `phase-2/task-02-ios-stack-overflow-investigation`
 **Depends On**: None
-**JIRA**: N/A — create one once root cause is confirmed
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 **Crashlytics Issue**: `0bae269c5d2442a15a183ad4642da5c7` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/0bae269c5d2442a15a183ad4642da5c7))
 
 ## Objective
@@ -21,7 +21,7 @@ A Stack Overflow surfaced as a `FlutterError` (rather than a native `SIGSEGV`) i
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-2/task-02-ios-stack-overflow-investigation`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-2/task-02-ios-stack-overflow-investigation`
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 
 ## Implementation Steps

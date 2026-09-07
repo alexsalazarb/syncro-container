@@ -3,7 +3,9 @@
 **Date**: 2026-09-07
 **Trigger**: Full Crashlytics audit (iOS + Android, 90-day window) requested before planning any fix.
 
-**Correction (2026-09-07, same day)**: This investigation originally covered 3 issues including a WebView auth-challenge crash (see retracted Task 2 section below). While preparing to push, `git fetch` revealed `origin/main` has a commit (`3f1afaf`, 2026-08-28) not present on this branch (`POCAuth`): `.plans/1.7.1-crashlytics/`, a 6-task plan covering 8 Crashlytics issues — including the exact same issue ID this investigation targeted for "Task 2", with a different and better-evidenced root cause. See the retracted section for full detail on what was wrong and why. Net effect: this plan now covers only Task 1 (`Ticket.fromJson`) and the housekeeping task (renumbered task-02).
+**Correction (2026-09-07, same day)**: This investigation originally covered 3 issues including a WebView auth-challenge crash (see retracted section below). While preparing to push, `git fetch` revealed `origin/main` has a commit (`3f1afaf`, 2026-08-28) not present on this branch (`POCAuth`): `.plans/1.7.1-crashlytics/`, a 6-task plan covering 8 Crashlytics issues — including the exact same issue ID this investigation targeted, with a different and better-evidenced root cause. See the retracted section for full detail on what was wrong and why.
+
+**Merge (2026-09-07, later same day)**: The user asked whether the two plans could be combined. They were merged into this one (`fix-production-crashes-v180`) — see the Merge Log in [overview.md](overview.md). This investigation.md only covers what was originally planned here: `Ticket.fromJson` (now `task-07`) and Crashlytics housekeeping (now `task-08`). The 6 absorbed tasks (`task-01` through `task-06`) have their own root-cause detail written directly into each `task.md`'s Context section from the original `1.7.1-crashlytics` planning session — see overview.md's Root Cause Summary table for a one-line-per-task index into those.
 
 ## Method
 
@@ -17,7 +19,7 @@
 
 **Takeaway applied to this investigation**: every root-cause claim below was verified against a real Crashlytics stack trace and the current state of the file, not just against a plan's stated status.
 
-## Task 1 — `Ticket.fromJson` null cast
+## Task 07 — `Ticket.fromJson` null cast
 
 ### Origin Analysis
 `git blame` on `lib/features/ticket/ticket_home/domain/ticket.dart:52-59` shows the current unguarded casts were introduced by Alex Salazar on 2025-11-12 (commit `4f8ba837a`) — a refactor that added several other fields with proper `as Type?` null-safety (`status`, `priority`, `customer_id`, `customer_business_then_name`) but left `id` (line 53) and `number` (line 54) as hard `as int` casts.
@@ -48,7 +50,7 @@ Real stack trace pinpoints the exact line and field; the fix (null-safe cast + r
 
 ---
 
-## Task 2 — WebView auth-challenge dispose race (RETRACTED — see below)
+## WebView auth-challenge dispose race (RETRACTED hypothesis — see below)
 
 > **This task was removed from the plan.** Kept here, struck through in spirit, for the record — it's a real example of an investigation that reached HIGH confidence on an incorrect root cause, and *why* it was wrong is worth remembering.
 
@@ -63,11 +65,11 @@ That grep only finds files that **construct** a `NavigationDelegate` — it cann
 When a `NavigationDelegate` (or any config object) is the suspected missing piece, grep for the *thing that should have the config* (every `WebViewController(...)` call site, every constructor pattern) — not just for the config keyword itself. A search for "X" can never find "the place X is absent."
 
 ### Disposition
-Issue `b0914a639eb5e4b996dec3e8f1147a4b` is owned by `.plans/1.7.1-crashlytics/phase-2/task-05-webview-attachment-auth-challenge/` (not-started, on `main`). Execute that plan for this issue — do not re-plan it here.
+Issue `b0914a639eb5e4b996dec3e8f1147a4b` is owned by `phase-2/task-05-webview-attachment-auth-challenge/` in this same plan (merged in — see overview.md Merge Log). Its `task.md` already has the correct root cause; nothing more to add here.
 
 ---
 
-## Task 2 — Crashlytics housekeeping
+## Task 08 — Crashlytics housekeeping
 
 Straightforward: `crashlytics_get_report` shows `lastSeenVersion` for these 3 issues predates the current release (1.8.0) by 2-4 versions, with the underlying code fix independently verified in git history (`SE-12498`, `SE-12500`) or explicitly out of scope for the app (backend 504s). No code investigation needed — just close them via `crashlytics_update_issue` so future Crashlytics triage isn't misled by stale OPEN issues.
 

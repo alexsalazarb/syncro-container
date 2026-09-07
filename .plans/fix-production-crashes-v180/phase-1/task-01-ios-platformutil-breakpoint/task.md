@@ -1,11 +1,11 @@
 # Task: iOS — fix `PlatformUtil.init(plugin:)` EXC_BREAKPOINT regression
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 1
 **Task ID**: task-01
 **Task Path**: `phase-1/task-01-ios-platformutil-breakpoint`
 **Depends On**: None
-**JIRA**: N/A — create one if the investigation confirms a concrete fix path
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 **Crashlytics Issue**: `ddf4c6780aa1a1d4452806dd8f5e381a` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/ddf4c6780aa1a1d4452806dd8f5e381a))
 
 ## Objective
@@ -25,7 +25,7 @@ This task starts with identifying the plugin before attempting any fix:
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-1/task-01-ios-platformutil-breakpoint`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-1/task-01-ios-platformutil-breakpoint`
 - [ ] Confirm the sample event id and pull the full stack trace (see Context step 3) before touching any code
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 

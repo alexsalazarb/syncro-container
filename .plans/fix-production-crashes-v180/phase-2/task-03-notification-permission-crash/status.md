@@ -1,7 +1,7 @@
 # Status: iOS — guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown`
 
 **Current Status**: not-started
-**Last Updated**: 2026-08-28
+**Last Updated**: 2026-09-07
 **Agent**: —
 **Branch**: —
 **PR**: N/A (PR_INTEGRATION=false)
@@ -13,6 +13,7 @@
 | Timestamp | Status | Agent | Notes |
 |-----------|--------|-------|-------|
 | 2026-08-28 | not-started | claude | Task created as part of 1.7.1-crashlytics plan |
+| 2026-09-07 | not-started | claude | Merged into fix-production-crashes-v180 (absorbed from the standalone 1.7.1-crashlytics plan, JIRA SE-13805 assigned) |
 
 ## Blockers
 

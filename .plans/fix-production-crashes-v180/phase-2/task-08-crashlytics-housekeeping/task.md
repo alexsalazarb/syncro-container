@@ -1,10 +1,11 @@
 # Task: Close 3 stale Crashlytics issues already fixed in code
 
 **Plan**: fix-production-crashes-v180
-**Task ID**: task-02
-**Task Path**: task-02-crashlytics-housekeeping
+**Phase**: 2
+**Task ID**: task-08
+**Task Path**: `phase-2/task-08-crashlytics-housekeeping`
 **Depends On**: None
-**Ticket**: N/A
+**Ticket**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 
 ## Objective
 
@@ -27,7 +28,7 @@ None — this task only calls the Firebase MCP `crashlytics_update_issue` tool, 
 ## Implementation Steps
 
 ### Step 1: Re-verify each issue is still stale before closing
-Re-run `crashlytics_get_report` (topIssues, last 90 days) for the Android app (`1:920223298498:android:3352304fd0baa59e5b5c5b`) and confirm these 3 issues still show no events since the dates recorded below. If any has NEW events since 2026-09-07, stop and treat it as a regression — do not close, escalate instead (it likely needs its own investigation, same as task-02 was a regression of SE-12758).
+Re-run `crashlytics_get_report` (topIssues, last 90 days) for the Android app (`1:920223298498:android:3352304fd0baa59e5b5c5b`) and confirm these 3 issues still show no events since the dates recorded below. If any has NEW events since 2026-09-07, stop and treat it as a regression — do not close, escalate instead (it likely needs its own investigation, same as task-05 in this plan is a regression of SE-12758).
 
 | Issue ID | Title | Last confirmed seen | Fixed by |
 |----------|-------|---------------------|----------|

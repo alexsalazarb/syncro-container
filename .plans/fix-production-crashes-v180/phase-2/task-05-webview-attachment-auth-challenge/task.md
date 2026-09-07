@@ -1,11 +1,11 @@
 # Task: add `onHttpAuthRequest` to `AttachmentPreviewView`'s WebView (SE-12758 pattern, new call site)
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 2
 **Task ID**: task-05
 **Task Path**: `phase-2/task-05-webview-attachment-auth-challenge`
 **Depends On**: None
-**JIRA**: N/A — consider linking to SE-12758 as a "relates to" for traceability
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805) — consider linking to SE-12758 as a "relates to" for traceability
 **Crashlytics Issue**: `b0914a639eb5e4b996dec3e8f1147a4b` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/b0914a639eb5e4b996dec3e8f1147a4b)) — FATAL, firstSeen/lastSeen 1.7.0
 
 ## Objective
@@ -25,7 +25,7 @@ This is a strong, code-confirmed match: `AttachmentPreviewView` is the un-patche
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-2/task-05-webview-attachment-auth-challenge`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-2/task-05-webview-attachment-auth-challenge`
 - [ ] Read `.plans/completed/SE-12758-webview-auth-challenge/overview.md` and `task-01-fix-auth-challenge-handler/task.md` for the exact fix pattern to mirror
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 

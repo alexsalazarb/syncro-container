@@ -1,10 +1,11 @@
 # Task: Fix `Ticket.fromJson` null cast on `id`/`number`
 
 **Plan**: fix-production-crashes-v180
-**Task ID**: task-01
-**Task Path**: task-01-ticket-fromjson-nullsafety
+**Phase**: 2
+**Task ID**: task-07
+**Task Path**: `phase-2/task-07-ticket-fromjson-nullsafety`
 **Depends On**: None
-**Ticket**: N/A
+**Ticket**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 
 ## Objective
 
@@ -16,7 +17,7 @@ See [investigation.md](../investigation.md) Task 1 for full detail. Root cause: 
 
 ## Before You Start
 
-- [ ] Switch to base branch and pull latest: `git switch main && git pull --rebase origin main`
+- [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase origin develop`
 - [ ] Verify every prerequisite task in `Depends On` is complete (None — no dependencies)
 - [ ] Check this task's `status.md` — if already `in-progress` or `complete`, stop and investigate
 - [ ] Read [investigation.md](../investigation.md) for full root cause context
@@ -30,7 +31,7 @@ See [investigation.md](../investigation.md) Task 1 for full detail. Root cause: 
 | `test/features/ticket/ticket_home/domain/ticket_test.dart` | modify | Add regression test cases |
 
 ### Do NOT Modify
-- `lib/features/ticket/ticket_home/infrastructure/get_tickets_deserializer.dart` — owned by task-03/out of scope; only referenced for context
+- `lib/features/ticket/ticket_home/infrastructure/get_tickets_deserializer.dart` — not owned by any task in this plan; referenced for context only, do not modify
 
 ## Implementation Steps
 
@@ -64,5 +65,5 @@ Extend `test/features/ticket/ticket_home/domain/ticket_test.dart` with cases tha
 - [ ] `Ticket.fromJson` no longer throws when `id` or `number` is null
 - [ ] Regression tests fail before the fix and pass after
 - [ ] Documentation / KB updates completed or explicitly marked not needed
-- [ ] Changes committed to `plan/fix-production-crashes-v180/task-01-ticket-fromjson-nullsafety` branch
+- [ ] Changes committed to `plan/fix-production-crashes-v180/phase-2/task-07-ticket-fromjson-nullsafety` branch
 - [ ] Status updated in `status.md`

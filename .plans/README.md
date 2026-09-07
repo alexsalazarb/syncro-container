@@ -6,7 +6,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [1.7.1-crashlytics](1.7.1-crashlytics/overview.md) | Fix 8 open Crashlytics issues (7 iOS, 1 Android) from the 1.7.1 release window; task-01 is a confirmed regression already reproduced in 1.7.1 | syncro-flutter | 0/6 | not-started | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
@@ -14,7 +13,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [SE-13506-customer-assets-button](SE-13506-customer-assets-button/overview.md) | Add "Assets" button to Customer Detail (no count) navigating to a pre-filtered Asset Index; bundled fix for a duplicate `/customers/{id}` fetch | syncro-flutter | 2/2 | adapted — manual staging verification pending | TBD |
 | [SE-13514-customer-tickets-button](SE-13514-customer-tickets-button/overview.md) | Add "Tickets" button to Customer Detail navigating to the Ticket list pre-filtered by Organization + Status is_not Resolved | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
 | [SE-13511-asset-search-back-navigation](SE-13511-asset-search-back-navigation/overview.md) | Push Asset Detail on top of the open Asset search screen instead of closing it first, so Back preserves the query/results | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
-| [fix-production-crashes-v180](fix-production-crashes-v180/overview.md) | Fix `Ticket.fromJson` null cast + Crashlytics housekeeping (see overview Correction Log — WebView task moved to `1.7.1-crashlytics`) | syncro-flutter | 0/2 | not-started | TBD |
+| [fix-production-crashes-v180](fix-production-crashes-v180/overview.md) | Fix 9 open Crashlytics issues across 8 root causes (iOS + Android) — merged with the former `1.7.1-crashlytics` plan; task-01 is a confirmed FATAL regression already reproduced in production | syncro-flutter | 0/8 | not-started | TBD |
 
 ## Backlog
 

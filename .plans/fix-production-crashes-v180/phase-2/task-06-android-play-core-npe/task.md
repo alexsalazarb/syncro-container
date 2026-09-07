@@ -1,11 +1,11 @@
 # Task: Android — fix `PlayCoreDialogWrapperActivity` NPE on cold start
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 2
 **Task ID**: task-06
 **Task Path**: `phase-2/task-06-android-play-core-npe`
 **Depends On**: None
-**JIRA**: N/A — create one if desired
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 **Crashlytics Issue**: `5a34e9320c9c52a9d8dc5d1e21b24d49` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:android:3352304fd0baa59e5b5c5b/issues/5a34e9320c9c52a9d8dc5d1e21b24d49)) — FATAL, SIGNAL_EARLY (100% of crashes happen in the first second of a session), firstSeen 1.5.0, lastSeen 1.7.1
 
 ## Objective
@@ -23,7 +23,7 @@ Also relevant: `android/app/build.gradle` line ~80 currently reads `targetSdkVer
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-2/task-06-android-play-core-npe`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-2/task-06-android-play-core-npe`
 - [ ] **Check `.plans/android-r8-minification/overview.md` and its task-03/task-04 status** before touching `proguard-rules.pro` — that plan is in-progress (3/4, task-03 blocked on manual Play Store validation) and shares this file. Coordinate, don't clobber.
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 

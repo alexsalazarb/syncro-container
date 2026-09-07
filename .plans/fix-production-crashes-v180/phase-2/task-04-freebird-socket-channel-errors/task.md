@@ -1,11 +1,11 @@
 # Task: guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors
 
-**Plan**: 1.7.1 Crashlytics Fixes (1.7.1-crashlytics)
+**Plan**: Fix Production Crashes — v1.8.0 (fix-production-crashes-v180)
 **Phase**: 2
 **Task ID**: task-04
 **Task Path**: `phase-2/task-04-freebird-socket-channel-errors`
 **Depends On**: None
-**JIRA**: N/A — create one if desired
+**JIRA**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
 **Crashlytics Issues**:
 - `aa0323e5c16c3e7546f84452e28eb8a3` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/aa0323e5c16c3e7546f84452e28eb8a3)) — `package:phoenix_socket/src/push.dart - Push.future`, `Instance of 'ChannelTimeoutException'`, NON_FATAL
 - `be06f8e7c72127f022185820c3d9ad4b` ([console](https://console.firebase.google.com/v1/appid/project/syncromsp-ios/crashlytics/app/1:920223298498:ios:a0d84c75923c83b35b5c5b/issues/be06f8e7c72127f022185820c3d9ad4b)) — `package:phoenix_socket/src/channel.dart - PhoenixChannel.join`, `Failed assertion: line 223 pos 12: '!_joinedOnce': is not true.`, NON_FATAL, lastSeen **1.7.1**
@@ -35,7 +35,7 @@ No `.timeout(...)`, no `.catchError(...)` on the join future, and no guard again
 ## Before You Start
 
 - [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase bla develop`
-- [ ] Create the task branch: `git switch -c plan/1.7.1-crashlytics/phase-2/task-04-freebird-socket-channel-errors`
+- [ ] Create the task branch: `git switch -c plan/fix-production-crashes-v180/phase-2/task-04-freebird-socket-channel-errors`
 - [ ] Mark this task `in-progress` in `status.md` before proceeding
 
 ## File Ownership
