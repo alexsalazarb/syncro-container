@@ -4,7 +4,7 @@
 **Last Updated**: 2026-09-07
 **Agent**: claude
 **Branch**: `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash` (syncro-flutter submodule, based on `develop`)
-**PR**: N/A (PR_INTEGRATION=false) — not yet pushed, pending user confirmation
+**PR**: N/A (PR_INTEGRATION=false) — branch pushed to `bla`, PR pending manual creation (see Artifacts)
 
 <!-- Status values: not-started | in-progress | complete | blocked | adapted -->
 
@@ -44,6 +44,8 @@ Following this project's existing Firebase-mocking convention (`test/features/ti
 - `lib/core/services/push_notification/notifications_manager.dart` — fix
 - `test/core/services/push_notification/notifications_manager_test.dart` — new regression test
 - `pubspec.yaml`/`pubspec.lock` — added `firebase_messaging_platform_interface` dev dependency
+- Branch pushed to `bla` (per user request — not `origin`): `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash`
+- PR creation link (no Bitbucket API token available to open it automatically): https://bitbucket.org/ballastlane/syncro-flutter/pull-requests/new?source=plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash&t=1
 
 ## Adaptations
 
