@@ -3,8 +3,8 @@
 **Current Status**: complete
 **Last Updated**: 2026-09-07
 **Agent**: claude
-**Branch**: `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash` (syncro-flutter submodule, based on `develop`)
-**PR**: N/A (PR_INTEGRATION=false) — branch pushed to `bla`, PR pending manual creation (see Artifacts)
+**Branch**: `plan/fix-production-crashes-v180` (syncro-flutter submodule, based on `develop`) — moved here 2026-09-07 when the plan switched from per-task to a single unified branch; original per-task branch/PR link below are superseded
+**PR**: N/A (PR_INTEGRATION=false) — see plan overview's Branch Convention for the current PR link (accumulates all tasks)
 
 <!-- Status values: not-started | in-progress | complete | blocked | adapted -->
 
@@ -44,8 +44,7 @@ Following this project's existing Firebase-mocking convention (`test/features/ti
 - `lib/core/services/push_notification/notifications_manager.dart` — fix
 - `test/core/services/push_notification/notifications_manager_test.dart` — new regression test
 - `pubspec.yaml`/`pubspec.lock` — added `firebase_messaging_platform_interface` dev dependency
-- Branch pushed to `bla` (per user request — not `origin`): `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash`
-- PR creation link (no Bitbucket API token available to open it automatically): https://bitbucket.org/ballastlane/syncro-flutter/pull-requests/new?source=plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash&t=1
+- **Superseded**: originally on its own branch, pushed to `bla`, with its own PR link — commit cherry-picked onto the unified `plan/fix-production-crashes-v180` branch (see overview.md Branch Convention) once the plan moved to single-branch delivery. The original branch still exists on `bla` but is redundant now.
 
 ## Adaptations
 

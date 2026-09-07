@@ -34,7 +34,7 @@ Full detail for tasks 01-06 lives in each task's own `task.md` Context section (
 | task-01 | `PlatformUtil.swift` EXC_BREAKPOINT | **Confirmed & escalated 2026-09-07**: `flutter_inappwebview_ios` 1.1.2 (transitive via `oauth_webauth`), force-unwrap of `plugin.registrar!` at `PlatformUtil.swift:15`. Matches unresolved upstream issue [#2368](https://github.com/pichillilorenzo/flutter_inappwebview/issues/2368) — no released fix exists. No code change applied per Kill Criteria; see task's `status.md` for full findings |
 | task-02 | Stack Overflow (FlutterError) | **BLOCKED 2026-09-07**: confirmed genuine infinite recursion (identical repeating offset cycle across both variants), but no Dart symbolication available to identify the function — ruled out `chat_websocket_service.dart` and the `ticket_attachment` screens as candidates. 0 events on 1.7.1/1.8.0 (dormant ~2.5 months). See task's `investigation.md` |
 | task-03 | `NotificationManager.requestPermissions` crash | **Fixed 2026-09-07**: wrapped `messaging.requestPermission(...)` in try/catch, returns `false` on failure. Regression test verified red-before/green-after. Branch: `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash`, pushed to `bla` (per user request), PR creation link in task's `status.md` |
-| task-04 | `FirebirdSocketService` phoenix_socket errors | Unguarded channel join/push (`_channel.join().future.then(...)`, no timeout/catchError) — unlike the already-hardened `chat_websocket_service.dart` |
+| task-04 | `FirebirdSocketService` phoenix_socket errors | **Fixed 2026-09-07**: added `_isChannelJoinInFlight` guard + 15s timeout + `canPush` push guard, mirroring `chat_websocket_service.dart`'s pattern. No executable test — same untestable-without-refactoring constraints as the sibling class (see task's `status.md`) |
 | task-05 | WebView auth-challenge (`AttachmentPreviewView`) | `WebViewController()` at line 44 has **no `NavigationDelegate` at all** — confirmed correct via `rg`, see Correction Log above for how this was verified against a wrong hypothesis |
 | task-06 | Android Play Core NPE | Cold-start NPE in `PlayCoreDialogWrapperActivity` — likely a transitive dependency of Flutter's deferred-components support, not a direct plugin; needs dependency-chain confirmation before fixing |
 | task-07 | `Ticket.fromJson` null cast | `ticket.dart:54` casts `json['number'] as int` (and `id` on line 53) with no null-safety — backend occasionally returns null, failing the whole tickets-list parse inside a `compute()` isolate. Same family as the 4 crashes already fixed in `SE-11997` |
@@ -93,16 +93,18 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | phase-2/task-02-ios-stack-overflow-investigation | iOS: investigate + fix repetitive FlutterError Stack Overflow | 2 | **blocked** (no symbolication; dormant since 1.7.0) | HIGH — top-volume open iOS issue (35 events/10 users), SIGNAL_REPETITIVE | — |
 | phase-2/task-07-ticket-fromjson-nullsafety | Fix `Ticket.fromJson` null cast on `id`/`number` | 2 | not-started | HIGH — same pattern as 4 prior confirmed fixes, low risk | — |
 | phase-2/task-03-notification-permission-crash | iOS: guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown` | 2 | **complete** (pushed to bla, PR pending) | MEDIUM — SIGNAL_FRESH on the most recent instance | — |
-| phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | not-started | MEDIUM | — |
+| phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | **complete** | MEDIUM | — |
 | phase-2/task-05-webview-attachment-auth-challenge | Add `onHttpAuthRequest` to `AttachmentPreviewView`'s WebView (SE-12758 pattern, new call site) | 2 | not-started | MEDIUM — FATAL but low volume (2 events/2 users) | — |
 | phase-2/task-06-android-play-core-npe | Android: fix `PlayCoreDialogWrapperActivity` NPE on cold start | 2 | not-started | LOW — low volume, likely third-party/transitive | — |
 | phase-2/task-08-crashlytics-housekeeping | Close 3 stale Crashlytics issues already fixed in code | 2 | not-started | LOW — administrative, no code change | — |
 
 ## Branch Convention
 
-Per-task branches: `plan/fix-production-crashes-v180/{phase}/{task-path}` (e.g. `plan/fix-production-crashes-v180/phase-1/task-01-ios-platformutil-breakpoint`), branched from `develop`.
+**Changed 2026-09-07** (mid-execution, after task-03/task-04): originally per-task branches; user asked to consolidate so the whole plan's history lives on one branch instead. Single branch for the whole plan: `plan/fix-production-crashes-v180`, branched from `develop`, one commit per task. task-03's commit (originally on its own branch, pushed to `bla`) was cherry-picked onto this branch; that original per-task branch was deleted locally (its content is preserved via the `bla` push and this cherry-pick). task-04 onward commit directly to this branch.
 Merge target: `develop`.
-No shared branch — all 8 tasks are independent and touch disjoint files.
+Pushed to `bla` (per user preference, not `origin`) — one PR against `develop` accumulates all task commits as they land, rather than one PR per task.
+
+**PR creation link** (no Bitbucket API token available to open it automatically): https://bitbucket.org/ballastlane/syncro-flutter/pull-requests/new?source=plan/fix-production-crashes-v180&t=1
 
 ## Key Files
 
