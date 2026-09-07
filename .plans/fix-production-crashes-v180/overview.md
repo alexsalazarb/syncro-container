@@ -32,7 +32,7 @@ Full detail for tasks 01-06 lives in each task's own `task.md` Context section (
 | Task | Issue | Root Cause (one-liner) |
 |------|-------|------------------------|
 | task-01 | `PlatformUtil.swift` EXC_BREAKPOINT | **Confirmed & escalated 2026-09-07**: `flutter_inappwebview_ios` 1.1.2 (transitive via `oauth_webauth`), force-unwrap of `plugin.registrar!` at `PlatformUtil.swift:15`. Matches unresolved upstream issue [#2368](https://github.com/pichillilorenzo/flutter_inappwebview/issues/2368) — no released fix exists. No code change applied per Kill Criteria; see task's `status.md` for full findings |
-| task-02 | Stack Overflow (FlutterError) | Unknown at planning time — no readable Dart symbols; task starts with mandatory stack-trace pull before any fix attempt |
+| task-02 | Stack Overflow (FlutterError) | **BLOCKED 2026-09-07**: confirmed genuine infinite recursion (identical repeating offset cycle across both variants), but no Dart symbolication available to identify the function — ruled out `chat_websocket_service.dart` and the `ticket_attachment` screens as candidates. 0 events on 1.7.1/1.8.0 (dormant ~2.5 months). See task's `investigation.md` |
 | task-03 | `NotificationManager.requestPermissions` crash | Uncaught `firebase_messaging/unknown` exception — no try/catch around `messaging.requestPermission(...)` |
 | task-04 | `FirebirdSocketService` phoenix_socket errors | Unguarded channel join/push (`_channel.join().future.then(...)`, no timeout/catchError) — unlike the already-hardened `chat_websocket_service.dart` |
 | task-05 | WebView auth-challenge (`AttachmentPreviewView`) | `WebViewController()` at line 44 has **no `NavigationDelegate` at all** — confirmed correct via `rg`, see Correction Log above for how this was verified against a wrong hypothesis |
@@ -90,7 +90,7 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | Task Path | Title | Phase | Status | Priority | Depends On |
 |-----------|-------|-------|--------|----------|------------|
 | phase-1/task-01-ios-platformutil-breakpoint | iOS: fix `PlatformUtil.init(plugin:)` EXC_BREAKPOINT regression | 1 | **complete (escalated)** | **HIGHEST** — confirmed regression, FATAL, reproduced in 1.7.1 field data | — |
-| phase-2/task-02-ios-stack-overflow-investigation | iOS: investigate + fix repetitive FlutterError Stack Overflow | 2 | not-started | HIGH — top-volume open iOS issue (35 events/10 users), SIGNAL_REPETITIVE | — |
+| phase-2/task-02-ios-stack-overflow-investigation | iOS: investigate + fix repetitive FlutterError Stack Overflow | 2 | **blocked** (no symbolication; dormant since 1.7.0) | HIGH — top-volume open iOS issue (35 events/10 users), SIGNAL_REPETITIVE | — |
 | phase-2/task-07-ticket-fromjson-nullsafety | Fix `Ticket.fromJson` null cast on `id`/`number` | 2 | not-started | HIGH — same pattern as 4 prior confirmed fixes, low risk | — |
 | phase-2/task-03-notification-permission-crash | iOS: guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown` | 2 | not-started | MEDIUM — SIGNAL_FRESH on the most recent instance | — |
 | phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | not-started | MEDIUM | — |
