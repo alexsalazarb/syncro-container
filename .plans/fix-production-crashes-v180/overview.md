@@ -1,6 +1,6 @@
 # Plan: Fix Production Crashes — v1.8.0
 
-**Status**: not-started
+**Status**: in-progress — 6/8 tasks resolved (1 fixed-and-escalated + 5 fixed with regression tests), 2 blocked (task-02: no symbolication available, dormant since 1.7.0; task-06: candidate fix withheld pending confirmation Pendo's in-app review isn't in active use)
 **Created**: 2026-09-07 (tasks 01-06 originally created 2026-08-28 as a separate plan, merged in — see Merge Log)
 **Last Updated**: 2026-09-07
 **Type**: Bug Fix (Type 3)
@@ -38,7 +38,7 @@ Full detail for tasks 01-06 lives in each task's own `task.md` Context section (
 | task-05 | WebView auth-challenge (`AttachmentPreviewView`) | **Fixed 2026-09-07**: added `onHttpAuthRequest` to a new `NavigationDelegate`, mirroring `login_web_view.dart`'s SE-12758 fix exactly. See Correction Log above for how the root cause was verified against a wrong hypothesis |
 | task-06 | Android Play Core NPE | **Investigated 2026-09-07**: confirmed source is Pendo SDK's Play In-App Review integration (`core-common:2.0.2`), not deferred-components. Already on the version upstream considers "fixed" (no newer version helps). Candidate fix (`tools:node="remove"` manifest override) identified but withheld — needs product confirmation Pendo's review prompt isn't in active use. See task's `status.md` |
 | task-07 | `Ticket.fromJson` null cast | **Fixed 2026-09-07**: sentinel `0` default + non-fatal Crashlytics report, matching `GetTicketsSettingsDeserializer`'s pattern. Call-site audit confirmed no destructive use of `ticket.id`/`ticket.number` |
-| task-08 | Crashlytics housekeeping | 3 issues already fixed in code (verified via git history), still shown OPEN — no code change, just close them |
+| task-08 | Crashlytics housekeeping | **Closed 2026-09-07**: all 3 issues confirmed still stale (0 events on recent versions), marked CLOSED with explanatory notes |
 
 ## Affected Systems
 
@@ -96,7 +96,7 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | **complete** | MEDIUM | — |
 | phase-2/task-05-webview-attachment-auth-challenge | Add `onHttpAuthRequest` to `AttachmentPreviewView`'s WebView (SE-12758 pattern, new call site) | 2 | **complete** | MEDIUM — FATAL but low volume (2 events/2 users) | — |
 | phase-2/task-06-android-play-core-npe | Android: fix `PlayCoreDialogWrapperActivity` NPE on cold start | 2 | **blocked** (fix identified, pending product confirmation) | LOW — low volume, likely third-party/transitive | — |
-| phase-2/task-08-crashlytics-housekeeping | Close 3 stale Crashlytics issues already fixed in code | 2 | not-started | LOW — administrative, no code change | — |
+| phase-2/task-08-crashlytics-housekeeping | Close 3 stale Crashlytics issues already fixed in code | 2 | **complete** | LOW — administrative, no code change | — |
 
 ## Branch Convention
 
