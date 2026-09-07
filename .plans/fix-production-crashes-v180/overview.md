@@ -36,7 +36,7 @@ Full detail for tasks 01-06 lives in each task's own `task.md` Context section (
 | task-03 | `NotificationManager.requestPermissions` crash | **Fixed 2026-09-07**: wrapped `messaging.requestPermission(...)` in try/catch, returns `false` on failure. Regression test verified red-before/green-after. Branch: `plan/fix-production-crashes-v180/phase-2/task-03-notification-permission-crash`, pushed to `bla` (per user request), PR creation link in task's `status.md` |
 | task-04 | `FirebirdSocketService` phoenix_socket errors | **Fixed 2026-09-07**: added `_isChannelJoinInFlight` guard + 15s timeout + `canPush` push guard, mirroring `chat_websocket_service.dart`'s pattern. No executable test — same untestable-without-refactoring constraints as the sibling class (see task's `status.md`) |
 | task-05 | WebView auth-challenge (`AttachmentPreviewView`) | **Fixed 2026-09-07**: added `onHttpAuthRequest` to a new `NavigationDelegate`, mirroring `login_web_view.dart`'s SE-12758 fix exactly. See Correction Log above for how the root cause was verified against a wrong hypothesis |
-| task-06 | Android Play Core NPE | Cold-start NPE in `PlayCoreDialogWrapperActivity` — likely a transitive dependency of Flutter's deferred-components support, not a direct plugin; needs dependency-chain confirmation before fixing |
+| task-06 | Android Play Core NPE | **Investigated 2026-09-07**: confirmed source is Pendo SDK's Play In-App Review integration (`core-common:2.0.2`), not deferred-components. Already on the version upstream considers "fixed" (no newer version helps). Candidate fix (`tools:node="remove"` manifest override) identified but withheld — needs product confirmation Pendo's review prompt isn't in active use. See task's `status.md` |
 | task-07 | `Ticket.fromJson` null cast | `ticket.dart:54` casts `json['number'] as int` (and `id` on line 53) with no null-safety — backend occasionally returns null, failing the whole tickets-list parse inside a `compute()` isolate. Same family as the 4 crashes already fixed in `SE-11997` |
 | task-08 | Crashlytics housekeeping | 3 issues already fixed in code (verified via git history), still shown OPEN — no code change, just close them |
 
@@ -95,7 +95,7 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | phase-2/task-03-notification-permission-crash | iOS: guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown` | 2 | **complete** (pushed to bla, PR pending) | MEDIUM — SIGNAL_FRESH on the most recent instance | — |
 | phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | **complete** | MEDIUM | — |
 | phase-2/task-05-webview-attachment-auth-challenge | Add `onHttpAuthRequest` to `AttachmentPreviewView`'s WebView (SE-12758 pattern, new call site) | 2 | **complete** | MEDIUM — FATAL but low volume (2 events/2 users) | — |
-| phase-2/task-06-android-play-core-npe | Android: fix `PlayCoreDialogWrapperActivity` NPE on cold start | 2 | not-started | LOW — low volume, likely third-party/transitive | — |
+| phase-2/task-06-android-play-core-npe | Android: fix `PlayCoreDialogWrapperActivity` NPE on cold start | 2 | **blocked** (fix identified, pending product confirmation) | LOW — low volume, likely third-party/transitive | — |
 | phase-2/task-08-crashlytics-housekeeping | Close 3 stale Crashlytics issues already fixed in code | 2 | not-started | LOW — administrative, no code change | — |
 
 ## Branch Convention
