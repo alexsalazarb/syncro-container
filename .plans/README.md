@@ -13,7 +13,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [SE-13506-customer-assets-button](SE-13506-customer-assets-button/overview.md) | Add "Assets" button to Customer Detail (no count) navigating to a pre-filtered Asset Index; bundled fix for a duplicate `/customers/{id}` fetch | syncro-flutter | 2/2 | adapted — manual staging verification pending | TBD |
 | [SE-13514-customer-tickets-button](SE-13514-customer-tickets-button/overview.md) | Add "Tickets" button to Customer Detail navigating to the Ticket list pre-filtered by Organization + Status is_not Resolved | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
 | [SE-13511-asset-search-back-navigation](SE-13511-asset-search-back-navigation/overview.md) | Push Asset Detail on top of the open Asset search screen instead of closing it first, so Back preserves the query/results | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
-| [fix-production-crashes-v180](fix-production-crashes-v180/overview.md) | Fix 9 open Crashlytics issues across 8 root causes (iOS + Android) — merged with the former `1.7.1-crashlytics` plan; task-01 is a confirmed FATAL regression already reproduced in production | syncro-flutter | 0/8 | not-started | TBD |
+| [fix-production-crashes-v180](fix-production-crashes-v180/overview.md) | Fix 9 open Crashlytics issues across 8 root causes (iOS + Android) — merged with the former `1.7.1-crashlytics` plan; task-01 confirmed as an unfixed upstream bug, escalated | syncro-flutter | 1/8 | in-progress | TBD |
 
 ## Backlog
 
