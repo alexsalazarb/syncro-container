@@ -1,6 +1,6 @@
 # Plan: Fix Production Crashes — v1.8.0
 
-**Status**: in-progress — 8/9 tasks resolved (task-01 fixed-and-escalated, task-06/08 fixed by non-code means, task-03/04/05/07/09 fixed with regression tests or documented adaptation), 1 blocked (task-02: no symbolication available, dormant since 1.7.0)
+**Status**: complete — archived 2026-09-08. 8/9 tasks resolved (task-01 fixed-and-escalated, task-06/08 fixed by non-code means, task-03/04/05/07/09 fixed with regression tests or documented adaptation). task-02 closed as **permanently blocked** (not resolved, not adapted) — no Dart symbolication tooling exists to decode the crash's raw offsets, and the issue has had 0 events on 1.7.1/1.8.0 (dormant ~2.5 months); Alex explicitly accepted archiving the plan with this open, same precedent class as task-01's escalation-without-fix. See Archive Note below.
 **Created**: 2026-09-07 (tasks 01-06 originally created 2026-08-28 as a separate plan, merged in — see Merge Log)
 **Last Updated**: 2026-09-08
 **Type**: Bug Fix (Type 3)
@@ -91,7 +91,7 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | Task Path | Title | Phase | Status | Priority | Depends On |
 |-----------|-------|-------|--------|----------|------------|
 | phase-1/task-01-ios-platformutil-breakpoint | iOS: fix `PlatformUtil.init(plugin:)` EXC_BREAKPOINT regression | 1 | **complete (escalated)** | **HIGHEST** — confirmed regression, FATAL, reproduced in 1.7.1 field data | — |
-| phase-2/task-02-ios-stack-overflow-investigation | iOS: investigate + fix repetitive FlutterError Stack Overflow | 2 | **blocked** (no symbolication; dormant since 1.7.0) | HIGH — top-volume open iOS issue (35 events/10 users), SIGNAL_REPETITIVE | — |
+| phase-2/task-02-ios-stack-overflow-investigation | iOS: investigate + fix repetitive FlutterError Stack Overflow | 2 | **blocked — closed permanently, not resolved** (no symbolication tooling exists; dormant since 1.7.0, 0 events on 1.7.1/1.8.0; archived with this accepted per Alex 2026-09-08) | HIGH — top-volume open iOS issue (35 events/10 users), SIGNAL_REPETITIVE | — |
 | phase-2/task-07-ticket-fromjson-nullsafety | Fix `Ticket.fromJson` null cast on `id`/`number` | 2 | **complete** | HIGH — same pattern as 4 prior confirmed fixes, low risk | — |
 | phase-2/task-03-notification-permission-crash | iOS: guard `NotificationManager.requestPermissions` against uncaught `firebase_messaging/unknown` | 2 | **complete** (pushed to bla, PR pending) | MEDIUM — SIGNAL_FRESH on the most recent instance | — |
 | phase-2/task-04-freebird-socket-channel-errors | Guard `FirebirdSocketService` channel join/push against phoenix_socket timeout/assertion errors | 2 | **complete** | MEDIUM | — |
@@ -155,16 +155,25 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 - **task-06's fix approach is a hypothesis, not yet confirmed.** No direct Play Core plugin dependency was found in `pubspec.yaml`; it's very likely a transitive dependency of the Flutter engine's deferred-components support. Confirm the actual dependency chain before picking a fix.
 - **This plan's own scope-correction history** (see Correction Log) is a live example of a plausible-sounding but wrong root-cause hypothesis reaching HIGH confidence — task-02 in particular should stay disciplined about investigating before concluding.
 
+## Archive Note (2026-09-08)
+
+Archived by explicit user decision despite two Success Criteria that cannot be honestly checked off:
+
+1. **"All 9 tasks complete"** — false. task-02 is closed as **permanently blocked**, not complete or adapted: no Dart symbolication tooling exists to decode the crash's raw isolate offsets into function names, and two files a weak breadcrumb correlation pointed to were ruled out. Accepted as an open, monitored risk (0 events on 1.7.1/1.8.0, dormant ~2.5 months) rather than continuing to block the plan on a tooling gap outside this plan's scope. Same precedent class as task-01 (escalated without a code fix).
+2. **"0 new occurrences... after release"** — not yet knowable. As of archival, the fix has only reached the `qa` branch/build (`1.8.0+447`, pushed to `origin` and `bla` 2026-09-08) — it has not shipped to production users, so post-release Crashlytics volume cannot be checked yet. **Follow-up required**: monitor all 10 fixed Crashlytics issue IDs (see table above) for ~2 weeks after the next production release; if any recur, file via `add-defect` against a new plan (this one is archived) referencing this plan for context.
+
+Full test suite run 2026-09-08 (whole app, not just this plan's touched files): **2295 tests, 1 failure** — `test/features/chats/chat_models_test.dart` (`ChatDetailActionEnum` casing mismatch), independently confirmed pre-existing and unrelated in task-03's `status.md` (stash-and-rerun on unmodified `develop` reproduced the same failure). Not a regression from any task in this plan.
+
 ## Success Criteria
 
-- [ ] All 9 tasks complete
-- [ ] Each Dart-level fix (task-03, task-04, task-05, task-07) has a passing regression test proving the previously-uncaught exception no longer propagates; task-09 documents why an automated regression test wasn't feasible (same precedent as task-04)
-- [ ] task-01 and task-06 verified manually on-device/simulator (documented in their `status.md`)
-- [ ] `fvm flutter analyze` and `fvm flutter test` pass across the whole plan
-- [ ] `pre-commit-check` passes on every task's commits
-- [ ] No regression in `login_web_view.dart` (out of scope, unmodified). `chat_websocket_service.dart` WAS modified by task-09 — see Out of Scope correction above
-- [ ] The 3 stale Crashlytics issues (task-08) marked CLOSED
-- [ ] 0 new occurrences of any of the 10 fixed issues in Crashlytics after release
+- [x] All 9 tasks complete or adapted — **exception**: task-02 closed as permanently blocked, see Archive Note
+- [x] Each Dart-level fix (task-03, task-04, task-05, task-07) has a passing regression test proving the previously-uncaught exception no longer propagates; task-09 documents why an automated regression test wasn't feasible (same precedent as task-04)
+- [x] task-01 and task-06 verified manually on-device/simulator (documented in their `status.md`)
+- [x] `fvm flutter analyze` and `fvm flutter test` pass across the whole plan — 2295 tests, 1 pre-existing unrelated failure (see Archive Note)
+- [x] `pre-commit-check` passes on every task's commits
+- [x] No regression in `login_web_view.dart` (out of scope, unmodified). `chat_websocket_service.dart` WAS modified by task-09 — see Out of Scope correction above
+- [x] The 3 stale Crashlytics issues (task-08) marked CLOSED
+- [ ] 0 new occurrences of any of the 10 fixed issues in Crashlytics after release — **cannot be checked at archival time**, see Archive Note (follow-up monitoring required post-production-release)
 
 ## Defects
 
@@ -176,13 +185,13 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 
 ## Completion Checklist
 
-- [ ] All 9 tasks complete or adapted
-- [ ] Bugs no longer reproducible with original repro steps
-- [ ] Regression tests: red before fix, green after (verified)
-- [ ] All existing tests pass
-- [ ] Each task's root cause matches the actual fix (no drift)
-- [ ] KB/documentation updated or explicitly marked not needed
-- [ ] Staging verification complete
+- [x] All 9 tasks complete or adapted — task-02 exception, see Archive Note
+- [x] Bugs no longer reproducible with original repro steps (task-02 excepted — root cause never confirmed)
+- [x] Regression tests: red before fix, green after (verified) where automatable; documented adaptation otherwise (task-04, task-09)
+- [x] All existing tests pass — 2295 tests, 1 pre-existing unrelated failure (see Archive Note)
+- [x] Each task's root cause matches the actual fix (no drift)
+- [x] KB/documentation updated or explicitly marked not needed
+- [ ] Staging verification complete — pushed to `qa` (`1.8.0+447`) 2026-09-08; manual device verification (double-tap send, airplane-mode toggle) still recommended per task-09's `status.md`, not yet performed as of archival
 
 ## Revert Plan
 
