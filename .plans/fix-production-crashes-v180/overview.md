@@ -1,8 +1,8 @@
 # Plan: Fix Production Crashes — v1.8.0
 
-**Status**: in-progress — 7/8 tasks resolved (task-01 fixed-and-escalated, task-06/08 fixed by non-code means, task-03/04/05/07 fixed with regression tests), 1 blocked (task-02: no symbolication available, dormant since 1.7.0)
+**Status**: in-progress — 8/9 tasks resolved (task-01 fixed-and-escalated, task-06/08 fixed by non-code means, task-03/04/05/07/09 fixed with regression tests or documented adaptation), 1 blocked (task-02: no symbolication available, dormant since 1.7.0)
 **Created**: 2026-09-07 (tasks 01-06 originally created 2026-08-28 as a separate plan, merged in — see Merge Log)
-**Last Updated**: 2026-09-07
+**Last Updated**: 2026-09-08
 **Type**: Bug Fix (Type 3)
 **Severity**: P1 (task-01 is a confirmed FATAL regression already reproduced in production; other tasks are individually P2/P3 — see Task Summary)
 **Ticket**: [SE-13805](https://syncrotech.atlassian.net/browse/SE-13805)
@@ -15,7 +15,7 @@
 
 ## Bug Summary
 
-Nine Crashlytics issues across 8 root-cause clusters, covering the full open-issue backlog on both platforms (`com.servably.syncro.mobile`) plus 3 stale issues that just need closing. Consolidates two plans created 10 days apart into one: `1.7.1-crashlytics` (created 2026-08-28, covered 8 issues from the post-1.7.1 field report) and `fix-production-crashes-v180` (created 2026-09-07, covered a `Ticket.fromJson` null-safety gap + housekeeping). See Merge Log below for why they were separate and why they're now one.
+Eleven Crashlytics issues across 9 root-cause clusters, covering the full open-issue backlog on both platforms (`com.servably.syncro.mobile`) plus 3 stale issues that just need closing. Consolidates two plans created 10 days apart into one: `1.7.1-crashlytics` (created 2026-08-28, covered 8 issues from the post-1.7.1 field report) and `fix-production-crashes-v180` (created 2026-09-07, covered a `Ticket.fromJson` null-safety gap + housekeeping). See Merge Log below for why they were separate and why they're now one. **2026-09-08**: task-09 added 2 more issues (`ChatWebSocketService.startNewChat` "Failed to join channel", Android + iOS) that were already logged here as "not yet planned by anyone" — see Task Summary.
 
 ## Merge Log
 
@@ -39,6 +39,7 @@ Full detail for tasks 01-06 lives in each task's own `task.md` Context section (
 | task-06 | Android Play Core NPE | **Fixed 2026-09-08**: `tools:node="remove"` manifest override, verified via manifest-merger report that `core-common`'s activity declaration is REJECTED. Alex accepted the monitorable residual risk (Pendo *could* still trigger the review flow and hit a different, undetermined exception) rather than a full dashboard/vendor confirmation — see task's `status.md` |
 | task-07 | `Ticket.fromJson` null cast | **Fixed 2026-09-07**: sentinel `0` default + non-fatal Crashlytics report, matching `GetTicketsSettingsDeserializer`'s pattern. Call-site audit confirmed no destructive use of `ticket.id`/`ticket.number` |
 | task-08 | Crashlytics housekeeping | **Closed 2026-09-07**: all 3 issues confirmed still stale (0 events on recent versions), marked CLOSED with explanatory notes |
+| task-09 | `ChatWebSocketService` double-join race (`'!_joinedOnce'`) | **Fixed 2026-09-08**: found ad-hoc from a user-reported log trace, not from a pre-planned task. `_tryInitialConnection()` and `_createAndJoinChannel()` had no reentrancy guard, letting concurrent callers both call `.join()` on the same `phoenix_socket`-cached `PhoenixChannel` (topic-keyed cache confirmed in `phoenix_socket-0.7.7/lib/src/socket.dart:372-393`). This is the exact issue previously listed below as "not investigated by anyone yet" — corrects that and the stale "already hardened" claim about this file (see Out of Scope and Key Files below) |
 
 ## Affected Systems
 
@@ -60,12 +61,12 @@ Eight tasks, one per root-cause cluster (see Task Summary). Regression tests whe
 
 ### Out of Scope
 - Any Crashlytics issue outside these 9 issue IDs / the current 90-day window. New issues surfacing later get their own task via `add-defect` or a follow-up plan — do not silently fold them in.
-- `chat_websocket_service.dart` — already has guarded join/timeout/error-handling logic (verified during the original planning); not touched by task-04 (that task targets the separate, unguarded `freebird_websocket_service.dart`).
+- ~~`chat_websocket_service.dart` — already has guarded join/timeout/error-handling logic (verified during the original planning); not touched by task-04~~ **Corrected 2026-09-08 (task-09)**: that verification only covered `connect()` (the low-level transport call, guarded by `_connectingCompleter` since SE-11997). `_tryInitialConnection()` and `_createAndJoinChannel()` — the methods that actually call `PhoenixChannel.join()` — had no reentrancy guard and were the source of the `'!_joinedOnce'` crash listed below. Both are now fixed by task-09; this file is no longer "out of scope, do not modify" for future work. Not a task-04 scope violation — task-04 targets the separate `freebird_websocket_service.dart` and never touched this file.
 - `login_web_view.dart` — already fixed by `SE-12758` (2026-06-17); not touched by task-05 (that task targets the separate, unguarded `attachment_preview_view.dart`). See Correction Log.
 - `android-r8-minification` plan's own ProGuard work — task-06 must coordinate on `proguard-rules.pro` (same file) but does not duplicate or resolve that plan's own task-03 (blocked, manual Play Store validation).
 - **Genuinely not yet planned by anyone** (real gaps found during the 2026-09-07 audit, not part of this plan):
   - `FragmentStateManager.createView` FATAL (Android, top open Android issue by volume, 29 events/16 users) — root cause likely in Flutter's `FlutterActivity`/`FlutterFragment` embedding after the 3.44 SDK upgrade (`SE-12530`); needs its own embedding-focused investigation.
-  - `ChatWebSocketService.startNewChat` "Failed to join channel" (Android `6cca598ad0eed80d3c1a344cb1d3af95`, iOS `f92cc8bc8266594c291fa984b0c75366`) — distinct file from `FirebirdSocketService` (task-04) and from the already-fixed `.connect` null-check; channel-join lifecycle specifically in the chat service. Not investigated by anyone yet.
+  - ~~`ChatWebSocketService.startNewChat` "Failed to join channel" (Android `6cca598ad0eed80d3c1a344cb1d3af95`, iOS `f92cc8bc8266594c291fa984b0c75366`)~~ **Resolved 2026-09-08 — see task-09.**
   - Low-volume native/OS crashes not covered above (missing `libflutter.so`, ANRs, `SuperNotCalledException` from `flutter_inappwebview`, `RemoteServiceException`) — third-party/OS-level, low ROI, monitor only.
 
 ## Kill Criteria
@@ -81,7 +82,7 @@ Eight tasks, one per root-cause cluster (see Task Summary). Regression tests whe
 | Phase | Name | Tasks | Dependencies | Description |
 |-------|------|-------|--------------|--------------|
 | 1 | Confirmed Regression | task-01 | None | `ddf4c678` — already reproduced in 1.7.1, highest priority |
-| 2 | Remaining Issues | task-02, task-03, task-04, task-05, task-06, task-07, task-08 | None | Independent fixes, no shared files — fully parallelizable among themselves and with task-01 |
+| 2 | Remaining Issues | task-02, task-03, task-04, task-05, task-06, task-07, task-08, task-09 | None | Independent fixes, no shared files — fully parallelizable among themselves and with task-01 |
 
 Phase numbering reflects **priority**, not a technical dependency — Phase 2 tasks don't wait on Phase 1. Within Phase 2, task-07 (`Ticket.fromJson`) is prioritized just behind task-02 (top-volume iOS FATAL) because it's mechanical, low-risk, and matches an already-established fix pattern; task-08 (housekeeping) and task-06 (low-volume native) are lowest priority.
 
@@ -97,6 +98,7 @@ Phase numbering reflects **priority**, not a technical dependency — Phase 2 ta
 | phase-2/task-05-webview-attachment-auth-challenge | Add `onHttpAuthRequest` to `AttachmentPreviewView`'s WebView (SE-12758 pattern, new call site) | 2 | **complete** | MEDIUM — FATAL but low volume (2 events/2 users) | — |
 | phase-2/task-06-android-play-core-npe | Android: fix `PlayCoreDialogWrapperActivity` NPE on cold start | 2 | **complete** (manifest override, monitor for residual risk) | LOW — low volume, likely third-party/transitive | — |
 | phase-2/task-08-crashlytics-housekeeping | Close 3 stale Crashlytics issues already fixed in code | 2 | **complete** | LOW — administrative, no code change | — |
+| phase-2/task-09-defect-chat-websocket-joinedonce | Defect: `ChatWebSocketService` double-join race (`'!_joinedOnce'`) | 2 | **complete** | MEDIUM — resolves a previously-logged "not investigated" gap, corrects a stale plan assumption | — |
 
 ## Branch Convention
 
@@ -113,7 +115,7 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 | `syncro-flutter/ios/Podfile.lock` | task-01 — identify which CocoaPod ships `PlatformUtil.swift` (not in `ios/Runner/`, confirmed plugin-vendored) |
 | `syncro-flutter/lib/core/services/push_notification/notifications_manager.dart` | task-03 — `requestPermissions()` (line ~230), no try/catch |
 | `syncro-flutter/lib/core/services/freebird_websocket_service.dart` | task-04 — `init()` (line ~63), no timeout/catchError on channel join |
-| `syncro-flutter/lib/core/services/chat_websocket_service.dart` | Reference only (already hardened) — out of scope, do not modify |
+| `syncro-flutter/lib/core/services/chat_websocket_service.dart` | task-09 — `_tryInitialConnection()` and `_createAndJoinChannel()` had no reentrancy guard around `PhoenixChannel.join()`; previously marked "reference only" here, which was the stale assumption task-09 corrected |
 | `syncro-flutter/lib/features/ticket/ticket_attachment/presentation/attachment_preview_view.dart` | task-05 — `WebViewController()` (line 44) has no `NavigationDelegate` at all |
 | `syncro-flutter/lib/features/authentication/login/presentation/login_web_view.dart` | Reference only — SE-12758's fix (`onHttpAuthRequest`, line 114) is the pattern task-05 mirrors. Out of scope, do not modify |
 | `syncro-flutter/android/app/build.gradle` | task-06 — `targetSdkVersion` (line 80); Play Core dependency investigation |
@@ -143,6 +145,8 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 | `asset_filter_deserializer` (stale, fixed in v152) | Android | `9a1d349f325abb563d2b26653a1b993c` | NON_FATAL | task-08 |
 | `WorksheetTemplateDeserializer` (stale, fixed in v152) | Android | `de94f83f3e5808649141d2c1d40c58a8` | NON_FATAL | task-08 |
 | `DioMixin` 504 (stale, backend-owned, out of scope) | Android | `7ec1fff22d998a861ff0d1705d05518d` | NON_FATAL | task-08 |
+| `ChatWebSocketService.startNewChat` "Failed to join channel" | Android | `6cca598ad0eed80d3c1a344cb1d3af95` | NON_FATAL | task-09 |
+| `ChatWebSocketService.startNewChat` "Failed to join channel" | iOS | `f92cc8bc8266594c291fa984b0c75366` | NON_FATAL | task-09 |
 
 ## Risks
 
@@ -153,14 +157,14 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 
 ## Success Criteria
 
-- [ ] All 8 tasks complete
-- [ ] Each Dart-level fix (task-03, task-04, task-05, task-07) has a passing regression test proving the previously-uncaught exception no longer propagates
+- [ ] All 9 tasks complete
+- [ ] Each Dart-level fix (task-03, task-04, task-05, task-07) has a passing regression test proving the previously-uncaught exception no longer propagates; task-09 documents why an automated regression test wasn't feasible (same precedent as task-04)
 - [ ] task-01 and task-06 verified manually on-device/simulator (documented in their `status.md`)
 - [ ] `fvm flutter analyze` and `fvm flutter test` pass across the whole plan
 - [ ] `pre-commit-check` passes on every task's commits
-- [ ] No regression in `chat_websocket_service.dart` or `login_web_view.dart` (both explicitly out of scope, unmodified)
+- [ ] No regression in `login_web_view.dart` (out of scope, unmodified). `chat_websocket_service.dart` WAS modified by task-09 — see Out of Scope correction above
 - [ ] The 3 stale Crashlytics issues (task-08) marked CLOSED
-- [ ] 0 new occurrences of any of the 9 fixed issues in Crashlytics after release
+- [ ] 0 new occurrences of any of the 10 fixed issues in Crashlytics after release
 
 ## Defects
 
@@ -168,10 +172,11 @@ Pushed to `bla` (per user preference, not `origin`) — one PR against `develop`
 
 | Defect Task | Title | Found During | Blocks | Status |
 |-------------|-------|-------------|--------|--------|
+| phase-2/task-09-defect-chat-websocket-joinedonce | `ChatWebSocketService` double-join race (`'!_joinedOnce'`) | Ad-hoc, from a user-reported production log (not a pre-existing plan task) | None | complete |
 
 ## Completion Checklist
 
-- [ ] All 8 tasks complete or adapted
+- [ ] All 9 tasks complete or adapted
 - [ ] Bugs no longer reproducible with original repro steps
 - [ ] Regression tests: red before fix, green after (verified)
 - [ ] All existing tests pass
