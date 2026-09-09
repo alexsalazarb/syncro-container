@@ -1,6 +1,6 @@
 # Plan: Fix Refresh-Token Zombie Session
 
-**Status**: in-progress
+**Status**: complete
 **Created**: 2026-09-09
 **Last Updated**: 2026-09-09
 **Estimated Demo Date**: TBD
@@ -49,7 +49,7 @@ Flat plan (2 tasks, no phases).
 | Task Path | Title | Status | Depends On |
 |-----------|-------|--------|------------|
 | task-01-isolate-refresh-network-call | Isolate the OAuth refresh call from the shared 401-retry interceptor | adapted | — |
-| task-02-force-logout-on-genuine-failure | Force logout when a refresh is genuinely rejected by the server | not-started | task-01-isolate-refresh-network-call |
+| task-02-force-logout-on-genuine-failure | Force logout when a refresh is genuinely rejected by the server | complete | task-01-isolate-refresh-network-call |
 
 ## Branch Convention
 

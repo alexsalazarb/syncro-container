@@ -28,9 +28,9 @@ Because BOTH call sites that trigger a refresh — the reactive Dio 401-intercep
 
 ## Before You Start
 
-- [ ] Switch to base branch and pull latest: `git switch develop && git pull --rebase origin develop` (NOT `main` — `main` is vestigial for this project)
+- [ ] **Do NOT branch from `develop` directly.** This task depends on task-01's changes to `login_repository_impl.dart`, which only exist on task-01's branch — they are not merged into `develop` (PR_INTEGRATION=false, no integration branch absorbs them yet). The generic branch-creation flow (`git switch develop && ...`) does not account for cross-task dependencies in this mode — that's a known gap, don't follow it literally here. Instead: `git fetch origin && git switch plan/refresh-token-zombie-session/task-01-isolate-refresh-network-call && git switch -c plan/refresh-token-zombie-session/task-02-force-logout-on-genuine-failure` (branch task-02 from task-01's tip, not from `develop`).
 - [ ] If SE-13836 has updates in its description/comments since plan creation, check for latest requirements
-- [ ] Verify task-01-isolate-refresh-network-call is `complete` in its `status.md` — this task depends on the `UnauthorizedFailure` signal it introduces
+- [ ] Verify task-01-isolate-refresh-network-call is `complete` or `adapted` in its `status.md` — this task depends on the `UnauthorizedFailure` signal it introduces (it is currently `adapted` — that counts as satisfied, per the plan's own dependency rule in overview.md)
 - [ ] Read `lib/features/authentication/login/infrastructure/login_repository_impl.dart` (specifically `refreshToken()`, post task-01's changes)
 - [ ] Read `lib/features/authentication/application/authentication_cubit.dart` (`logOut()`, `_refreshToken()`, `_getUser()`) to confirm the call chain assumption above still holds after task-01's changes
 - [ ] Read existing tests: `test/features/authentication/login/infrastructure/login_repository_impl_test.dart` and `test/features/authentication/application/authentication_cubit_test.dart`
