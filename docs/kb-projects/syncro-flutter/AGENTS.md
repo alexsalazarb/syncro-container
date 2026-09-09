@@ -36,7 +36,7 @@ Cursor, Codex, Windsurf, and Copilot read this file directly. Claude Code uses `
 | Real-time | `phoenix_socket` — `ChatWebSocketService` singleton |
 | Auth | OAuth2 via `oauth_webauth` + `flutter_secure_storage` |
 | Error Handling | `dartz` `Either<Failure, T>` throughout all layers |
-| Main branch | `main` |
+| Integration branch | `develop` — branch plans/features from here, NOT `main` (`main` is vestigial: only 3 commits ever, last one is the initial project setup; `origin`'s default HEAD points to it but nobody develops there) |
 | Testing | `flutter_test` + `mockito` + `bloc_test` |
 
 **Key commands** (project uses fvm — always prefix with `fvm`):
@@ -197,6 +197,7 @@ features/[feature]/
 9. **Registering repos in GetIt** - Use widget-tree `RepositoryProvider` for feature repos
 10. **Throwing from repositories** - Return `Left(Failure(...))` instead
 11. **Spaces in directory names** - Always use underscores
+12. **Branching/basing work off `main`** - `main` is vestigial (3 commits, no Flutter source). ALWAYS branch from `develop`. This is a 3x-recurring mistake (2026-06-04, 2026-06-24, 2026-09-09 in `docs/kb-container/ai-patterns/mistake-log.md`) — verify with `git log --oneline -3 main` vs `git log --oneline -3 develop` before creating any branch if in doubt.
 
 ---
 

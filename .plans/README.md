@@ -6,7 +6,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 
 | Plan | Objective | Project | Tasks | Status | Target Demo |
 |------|-----------|---------|-------|--------|-------------|
-| [refresh-token-zombie-session](refresh-token-zombie-session/overview.md) | Fix session becoming a "zombie" (logged in, all screens empty) after a refresh-token deadlock; force logout on genuine refresh rejection | syncro-flutter | 2/2 | complete (task-01 adapted, task-02 complete) | TBD |
 | [search-delegate-pagination](search-delegate-pagination/overview.md) | Paginated search with pull-to-refresh in CustomSearchDelegate | syncro-flutter | 0/4 | not-started | TBD |
 | [standardize-serialization](standardize-serialization/overview.md) | Standardize all domain model serialization to fromJson/toJson | syncro-flutter | 0/5 | not-started | TBD |
 | [android-r8-minification](android-r8-minification/overview.md) | Habilitar R8/ProGuard y subir deobfuscation file a Play Console | syncro-flutter | 3/4 | blocked (task-03 manual) | TBD |
@@ -49,6 +48,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [notifications-ui-polish](completed/notifications-ui-polish/overview.md) | Notifications UI polish — badge refresh, AppBar, filter BottomSheet, item layout | syncro-flutter | 3/3 | 2026-05-13 |
 | [fix-production-crashes-v152](completed/fix-production-crashes-v152/overview.md) | Fix 4 non-fatal Crashlytics bugs from v1.5.2 (build 423) | syncro-flutter | 4/4 | 2026-05-22 |
 | [fix-production-crashes-v180](completed/fix-production-crashes-v180/overview.md) | Fix 11 open Crashlytics issues across 9 root causes (iOS + Android), merged with the former `1.7.1-crashlytics` plan | syncro-flutter | 8/9 (task-02 closed permanently blocked — no symbolication tooling) | 2026-09-08 |
+| [refresh-token-zombie-session](completed/refresh-token-zombie-session/overview.md) | Fix session becoming a "zombie" (logged in, all screens empty) after a refresh-token deadlock (SE-13836); force logout on genuine refresh rejection | syncro-flutter | 2/2 (task-01 adapted) | 2026-09-09 |
 
 ---
 

@@ -84,12 +84,12 @@ Base branch: confirmed by developer when running `execute-plan` (see `**Base Bra
 
 ## Success Criteria
 
-- [ ] A refresh-grant request that itself returns 401/400 can no longer deadlock `_refreshTokenCompleter` — proven by a test with a bounded timeout, not just manual observation.
-- [ ] All other API traffic continues to share the single `Completer`-coalesced refresh behavior for concurrent 401s (existing behavior preserved, not regressed).
-- [ ] A genuinely-rejected refresh (`UnauthorizedFailure`) triggers `AuthenticationCubit.logOut()` automatically, both from the reactive (mid-session) path and the cold-boot path.
-- [ ] A refresh that fails for a transient reason (network error, 5xx, no connectivity) does NOT force a logout — only genuine rejection does.
-- [ ] All existing tests pass; new tests cover both fixes.
-- [ ] KB/documentation updates complete or explicitly marked not needed (the stale-KB follow-up is explicitly out of scope for this plan — see Scope above).
+- [x] A refresh-grant request that itself returns 401/400 can no longer deadlock `_refreshTokenCompleter` — proven by a test with a bounded timeout, not just manual observation. Verified independently (not just agent-reported): `auth_token_client_test.dart` + `login_repository_impl_test.dart`, the 401-deadlock-proof test wrapped in `.timeout()`, asserts `Left(UnauthorizedFailure)`.
+- [x] All other API traffic continues to share the single `Completer`-coalesced refresh behavior for concurrent 401s (existing behavior preserved, not regressed). `rest_network_service.dart` was untouched by this plan (confirmed via `git diff --stat` on both task branches) — no automated test exists for this specific behavior even pre-plan (`rest_network_service_5xx_test.dart` is a documentation-only stub, no executable tests, per its own header comment — unrelated pre-existing gap, not introduced here). Verified by code review / zero diff to the file, not by a new test.
+- [x] A genuinely-rejected refresh (`UnauthorizedFailure`) triggers `AuthenticationCubit.logOut()` automatically, both from the reactive (mid-session) path and the cold-boot path. Verified via `login_repository_impl_test.dart`'s `verify(mockAuthenticationCubit.logOut())` assertions; both call paths funnel through the same `LoginRepositoryImpl.refreshToken()` method that was changed.
+- [x] A refresh that fails for a transient reason (network error, 5xx, no connectivity) does NOT force a logout — only genuine rejection does. Verified via `verifyNever(...)` assertions for the transient-500 and no-token-guard cases.
+- [x] All existing tests pass; new tests cover both fixes. Independently verified: `fvm flutter analyze` clean, targeted suites pass, full suite 2300/2301 — the 1 failure (`chat_models_test.dart`, a pre-existing string-casing mismatch) is unrelated and pre-dates this plan (confirmed via `git stash` by task-01's agent).
+- [x] KB/documentation updates complete or explicitly marked not needed. Done in this session, after plan completion: `docs/kb-projects/syncro-flutter/technical/integrations/oauth.md` and `ai-patterns/known-issues.md` corrected to reflect the real implementation and this fix; `README.md` index dates updated.
 
 ## References
 

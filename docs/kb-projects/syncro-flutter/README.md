@@ -24,7 +24,7 @@ Project-specific docs for the Syncro Flutter app (iOS + Android).
 | [firebase](./technical/integrations/firebase.md) | Crashlytics, RemoteConfig, Analytics, FCM | Apr 2026 |
 | [phoenix-socket](./technical/integrations/phoenix-socket.md) | Real-time chat WebSocket | Apr 2026 |
 | [pendo](./technical/integrations/pendo.md) | Product analytics SDK | Apr 2026 |
-| [oauth](./technical/integrations/oauth.md) | OAuth2 login, token management | Apr 2026 |
+| [oauth](./technical/integrations/oauth.md) | OAuth2 login, token management | Sep 2026 |
 
 ---
 
@@ -50,7 +50,7 @@ Project-specific docs for the Syncro Flutter app (iOS + Android).
 
 | Document | When to Read | Last Updated |
 |----------|--------------|--------------|
-| [known-issues](./ai-patterns/known-issues.md) | **Session start** — check before making changes | Apr 2026 |
+| [known-issues](./ai-patterns/known-issues.md) | **Session start** — check before making changes | Sep 2026 |
 | [mistake-log](./ai-patterns/mistake-log.md) | Corrections and patterns to avoid | |
 
 ---

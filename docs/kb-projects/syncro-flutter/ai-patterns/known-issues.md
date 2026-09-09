@@ -12,9 +12,13 @@ Problems found during the April 2026 audit (Class B — partially structured cod
 
 ### Token Refresh Not Implemented
 
+> ✅ **Resolved** — this entry was stale even before the fix below: `_refreshToken()`/`LoginRepository.refreshToken()` had already been implemented for real (delegating to a genuine OAuth `grant_type=refresh_token` call) by the time this was re-audited in September 2026; it was never the `return true` stub shown below at that point. The stub code sample here is kept only as a historical record of what this doc used to (incorrectly) claim — do not trust it as current code.
+>
+> What WAS real and critical, found during that re-audit and fixed by SE-13836 (`.plans/completed/refresh-token-zombie-session/` if archived): the refresh-grant HTTP call shared `RestNetworkServiceImpl`'s Dio instance/401-retry interceptor with every other API call, which caused a circular-await deadlock whenever the refresh-grant request itself came back 401 — every subsequent 401 for the rest of the app session would then hang forever (app looks "logged in but nothing loads" until a full restart). Fixed by isolating the refresh-grant call into a dedicated `AuthTokenClient` with no retry interceptor, plus forcing `AuthenticationCubit.logOut()` on a genuinely-rejected refresh (`UnauthorizedFailure`). See `docs/kb-projects/syncro-flutter/technical/integrations/oauth.md` § Token Refresh for the current, accurate flow.
+
 **File**: `lib/features/authentication/application/authentication_cubit.dart`
 
-`AuthenticationCubit._refreshToken()` always returns `true` without actually refreshing the token:
+Historical (stale) claim — **do not trust, see resolution note above**:
 
 ```dart
 Future<bool> _refreshToken() async {
@@ -26,10 +30,6 @@ Future<bool> _refreshToken() async {
   }
 }
 ```
-
-**Impact**: When a token expires (401 from server), the app pretends to refresh but silently fails. Users may see unexpected errors or stale data without being redirected to login.
-
-**Fix needed**: Implement `RefreshTokenUseCase` and wire it into `_refreshToken()`.
 
 ---
 

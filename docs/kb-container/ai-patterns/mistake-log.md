@@ -57,6 +57,8 @@ This document records patterns of errors that agents have made, to prevent repet
 
 **Files involved:** `syncro-flutter` — any new feature branch creation
 
+**Recurrence:** 2026-09-09 — this time the wrong default came from the `/create-plan` template's own boilerplate ("Base Branch: main" in `overview.md`/`task.md`'s "Before You Start", plus the container's `.ai-framework.config` `DEFAULT_BASE_BRANCH=main`), not a manually-created branch. Propagated into plan `refresh-token-zombie-session`; the executing agent independently caught it via the same `git log`/merge-base check and self-corrected before any real damage. Given this is the 3rd occurrence, added an explicit "Things to Avoid" entry (#12) to `docs/kb-projects/syncro-flutter/AGENTS.md` — the mistake-log entries alone weren't prominent enough to prevent recurrence.
+
 ---
 
 ## 2026-08-25 - testing
