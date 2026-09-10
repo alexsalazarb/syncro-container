@@ -96,7 +96,7 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 - [x] All consumers handle the changed behavior (if applicable) — only consumer is `PasskeyLoginButton`, unaffected (calls `signIn()` the same way regardless)
 - [x] KB/documentation updated or explicitly marked not needed
 - [x] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
-- [ ] Staging verification complete — **requires Justin's backend confirmation first** (see Kill Criteria); must be tested against a real backend, not the mock
+- [ ] Staging verification complete — **requires Justin's backend confirmation first** (see Kill Criteria); must be tested against a real backend, not the mock, **and on a real physical iOS device — the Simulator unreliably fails Associated Domains/webcredentials verification even with fully correct config, see [[passkey-simulator-associated-domains-unreliable]]**. First manual attempt (2026-09-10, iOS Simulator, ss1) failed with a webcredentials association error; both client entitlements and the backend AASA file were independently verified correct at that time (AASA returned HTTP 200 listing the right app ID) — the Simulator, not the fix or the RP hypothesis, is the suspected cause. Retest on a real device before drawing conclusions.
 
 ## Revert Plan
 
