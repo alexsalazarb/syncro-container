@@ -16,7 +16,7 @@
 
 ## Blockers
 
-Justin's (backend) confirmation that the WebAuthn RP ID is genuinely the shared `admin.$basePath` host per environment (see overview.md Kill Criteria) had **not landed** as of this task starting. Alex explicitly decided (2026-09-10, asked directly and confirmed "todavía no respondió, arrancamos igual") to start implementation anyway, accepting the risk that the Kill Criteria assumption could be disconfirmed later and require a revert. This was a deliberate, informed choice — not an oversight. Still open; staging verification (overview.md Completion Checklist) still requires it before this can be considered fully done end-to-end.
+~~Justin's (backend) confirmation...~~ — **RESOLVED 2026-09-10**: Justin confirmed ("Yes 👍 It should be. If it's not working, let me know.") after implementation had already started on Alex's explicit informed risk-acceptance (see history above). Kill Criteria item closed. Staging verification (real-device end-to-end test) still in progress — see task-02/investigation follow-up on the `credential_not_recognized` result from the first real-device attempt, being re-tested with a controlled enroll → fresh reinstall sequence.
 
 ## Artifacts
 

@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: complete — manual staging verification pending (also pending Justin's backend RP-ID confirmation, see Kill Criteria)
+**Status**: complete — manual staging verification pending (Justin confirmed the Kill Criteria assumption 2026-09-10: "Yes 👍 It should be. If it's not working, let me know." — RP ID is the shared admin host, as expected)
 **Created**: 2026-09-10
 **Last Updated**: 2026-09-10
 **Type**: Bug Fix (Type 3)
@@ -46,7 +46,7 @@
 
 - Fix introduces worse behavior than the original bug
 - Root cause is disproved by new evidence
-- **Justin (backend) confirms the RP ID is actually scoped per-tenant/subdomain, or that no login-challenge/options endpoint is reachable at the admin host** — this is the core assumption the fix depends on; if disconfirmed, this plan must be revised or shelved before task-01 starts
+- ~~Justin (backend) confirms the RP ID is actually scoped per-tenant/subdomain, or that no login-challenge/options endpoint is reachable at the admin host~~ — **RESOLVED 2026-09-10**: Justin confirmed the admin host is the shared RP ID ("Yes 👍 It should be. If it's not working, let me know."). This criterion no longer applies.
 
 ## Task Summary
 
