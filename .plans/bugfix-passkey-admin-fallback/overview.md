@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: in-progress
+**Status**: complete — manual staging verification pending (also pending Justin's backend RP-ID confirmation, see Kill Criteria)
 **Created**: 2026-09-10
 **Last Updated**: 2026-09-10
 **Type**: Bug Fix (Type 3)
@@ -53,7 +53,7 @@
 | Task Path | Title | Status | Depends On |
 |-----------|-------|--------|------------|
 | task-01-admin-host-fallback | Fall back to admin host when no subdomain is persisted | complete | — |
-| task-02-regression-tests | Rewrite/add passkey login tests for the fallback path | not-started | task-01-admin-host-fallback |
+| task-02-regression-tests | Rewrite/add passkey login tests for the fallback path | complete | task-01-admin-host-fallback |
 
 ## Branch Convention
 
@@ -72,11 +72,11 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 
 ## Success Criteria
 
-- [ ] Passkey login on a fresh install / never-logged-in-here environment reaches the admin host and attempts the login challenge, instead of short-circuiting
-- [ ] Regression test fails before fix, passes after
-- [ ] All existing tests pass (with the intentionally-changed test explicitly rewritten, not just deleted)
-- [ ] Tenant-scoped passkey login (subdomain already persisted) is unaffected
-- [ ] Required KB / documentation updates complete or explicitly marked not needed
+- [x] Passkey login on a fresh install / never-logged-in-here environment reaches the admin host and attempts the login challenge, instead of short-circuiting
+- [x] Regression test fails before fix, passes after (observed directly: both rewritten tests failed pre-task-01, pass post-task-01)
+- [x] All existing tests pass (with the intentionally-changed test explicitly rewritten, not just deleted) — 109/109 green
+- [x] Tenant-scoped passkey login (subdomain already persisted) is unaffected
+- [x] Required KB / documentation updates complete or explicitly marked not needed — explicitly marked out of scope (see Scope section); the broader passkey KB gap is separate housekeeping
 
 ## Defects
 
@@ -88,14 +88,14 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 ## Completion Checklist
 
 <!-- Verified by execute-task when the last task completes. Do not remove items. -->
-- [ ] All tasks complete or adapted
-- [ ] Bug no longer reproducible with original repro steps
-- [ ] Regression test: red before fix, green after (verified)
-- [ ] All existing tests pass
-- [ ] investigation.md root cause matches the actual fix (no drift)
-- [ ] All consumers handle the changed behavior (if applicable)
-- [ ] KB/documentation updated or explicitly marked not needed
-- [ ] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
+- [x] All tasks complete or adapted
+- [ ] Bug no longer reproducible with original repro steps — **cannot verify without a real device/backend**; the original repro is a fresh install, which unit tests can't reproduce. Pending staging verification.
+- [x] Regression test: red before fix, green after (verified)
+- [x] All existing tests pass
+- [x] investigation.md root cause matches the actual fix (no drift)
+- [x] All consumers handle the changed behavior (if applicable) — only consumer is `PasskeyLoginButton`, unaffected (calls `signIn()` the same way regardless)
+- [x] KB/documentation updated or explicitly marked not needed
+- [x] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
 - [ ] Staging verification complete — **requires Justin's backend confirmation first** (see Kill Criteria); must be tested against a real backend, not the mock
 
 ## Revert Plan
