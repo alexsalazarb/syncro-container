@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: blocked — real-device controlled test reproduces `credential_not_recognized` on `verifyLogin` against the admin host (2026-09-10); reported to Justin per his "if it's not working, let me know". Both tasks' code/tests remain complete; the block is on backend behavior, not client implementation.
+**Status**: blocked — waiting on Justin's backend-side investigation (2026-09-10: "Yeah, I think I may see an issue here. Let me do a little more research and get back to you."), following the real-device controlled test reproducing `credential_not_recognized` on `verifyLogin` against the admin host. Both tasks' code/tests remain complete; the block is confirmed backend-side, not client implementation. Nothing further to do on our side until he responds.
 **Created**: 2026-09-10
 **Last Updated**: 2026-09-10
 **Type**: Bug Fix (Type 3)
