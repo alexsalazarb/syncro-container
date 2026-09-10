@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: complete — manual staging verification pending (Justin confirmed the Kill Criteria assumption 2026-09-10: "Yes 👍 It should be. If it's not working, let me know." — RP ID is the shared admin host, as expected)
+**Status**: blocked — real-device controlled test reproduces `credential_not_recognized` on `verifyLogin` against the admin host (2026-09-10); reported to Justin per his "if it's not working, let me know". Both tasks' code/tests remain complete; the block is on backend behavior, not client implementation.
 **Created**: 2026-09-10
 **Last Updated**: 2026-09-10
 **Type**: Bug Fix (Type 3)
@@ -96,7 +96,12 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 - [x] All consumers handle the changed behavior (if applicable) — only consumer is `PasskeyLoginButton`, unaffected (calls `signIn()` the same way regardless)
 - [x] KB/documentation updated or explicitly marked not needed
 - [x] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
-- [ ] Staging verification complete — **requires Justin's backend confirmation first** (see Kill Criteria); must be tested against a real backend, not the mock, **and on a real physical iOS device — the Simulator unreliably fails Associated Domains/webcredentials verification even with fully correct config, see [[passkey-simulator-associated-domains-unreliable]]**. First manual attempt (2026-09-10, iOS Simulator, ss1) failed with a webcredentials association error; both client entitlements and the backend AASA file were independently verified correct at that time (AASA returned HTTP 200 listing the right app ID) — the Simulator, not the fix or the RP hypothesis, is the suspected cause. Retest on a real device before drawing conclusions.
+- [ ] Staging verification complete — **BLOCKED, new backend finding (2026-09-10)**. Timeline:
+  1. iOS Simulator attempt (ss1) failed with a webcredentials association error — false negative, Simulator-only limitation (see [[passkey-simulator-associated-domains-unreliable]]); client entitlements + backend AASA both independently verified correct.
+  2. Real physical device, controlled sequence: enrolled a passkey on `ss1` for the test account (confirmed genuinely tied to that account — a second enroll attempt correctly said "you already have a passkey"), then **fully deleted and reinstalled the app** (no password login at all afterward), then tapped "Sign in with Passkey".
+  3. Native sign challenge succeeded this time (RP ID/Associated Domains verification passed on real device — confirms the admin host is a valid RP, consistent with Justin's confirmation above).
+  4. **`PasskeyRepository.verifyLogin` against the admin host returned `{"error":{"code":"credential_not_recognized","message":"This passkey is not recognized."}}`.**
+  - This is now a reproducible, controlled finding — not a data/environment mismatch. Reported to Justin for backend-side investigation (does verify recognize a credential enrolled under a specific tenant when the call is made against the shared admin host with no tenant context?). Plan stays blocked on his response before this can be marked done.
 
 ## Revert Plan
 
