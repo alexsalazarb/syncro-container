@@ -13,7 +13,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [SE-13506-customer-assets-button](SE-13506-customer-assets-button/overview.md) | Add "Assets" button to Customer Detail (no count) navigating to a pre-filtered Asset Index; bundled fix for a duplicate `/customers/{id}` fetch | syncro-flutter | 2/2 | adapted — manual staging verification pending | TBD |
 | [SE-13514-customer-tickets-button](SE-13514-customer-tickets-button/overview.md) | Add "Tickets" button to Customer Detail navigating to the Ticket list pre-filtered by Organization + Status is_not Resolved | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
 | [SE-13511-asset-search-back-navigation](SE-13511-asset-search-back-navigation/overview.md) | Push Asset Detail on top of the open Asset search screen instead of closing it first, so Back preserves the query/results | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
-| [bugfix-passkey-admin-fallback](bugfix-passkey-admin-fallback/overview.md) | Fall back to the shared admin host for passkey login when no subdomain is persisted (fresh install / new device) | syncro-flutter | 2/3 | blocked on Justin (backend) + 1 defect found in staging verification | TBD |
+| [bugfix-passkey-admin-fallback](bugfix-passkey-admin-fallback/overview.md) | Fall back to the shared admin host for passkey login when no subdomain is persisted (fresh install / new device) | syncro-flutter | 3/3 | all tasks complete — staging verification still blocked on Justin (backend) | TBD |
 
 ## Backlog
 
