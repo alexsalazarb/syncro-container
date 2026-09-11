@@ -2,7 +2,9 @@
 
 **Status**: blocked — waiting on Justin's backend-side investigation (2026-09-10: "Yeah, I think I may see an issue here. Let me do a little more research and get back to you."), following the real-device controlled test reproducing `credential_not_recognized` on `verifyLogin` against the admin host. Both tasks' code/tests remain complete; the block is confirmed backend-side, not client implementation.
 
-**2026-09-11**: squash-merged both tasks into `develop` locally as a single commit (`fix(passkey): fall back to shared admin host when no subdomain is persisted`, no Jira ticket — conventional-commit style, matching this repo's convention for non-ticketed fixes) to get a QA-buildable candidate ready. Not yet pushed to remote. `flutter analyze` clean, 109/109 tests green on `develop`. This does NOT mean the plan is done — staging verification is still blocked on the backend fix above; merging now is a deliberate "get ahead of it" call so the client fix ships automatically the moment the backend issue is resolved, without waiting on another mobile release cycle.
+**2026-09-11**: added task-03 (defect) — verifying the `credential_not_recognized` snackbar copy surfaced a related bug: the cubit clears local enrollment flags on that error code unconditionally, which is only a safe signal when the request went through a known tenant subdomain. Via the admin-host fallback (this plan's own change), the same code can fire from the still-open backend gap, not a real revocation. Independent of Justin's fix — worth doing either way.
+
+**2026-09-11**: squash-merged tasks 1-2 into `develop` locally as a single commit (`fix(passkey): fall back to shared admin host when no subdomain is persisted`, no Jira ticket — conventional-commit style, matching this repo's convention for non-ticketed fixes) to get a QA-buildable candidate ready. Not yet pushed to remote. `flutter analyze` clean, 109/109 tests green on `develop`. This does NOT mean the plan is done — staging verification is still blocked on the backend fix above; merging now is a deliberate "get ahead of it" call so the client fix ships automatically the moment the backend issue is resolved, without waiting on another mobile release cycle.
 **Created**: 2026-09-10
 **Last Updated**: 2026-09-10
 **Type**: Bug Fix (Type 3)
@@ -56,6 +58,7 @@
 |-----------|-------|--------|------------|
 | task-01-admin-host-fallback | Fall back to admin host when no subdomain is persisted | complete | — |
 | task-02-regression-tests | Rewrite/add passkey login tests for the fallback path | complete | task-01-admin-host-fallback |
+| task-03-defect-false-clear-on-admin-fallback | Defect: don't clear local enrollment on `credential_not_recognized` via the admin-host fallback | not-started | — |
 
 ## Branch Convention
 
@@ -86,6 +89,7 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 
 | Defect Task | Title | Found During | Blocks | Status |
 |-------------|-------|-------------|--------|--------|
+| task-03-defect-false-clear-on-admin-fallback | `credential_not_recognized` via admin-host fallback incorrectly clears local enrollment flags, same ambiguity as the still-open backend gap | Manual staging verification (real-device test, 2026-09-10) | — | not-started |
 
 ## Completion Checklist
 
