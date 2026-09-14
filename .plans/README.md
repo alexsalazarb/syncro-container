@@ -13,8 +13,6 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [SE-13506-customer-assets-button](SE-13506-customer-assets-button/overview.md) | Add "Assets" button to Customer Detail (no count) navigating to a pre-filtered Asset Index; bundled fix for a duplicate `/customers/{id}` fetch | syncro-flutter | 2/2 | adapted — manual staging verification pending | TBD |
 | [SE-13514-customer-tickets-button](SE-13514-customer-tickets-button/overview.md) | Add "Tickets" button to Customer Detail navigating to the Ticket list pre-filtered by Organization + Status is_not Resolved | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
 | [SE-13511-asset-search-back-navigation](SE-13511-asset-search-back-navigation/overview.md) | Push Asset Detail on top of the open Asset search screen instead of closing it first, so Back preserves the query/results | syncro-flutter | 1/1 | adapted — manual staging verification pending | TBD |
-| [bugfix-passkey-admin-fallback](bugfix-passkey-admin-fallback/overview.md) | Fall back to the shared admin host for passkey login when no subdomain is persisted (fresh install / new device) | syncro-flutter | 3/3 | all tasks complete — staging verification still blocked on Justin (backend) | TBD |
-
 ## Backlog
 
 | Plan | Objective | Project | Priority | Added |
@@ -50,6 +48,7 @@ Git-native development plans for this repository. Each plan is a self-contained 
 | [fix-production-crashes-v152](completed/fix-production-crashes-v152/overview.md) | Fix 4 non-fatal Crashlytics bugs from v1.5.2 (build 423) | syncro-flutter | 4/4 | 2026-05-22 |
 | [fix-production-crashes-v180](completed/fix-production-crashes-v180/overview.md) | Fix 11 open Crashlytics issues across 9 root causes (iOS + Android), merged with the former `1.7.1-crashlytics` plan | syncro-flutter | 8/9 (task-02 closed permanently blocked — no symbolication tooling) | 2026-09-08 |
 | [refresh-token-zombie-session](completed/refresh-token-zombie-session/overview.md) | Fix session becoming a "zombie" (logged in, all screens empty) after a refresh-token deadlock (SE-13836); force logout on genuine refresh rejection | syncro-flutter | 2/2 (task-01 adapted) | 2026-09-09 |
+| [bugfix-passkey-admin-fallback](completed/bugfix-passkey-admin-fallback/overview.md) | Fall back to the shared admin host for passkey login when no subdomain is persisted (fresh install / new device) | syncro-flutter | 4/4 | 2026-09-14 |
 
 ---
 
