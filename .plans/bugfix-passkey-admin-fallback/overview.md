@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: all 4 tasks complete (task-04 implemented and unit-tested 2026-09-14). Backend (MR 19414, SE-13403) is fully unblocked: commit `ac8ce8` fixed the global credential-id lookup, commit `07477a6d` added the `subdomain` field to the login-verify response. Client now consumes it (`PasskeyRepositoryImpl.verifyLogin`) and re-points `networkService` before the post-login `/me` call. Still pending: further real-device retest on `ss1` with this new client build, and a decision on when to fold `task-04`'s branch into `develop` (see task-04/status.md Adaptations — not pushed/merged yet, per this plan's batching convention).
+**Status**: DONE — all 4 tasks + the direct dashboard fix complete, staging verification passed end-to-end on both iOS and Android (2026-09-14, real device, `ss1`, exact original repro). Only remaining step is deciding when to fold the `task-04` branch into `develop` and push (see task-04/status.md Adaptations — not pushed/merged yet, per this plan's batching convention).
 
 **2026-09-14 (later same day)**: real-device retest on `ss1` with task-04's fix got past the `/me` failure (passkey login itself now works end-to-end) but surfaced a second, unrelated bug on the same screen: `DashboardPage` offered "Set Up Passkey" (`PasskeyEnrollmentOffer`) immediately after a successful passkey sign-in. Root cause: the enrollment-offer call was missing the same `!loggedInViaPasskey` guard already applied to the MFA warning two lines above it in `dashboard_page.dart:initState` — `AppSharedPreferences.getPasskeyEnrolledOnThisDevice()` only tracks whether *this app install* ran the enrollment ceremony, so a fresh install signing in via an OS-level-synced passkey never sets it, leaving the offer's only real eligibility check to pass. Fixed directly (Alex's call — small, obvious fix, skipped the formal defect-task ceremony): added the guard, rewrote the existing test that had locked in the buggy behavior as "expected," added a second test for the inverse case. Same commit range as task-04 (`plan/bugfix-passkey-admin-fallback/task-04-defect-post-login-subdomain-gap` branch, still local/unpushed). `flutter analyze` clean, dashboard tests 6/6 green.
 
@@ -101,19 +101,20 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 
 <!-- Verified by execute-task when the last task completes. Do not remove items. -->
 - [x] All tasks complete or adapted
-- [ ] Bug no longer reproducible with original repro steps — **cannot verify without a real device/backend**; the original repro is a fresh install, which unit tests can't reproduce. Pending staging verification.
+- [x] Bug no longer reproducible with original repro steps — **VERIFIED 2026-09-14**: real device, ss1, exact original repro (delete app, reinstall, select ss1, sign in with a passkey enrolled some time ago) — sign-in succeeded, Dashboard loaded with no "couldn't load your account" error, no false "Set Up Passkey" offer. Confirmed on both iOS and Android.
 - [x] Regression test: red before fix, green after (verified)
 - [x] All existing tests pass
 - [x] investigation.md root cause matches the actual fix (no drift)
 - [x] All consumers handle the changed behavior (if applicable) — only consumer is `PasskeyLoginButton`, unaffected (calls `signIn()` the same way regardless)
 - [x] KB/documentation updated or explicitly marked not needed
 - [x] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
-- [ ] Staging verification complete — **BLOCKED on task-04 (client-side, 2026-09-14)**. Backend side of the original blocker (below) is resolved and deployed; a new client-side gap surfaced once sign-in itself started working — see task-04. Original backend timeline:
+- [x] Staging verification complete — **DONE 2026-09-14**, both platforms, on `ss1`. Full timeline:
   1. iOS Simulator attempt (ss1) failed with a webcredentials association error — false negative, Simulator-only limitation (see [[passkey-simulator-associated-domains-unreliable]]); client entitlements + backend AASA both independently verified correct.
-  2. Real physical device, controlled sequence: enrolled a passkey on `ss1` for the test account (confirmed genuinely tied to that account — a second enroll attempt correctly said "you already have a passkey"), then **fully deleted and reinstalled the app** (no password login at all afterward), then tapped "Sign in with Passkey".
-  3. Native sign challenge succeeded this time (RP ID/Associated Domains verification passed on real device — confirms the admin host is a valid RP, consistent with Justin's confirmation above).
-  4. **`PasskeyRepository.verifyLogin` against the admin host returned `{"error":{"code":"credential_not_recognized","message":"This passkey is not recognized."}}`.**
-  - This is now a reproducible, controlled finding — not a data/environment mismatch. Reported to Justin for backend-side investigation (does verify recognize a credential enrolled under a specific tenant when the call is made against the shared admin host with no tenant context?). Plan stays blocked on his response before this can be marked done.
+  2. Real physical device (iOS), controlled sequence: enrolled a passkey on `ss1`, fully deleted and reinstalled the app, tapped "Sign in with Passkey" — native sign challenge succeeded, but `PasskeyRepository.verifyLogin` returned `credential_not_recognized` against the admin host. Reproducible, controlled finding — reported to Justin for backend investigation.
+  3. Backend fix (MR 19414, SE-13403, commit `ac8ce8`): global credential-id lookup, no longer tenant-scoped. Confirmed via unit/request specs reproducing this exact scenario.
+  4. Real-device retest: sign-in itself succeeded, but surfaced task-04's gap (`/me` still hit the admin host, "couldn't load your account") — backend shipped `subdomain` in the response (commit `07477a6d`), client consumed it (task-04).
+  5. Real-device retest again: surfaced the enrollment-offer bug (fixed directly, same session, see 2026-09-14 changelog entry above).
+  6. **Final verification, real device, exact original repro** (delete app, reinstall, select ss1, sign in with a passkey enrolled some time ago): succeeded end-to-end on both iOS and Android — sign-in works, Dashboard loads cleanly, no false enrollment offer.
 
 ## Revert Plan
 
