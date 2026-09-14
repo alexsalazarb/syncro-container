@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: all 3 tasks complete — blocked only on staging verification, waiting on Justin's backend-side investigation (2026-09-10: "Yeah, I think I may see an issue here. Let me do a little more research and get back to you."), following the real-device controlled test reproducing `credential_not_recognized` on `verifyLogin` against the admin host. Both tasks' code/tests remain complete; the block is confirmed backend-side, not client implementation.
+**Status**: tasks 1-3 complete; added task-04 (defect) 2026-09-14 — client-side fix still needed before staging verification can close out. Backend (MR 19414, SE-13403) is now fully unblocked on its side: commit `ac8ce8` fixed the global credential-id lookup (passkey sign-in itself works via the admin host), and commit `07477a6d` added the `subdomain` field to the login-verify response so the client can learn its tenant post-login. Real-device retest on `ss1` (2026-09-14) confirmed sign-in succeeds but surfaced the next symptom in the same flow — see task-04.
 
 **2026-09-11**: added task-03 (defect) — verifying the `credential_not_recognized` snackbar copy surfaced a related bug: the cubit clears local enrollment flags on that error code unconditionally, which is only a safe signal when the request went through a known tenant subdomain. Via the admin-host fallback (this plan's own change), the same code can fire from the still-open backend gap, not a real revocation. Independent of Justin's fix — worth doing either way.
 
@@ -8,7 +8,7 @@
 
 **2026-09-11 (later same day)**: task-03 folded into that same `develop` commit via `git commit --amend` (not a second commit — the earlier one wasn't pushed yet, so amending doesn't rewrite shared history), per Alex's request to keep `develop`'s history to one commit for this whole plan. All 3 tasks' code now live in a single local `develop` commit. Still not pushed to remote. `flutter analyze` clean, 110/110 tests green.
 **Created**: 2026-09-10
-**Last Updated**: 2026-09-10
+**Last Updated**: 2026-09-14
 **Type**: Bug Fix (Type 3)
 **Severity**: P3
 **Ticket**: N/A
@@ -61,6 +61,7 @@
 | task-01-admin-host-fallback | Fall back to admin host when no subdomain is persisted | complete | — |
 | task-02-regression-tests | Rewrite/add passkey login tests for the fallback path | complete | task-01-admin-host-fallback |
 | task-03-defect-false-clear-on-admin-fallback | Defect: don't clear local enrollment on `credential_not_recognized` via the admin-host fallback | complete | — |
+| task-04-defect-post-login-subdomain-gap | Defect: passkey login never learns the real subdomain, breaking the post-login `/me` call | not-started | — |
 
 ## Branch Convention
 
@@ -92,6 +93,7 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 | Defect Task | Title | Found During | Blocks | Status |
 |-------------|-------|-------------|--------|--------|
 | task-03-defect-false-clear-on-admin-fallback | `credential_not_recognized` via admin-host fallback incorrectly clears local enrollment flags, same ambiguity as the still-open backend gap | Manual staging verification (real-device test, 2026-09-10) | — | complete |
+| task-04-defect-post-login-subdomain-gap | Passkey login never learns the real subdomain post-login; `/me` still hits the admin host and fails with "couldn't load your account" | Manual staging verification (real-device test, ss1, 2026-09-14), after backend MR 19414 commit `ac8ce8` fixed sign-in itself | — | not-started |
 
 ## Completion Checklist
 
@@ -104,7 +106,7 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 - [x] All consumers handle the changed behavior (if applicable) — only consumer is `PasskeyLoginButton`, unaffected (calls `signIn()` the same way regardless)
 - [x] KB/documentation updated or explicitly marked not needed
 - [x] Ticket transitioned (or transition noted for manual action) — N/A, no ticket
-- [ ] Staging verification complete — **BLOCKED, new backend finding (2026-09-10)**. Timeline:
+- [ ] Staging verification complete — **BLOCKED on task-04 (client-side, 2026-09-14)**. Backend side of the original blocker (below) is resolved and deployed; a new client-side gap surfaced once sign-in itself started working — see task-04. Original backend timeline:
   1. iOS Simulator attempt (ss1) failed with a webcredentials association error — false negative, Simulator-only limitation (see [[passkey-simulator-associated-domains-unreliable]]); client entitlements + backend AASA both independently verified correct.
   2. Real physical device, controlled sequence: enrolled a passkey on `ss1` for the test account (confirmed genuinely tied to that account — a second enroll attempt correctly said "you already have a passkey"), then **fully deleted and reinstalled the app** (no password login at all afterward), then tapped "Sign in with Passkey".
   3. Native sign challenge succeeded this time (RP ID/Associated Domains verification passed on real device — confirms the admin host is a valid RP, consistent with Justin's confirmation above).
