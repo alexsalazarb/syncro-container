@@ -1,6 +1,6 @@
 # Plan: Passkey login fails on fresh install with no persisted subdomain
 
-**Status**: tasks 1-3 complete; added task-04 (defect) 2026-09-14 — client-side fix still needed before staging verification can close out. Backend (MR 19414, SE-13403) is now fully unblocked on its side: commit `ac8ce8` fixed the global credential-id lookup (passkey sign-in itself works via the admin host), and commit `07477a6d` added the `subdomain` field to the login-verify response so the client can learn its tenant post-login. Real-device retest on `ss1` (2026-09-14) confirmed sign-in succeeds but surfaced the next symptom in the same flow — see task-04.
+**Status**: all 4 tasks complete (task-04 implemented and unit-tested 2026-09-14). Backend (MR 19414, SE-13403) is fully unblocked: commit `ac8ce8` fixed the global credential-id lookup, commit `07477a6d` added the `subdomain` field to the login-verify response. Client now consumes it (`PasskeyRepositoryImpl.verifyLogin`) and re-points `networkService` before the post-login `/me` call. Still pending: real-device retest on `ss1` with this new client build, and a decision on when to fold `task-04`'s branch into `develop` (see task-04/status.md Adaptations — not pushed/merged yet, per this plan's batching convention).
 
 **2026-09-11**: added task-03 (defect) — verifying the `credential_not_recognized` snackbar copy surfaced a related bug: the cubit clears local enrollment flags on that error code unconditionally, which is only a safe signal when the request went through a known tenant subdomain. Via the admin-host fallback (this plan's own change), the same code can fire from the still-open backend gap, not a real revocation. Independent of Justin's fix — worth doing either way.
 
@@ -61,7 +61,7 @@
 | task-01-admin-host-fallback | Fall back to admin host when no subdomain is persisted | complete | — |
 | task-02-regression-tests | Rewrite/add passkey login tests for the fallback path | complete | task-01-admin-host-fallback |
 | task-03-defect-false-clear-on-admin-fallback | Defect: don't clear local enrollment on `credential_not_recognized` via the admin-host fallback | complete | — |
-| task-04-defect-post-login-subdomain-gap | Defect: passkey login never learns the real subdomain, breaking the post-login `/me` call | not-started | — |
+| task-04-defect-post-login-subdomain-gap | Defect: passkey login never learns the real subdomain, breaking the post-login `/me` call | complete | — |
 
 ## Branch Convention
 
@@ -93,7 +93,7 @@ Merge target: `develop` (syncro-flutter's actual integration branch — `main` i
 | Defect Task | Title | Found During | Blocks | Status |
 |-------------|-------|-------------|--------|--------|
 | task-03-defect-false-clear-on-admin-fallback | `credential_not_recognized` via admin-host fallback incorrectly clears local enrollment flags, same ambiguity as the still-open backend gap | Manual staging verification (real-device test, 2026-09-10) | — | complete |
-| task-04-defect-post-login-subdomain-gap | Passkey login never learns the real subdomain post-login; `/me` still hits the admin host and fails with "couldn't load your account" | Manual staging verification (real-device test, ss1, 2026-09-14), after backend MR 19414 commit `ac8ce8` fixed sign-in itself | — | not-started |
+| task-04-defect-post-login-subdomain-gap | Passkey login never learns the real subdomain post-login; `/me` still hits the admin host and fails with "couldn't load your account" | Manual staging verification (real-device test, ss1, 2026-09-14), after backend MR 19414 commit `ac8ce8` fixed sign-in itself | — | complete |
 
 ## Completion Checklist
 
