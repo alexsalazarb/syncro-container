@@ -28,4 +28,4 @@ None — backend prerequisite (MR 19414 commit `07477a6d`) is already deployed a
 
 ## Adaptations
 
-Did not push the task branch to `origin`/`bla`, and did not squash into `develop` — this plan's established convention (tasks 1-3) is to batch multiple tasks into a single local `develop` commit and decide the push timing deliberately, not push/merge per task automatically. Left as a local commit on the task branch pending Alex's call on when to fold it into `develop`.
+**2026-09-14 (later)**: squash-merged into `develop` along with the direct dashboard enrollment-offer fix (single commit `2c24b1f9`, "fix(passkey): learn real subdomain post-login and stop offering enrollment after passkey sign-in"), after real-device staging verification passed end-to-end on iOS and Android. Version bumped to `1.8.0+450` and pushed — `develop` and `qa` force-pushed to both `origin` and `bla`. Task branch left undeleted locally (git won't fast-delete a squash-merged branch without `-D`; harmless).
